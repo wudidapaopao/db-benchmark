@@ -31,6 +31,7 @@ header_title_fun = function(x) {
   )
 }
 solution.dict = {list(
+  "collapse" = list(name=c(short="collapse", long="collapse"), color=c(strong="darkturquoise", light="turquoise")),
   "data.table" = list(name=c(short="data.table", long="data.table"), color=c(strong="blue", light="#7777FF")),
   "dplyr" = list(name=c(short="dplyr", long="dplyr"), color=c(strong="red", light="#FF7777")),
   "pandas" = list(name=c(short="pandas", long="pandas"), color=c(strong="green4", light="#77FF77")),
@@ -41,7 +42,7 @@ solution.dict = {list(
   "juliads" = list(name=c(short="IMD.jl", long="InMemoryDatasets.jl"), color=c(strong="#b80000", light="#ff1f1f")),
   "clickhouse" = list(name=c(short="clickhouse", long="ClickHouse"), color=c(strong="hotpink4", light="hotpink1")),
   "polars" = list(name=c(short="polars", long="Polars"), color=c(strong="deepskyblue4", light="deepskyblue3")),
-  "arrow" = list(name=c(short="arrow", long="Arrow"), color=c(strong="aquamarine3", light="aquamarine1")),
+  "R-arrow" = list(name=c(short="R-arrow", long="R-arrow"), color=c(strong="aquamarine3", light="aquamarine1")),
   "duckdb" = list(name=c(short="duckdb", long="DuckDB"), color=c(strong="#ddcd07", light="#fff100")),
   "duckdb-latest" = list(name=c(short="duckdb-latest", long="duckdb-latest"), color=c(strong="#ddcd07", light="#fff100")),
   "datafusion" = list(name=c(short="datafusion", long="Datafusion"), color=c(strong="deepskyblue4", light="deepskyblue3"))
@@ -66,6 +67,18 @@ groupby_q_title_fun = function(x) {
     by = "iquestion"]$V1
 }
 groupby.syntax.dict = {list(
+    "collapse" = {c(
+    "sum v1 by id1" = "collap(x, v1 ~ id1, sum)",
+    "sum v1 by id1:id2" = "collap(x, v1 ~ id1 + id2, sum)",
+    "sum v1 mean v3 by id3" = "collap(x, ~ id3, custom = list(sum = 'v1', mean = 'v3'))",
+    "mean v1:v3 by id4" = "x |> group_by(id4) |> select(v1:v3) |> mean()",
+    "sum v1:v3 by id6" = "x |> group_by(id6) |> select(v1:v3) |> sum()",
+    "median v3 sd v3 by id4 id5" = "x |> group_by(id4, id5) |> summarise(v3_median = median(v3), v3_sd = sd(v3))",
+    "max v1 - min v2 by id3" = "x |> group_by(id3) |> summarise(range_v1_v2=max(v1)%-=%min(v2))",
+    "largest two v3 by id6" = "x |> group_by(id6) |> summarize(max_v3 = max(v3), second_v3 = nth(v3, 1-1e-7, ties = 'min'))",
+    "regression v1 v2 by id2 id4" = "x |> group_by(id2, id4) |> mutate(tmp = scale(v1)%*=%scale(v2)) |> summarise(r2 = (sum(tmp)%/=%(nobs(tmp)%-=%1))^2)",
+    "sum v3 count by id1:id6" = "x |> group_by(id1:id6) |> summarise(v3=sum(v3), count=n())"
+  )},
   "data.table" = {c(
     "sum v1 by id1" = "DT[, .(v1=sum(v1, na.rm=TRUE)), by=id1]",
     "sum v1 by id1:id2" = "DT[, .(v1=sum(v1, na.rm=TRUE)), by=.(id1, id2)]",
@@ -99,7 +112,7 @@ groupby.syntax.dict = {list(
     "median v3 sd v3 by id4 id5" = "DF.groupby(['id4','id5'], as_index=False, sort=False, observed=True, dropna=False).agg({'v3': ['median','std']})",
     "max v1 - min v2 by id3" = "DF.groupby('id3', as_index=False, sort=False, observed=True, dropna=False).agg({'v1':'max', 'v2':'min'}).assign(range_v1_v2=lambda x: x['v1']-x['v2'])[['id3','range_v1_v2']]",
     "largest two v3 by id6" = "DF[~DF['v3'].isna()][['id6','v3']].sort_values('v3', ascending=False).groupby('id6', as_index=False, sort=False, observed=True, dropna=False).head(2)",
-    "regression v1 v2 by id2 id4" = "DF[['id2','id4','v1','v2']].groupby(['id2','id4'], as_index=False, sort=False, observed=True, dropna=False).apply(lambda x: pd.Series({'r2': x.corr()['v1']['v2']**2}))",
+    "regression v1 v2 by id2 id4" = "DF[['id2','id4','v1','v2']].groupby(['id2','id4'], as_index=False, sort=False, observed=True, dropna=False).apply(lambda x: x['v1'].corr(x['v2'])**2).rename(columns={None: 'r2'})",
     "sum v3 count by id1:id6" = "DF.groupby(['id1','id2','id3','id4','id5','id6'], as_index=False, sort=False, observed=True, dropna=False).agg({'v3':'sum', 'v1':'size'})"
   )},
   "pydatatable" = {c(
@@ -186,7 +199,7 @@ groupby.syntax.dict = {list(
     "regression v1 v2 by id2 id4" = "DF.groupby(['id2','id4']).agg((pl.pearson_corr('v1','v2')**2).alias('r2')).collect()",
     "sum v3 count by id1:id6" = "DF.groupby(['id1','id2','id3','id4','id5','id6']).agg([pl.sum('v3').alias('v3'), pl.count('v1').alias('count')]).collect()"
   )},
-  "arrow" = {c(
+  "R-arrow" = {c(
     "sum v1 by id1" = "AT %>% group_by(id1) %>% summarise(v1=sum(v1, na.rm=TRUE))",
     "sum v1 by id1:id2" = "AT %>% group_by(id1, id2) %>% summarise(v1=sum(v1, na.rm=TRUE))",
     "sum v1 mean v3 by id3" = "AT %>% group_by(id3) %>% summarise(v1=sum(v1, na.rm=TRUE), v3=mean(v3, na.rm=TRUE))",
@@ -218,7 +231,7 @@ groupby.syntax.dict = {list(
     "sum v1:v3 by id6" = "SELECT id6, sum(v1) AS v1, sum(v2) AS v2, sum(v3) AS v3 FROM tbl GROUP BY id6",
     "median v3 sd v3 by id4 id5" = "SELECT id4, id5, quantile_cont(v3, 0.5) AS median_v3, stddev(v3) AS sd_v3 FROM tbl GROUP BY id4, id5",
     "max v1 - min v2 by id3" = "SELECT id3, max(v1)-min(v2) AS range_v1_v2 FROM tbl GROUP BY id3",
-    "largest two v3 by id6" = "SELECT id6, unnest(list_sort(list(v3), 'desc')[1:2]) AS largest2_v3 FROM (SELECT id6, v3 FROM x WHERE v3 IS NOT NULL) AS subq GROUP BY id6;",
+    "largest two v3 by id6" = "SELECT id6, v3 AS largest2_v3 FROM (SELECT id6, v3, row_number() OVER (PARTITION BY id6 ORDER BY v3 DESC) AS order_v3 FROM x WHERE v3 IS NOT NULL) sub_query WHERE order_v3 <= 2",
     "regression v1 v2 by id2 id4" = "SELECT id2, id4, pow(corr(v1, v2), 2) AS r2 FROM tbl GROUP BY id2, id4",
     "sum v3 count by id1:id6" = "SELECT id1, id2, id3, id4, id5, id6, sum(v3) AS v3, count(*) AS count FROM tbl GROUP BY id1, id2, id3, id4, id5, id6"
   )},
@@ -235,7 +248,8 @@ groupby.syntax.dict = {list(
     "sum v3 count by id1:id6" = "SELECT id1, id2, id3, id4, id5, id6, SUM(v3) as v3, COUNT(*) AS cnt FROM x GROUP BY id1, id2, id3, id4, id5, id6"
   )}
 )}
-groupby.query.exceptions = {list(
+ groupby.query.exceptions = {list(
+  "collapse" =    list(),
   "data.table" =  list(),
   "dplyr" =       list(),
   "pandas" =      list(),
@@ -246,12 +260,14 @@ groupby.query.exceptions = {list(
   "juliads" =     list(),
   "clickhouse" =  list(),
   "polars"     =  list(),
-  "arrow"      =  list("Expression row_number() <= 2L not supported in Arrow; pulling data into R" = "max v1 - min v2 by id3", "Expression cor(v1, v2, ... is not supported in arrow; pulling data into R" = "regression v1 v2 by id2 id4"),
+  "R-arrow"      =  list("Expression row_number() <= 2L not supported in R-arrow; pulling data into R" = "max v1 - min v2 by id3", "Expression cor(v1, v2, ... is not supported in R-arrow; pulling data into R" = "regression v1 v2 by id2 id4"),
   "duckdb"     =  list(),
   "duckdb-latest"     =  list(),
-  "datafusion" =  list(),
+  "datafusion" =  list()
 )}
 groupby.data.exceptions = {list(                                                             # exceptions as of run 1575727624
+  "collapse" = {list(
+  )},
   "data.table" = {list(
     "timeout" = c("G1_1e9_1e1_0_0",                                                          # not always happened, q8 probably #110
                   "G1_1e9_2e0_0_0")                                                          # q4 #110 also sometimes segfaults during fread but not easily reproducible
@@ -293,7 +309,7 @@ groupby.data.exceptions = {list(                                                
   "polars" = {list(
     # "out of memory" = c("G1_1e9_1e2_0_0","G1_1e9_1e1_0_0","G1_1e9_2e0_0_0","G1_1e9_1e2_0_1","G1_1e9_1e2_5_0") # q10
   )},
-  "arrow" = {list(
+  "R-arrow" = {list(
     # "timeout" = c(), # q10
     "internal error" = c("G1_1e8_2e0_0_0", "G1_1e8_1e2_0_1", "G1_1e8_1e2_5_0", "G1_1e9_1e2_0_0","G1_1e9_1e2_0_1","G1_1e9_1e2_5_0","G1_1e9_1e1_0_0", # inherits from dplyr
                          "G1_1e9_2e0_0_0"), # #190
@@ -326,6 +342,13 @@ join.syntax.dict = {list(
     "medium outer on int" = "DF.merge(medium, how='left', on='id2').compute()",
     "medium inner on factor" = "DF.merge(medium, on='id5').compute()",
     "big inner on int" = "DF.merge(big, on='id3').compute()"
+  )},
+  "collapse" = {c(
+    "small inner on int" = "join(DF, small, on='id1', how='inner')",
+    "medium inner on int" = "join(DF, medium, on='id2', how='inner')",
+    "medium outer on int" = "join(DF, medium, on='id2')",
+    "medium inner on factor" = "join(DF, medium, on='id5', how='inner')",
+    "big inner on int" = "join(DF, big, on='id3', how='inner')"
   )},
   "data.table" = {c(
     "small inner on int" = "DT[small, on='id1', nomatch=NULL]",
@@ -390,7 +413,7 @@ join.syntax.dict = {list(
     "medium inner on factor" = "DF.merge(medium, on='id5')",
     "big inner on int" = "DF.merge(big, on='id3')"
   )},
-  "arrow" = {c(
+  "R-arrow" = {c(
     "small inner on int" = "inner_join(DF, small, by='id1')",
     "medium inner on int" = "inner_join(DF, medium, by='id2')",
     "medium outer on int" = "left_join(DF, medium, by='id2')",
@@ -420,6 +443,7 @@ join.syntax.dict = {list(
   )}
 )}
 join.query.exceptions = {list(
+  "collapse" =    list(),
   "data.table" =  list(),
   "dplyr" =       list(),
   "pandas" =      list(),
@@ -430,14 +454,16 @@ join.query.exceptions = {list(
   "juliads" =     list(),
   "clickhouse" =  list(),
   "polars"     =  list(),
-  "arrow"      =  list(),
+  "R-arrow"      =  list(),
   "duckdb"     =  list(),
   "duckdb-latest"     =  list(),
   "datafusion" =  list()
 )}
 join.data.exceptions = {list(                                                             # exceptions as of run 1575727624
+  "collapse" = {list(
+  )},
   "data.table" = {list(
-    "out of memory" = c("J1_1e9_NA_0_0","J1_1e9_NA_5_0","J1_1e9_NA_0_1")                  # fread
+    "timeout" = c("J1_1e9_NA_0_0","J1_1e9_NA_5_0","J1_1e9_NA_0_1")                  # fread
   )},
   "dplyr" = {list(
     "out of memory" = c("J1_1e9_NA_0_0","J1_1e9_NA_5_0","J1_1e9_NA_0_1")                  # fread
@@ -468,9 +494,9 @@ join.data.exceptions = {list(                                                   
                         "J1_1e9_NA_5_0","J1_1e9_NA_0_1")                                  # q1 r1
   )},
   "polars" = {list(
-    "out of memory" = c("J1_1e9_NA_0_0","J1_1e9_NA_5_0","J1_1e9_NA_0_1"),
+    "out of memory" = c("J1_1e9_NA_0_0","J1_1e9_NA_5_0","J1_1e9_NA_0_1")
   )},
-  "arrow" = {list(
+  "R-arrow" = {list(
     "out of memory" = c("J1_1e9_NA_0_0","J1_1e9_NA_5_0","J1_1e9_NA_0_1", "J1_1e8_NA_0_0", "J1_1e8_NA_5_0", "J1_1e8_NA_0_1" )#,
     # "not yet implemented: #189" = c("J1_1e7_NA_0_0","J1_1e7_NA_5_0","J1_1e7_NA_0_1","J1_1e8_NA_0_0","J1_1e8_NA_5_0","J1_1e8_NA_0_1","J1_1e9_NA_0_0","J1_1e9_NA_5_0","J1_1e9_NA_0_1")
   )},
@@ -491,6 +517,13 @@ join.exceptions = task.exceptions(join.query.exceptions, join.data.exceptions)
 # groupby2014 ----
 
 groupby2014.syntax.dict = {list(
+  "collapse" = {c(
+    "sum v1 by id1" = "collap(x, v1 ~ id1, sum)",
+    "sum v1 by id1:id2" = "collap(x, v1 ~ id1 + id2, sum)",
+    "sum v1 mean v3 by id3" = "collap(x, ~ id3, custom = list(sum = 'v1', mean = 'v3'))",
+    "mean v1:v3 by id4" = "x |> group_by(id4) |> select(v1:v3) |> mean()",
+    "sum v1:v3 by id6" = "x |> group_by(id6) |> select(v1:v3) |> sum()"
+  )},
   "data.table" = {c(
     "sum v1 by id1" = "DT[, sum(v1), keyby=id1]",
     "sum v1 by id1:id2" = "DT[, sum(v1), keyby='id1,id2']",

@@ -7,13 +7,13 @@ source("./_helpers/helpers.R")
 stopifnot(requireNamespace("bit64", quietly=TRUE)) # used in chk to sum numeric columns
 .libPaths("./arrow/r-arrow") # tidyverse/dplyr#4641 ## leave it like here in case if this affects arrow pkg as well
 suppressPackageStartupMessages({
-  library("arrow", lib.loc="./arrow/r-arrow", warn.conflicts=FALSE)
-  library("dplyr", lib.loc="./arrow/r-arrow", warn.conflicts=FALSE)
+  library("arrow", lib.loc="./R-arrow/r-arrow", warn.conflicts=FALSE)
+  library("dplyr", lib.loc="./R-arrow/r-arrow", warn.conflicts=FALSE)
 })
 ver = packageVersion("arrow")
 git = ""
 task = "groupby"
-solution = "arrow"
+solution = "R-arrow"
 fun = "group_by"
 cache = TRUE
 on_disk = FALSE
@@ -219,26 +219,26 @@ rm(ans)
 # print(tail(ans, 3))
 # rm(ans)
 
-question = "sum v3 count by id1:id6" # q10
-t = system.time({
-  ans <- collect(x %>% group_by(id1, id2, id3, id4, id5, id6) %>% summarise(v3=sum(v3, na.rm=TRUE), count=n()))
-  print(dim(ans))
-})[["elapsed"]]
-m = memory_usage()
-chkt = system.time(chk <- collect(summarise(ungroup(ans), v3=sum(v3), count=sum(bit64::as.integer64(count)))))[["elapsed"]]
-write.log(run=1L, task=task, data=data_name, in_rows=nrow(x), question=question, out_rows=nrow(ans), out_cols=ncol(ans), solution=solution, version=ver, git=git, fun=fun, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk)
-rm(ans)
-t = system.time({
-  ans <- collect(x %>% group_by(id1, id2, id3, id4, id5, id6) %>% summarise(v3=sum(v3, na.rm=TRUE), count=n()))
-  print(dim(ans))
-})[["elapsed"]]
-m = memory_usage()
-chkt = system.time(chk <- collect(summarise(ungroup(ans), v3=sum(v3), count=sum(bit64::as.integer64(count)))))[["elapsed"]]
-write.log(run=2L, task=task, data=data_name, in_rows=nrow(x), question=question, out_rows=nrow(ans), out_cols=ncol(ans), solution=solution, version=ver, git=git, fun=fun, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk)
-ans <- collect(ans)
-print(head(ans, 3))
-print(tail(ans, 3))
-rm(ans)
+# question = "sum v3 count by id1:id6" # q10
+# t = system.time({
+#   ans <- collect(x %>% group_by(id1, id2, id3, id4, id5, id6) %>% summarise(v3=sum(v3, na.rm=TRUE), count=n()))
+#   print(dim(ans))
+# })[["elapsed"]]
+# m = memory_usage()
+# chkt = system.time(chk <- collect(summarise(ungroup(ans), v3=sum(v3), count=sum(bit64::as.integer64(count)))))[["elapsed"]]
+# write.log(run=1L, task=task, data=data_name, in_rows=nrow(x), question=question, out_rows=nrow(ans), out_cols=ncol(ans), solution=solution, version=ver, git=git, fun=fun, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk)
+# rm(ans)
+# t = system.time({
+#   ans <- collect(x %>% group_by(id1, id2, id3, id4, id5, id6) %>% summarise(v3=sum(v3, na.rm=TRUE), count=n()))
+#   print(dim(ans))
+# })[["elapsed"]]
+# m = memory_usage()
+# chkt = system.time(chk <- collect(summarise(ungroup(ans), v3=sum(v3), count=sum(bit64::as.integer64(count)))))[["elapsed"]]
+# write.log(run=2L, task=task, data=data_name, in_rows=nrow(x), question=question, out_rows=nrow(ans), out_cols=ncol(ans), solution=solution, version=ver, git=git, fun=fun, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk)
+# ans <- collect(ans)
+# print(head(ans, 3))
+# print(tail(ans, 3))
+# rm(ans)
 
 cat(sprintf("grouping finished, took %.0fs\n", proc.time()[["elapsed"]]-task_init))
 

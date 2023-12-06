@@ -1,4 +1,7 @@
 solution,task
+collapse,groupby
+collapse,groupby2014
+collapse,join
 data.table,groupby
 data.table,join
 data.table,groupby2014
@@ -22,8 +25,8 @@ clickhouse,groupby
 clickhouse,join
 polars,groupby
 polars,join
-arrow,groupby
-arrow,join
+R-arrow,groupby
+R-arrow,join
 duckdb,groupby
 duckdb,join
 duckdb-latest,groupby
