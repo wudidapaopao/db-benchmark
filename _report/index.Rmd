@@ -121,7 +121,7 @@ loop_benchplot(dt_join, report_name="join", syntax.dict=join.syntax.dict, except
 
 ![](./groupby/G1_1e8_1e2_0_0_advanced.png)
 
-#### 50 GB {.active}
+#### 50 GB
 
 ##### **basic questions**
 
