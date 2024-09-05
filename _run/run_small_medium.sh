@@ -1,7 +1,7 @@
 # first download and expand small data
 
 # get groupby small (0.5GB and 5GB datasets)
-wget https://duckdb-blobs.s3.amazonaws.com/data/db-benchmark-data/groupby_small.duckdb --output_document=data/groupby_small.duckdb
+wget https://duckdb-blobs.s3.amazonaws.com/data/db-benchmark-data/groupby_small.duckdb --output-document=data/groupby_small.duckdb
 # get join small (0.5GB and 5GB datasets)
 wget https://duckdb-blobs.s3.amazonaws.com/data/db-benchmark-data/join_small.duckdb --output-document=data/join_small.duckdb
 

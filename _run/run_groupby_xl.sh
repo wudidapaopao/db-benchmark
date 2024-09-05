@@ -16,6 +16,3 @@ echo "done..."
 echo "removing data files"
 rm data/*.csv
 rm data/*.duckdb
-
-
-/bin:/usr/bin
