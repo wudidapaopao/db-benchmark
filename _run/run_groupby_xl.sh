@@ -3,7 +3,7 @@ wget https://duckdb-blobs.s3.amazonaws.com/data/db-benchmark-data/groupby-500gb.
 
 
 # expand groupby-small datasets to csv
-duckdb -c data/groupby-500gb.duckdb "copy G1_1e10_1e4_10_0 to 'data/G1_1e10_1e4_10_0.csv' (FORMAT CSV)"
+duckdb data/groupby-500gb.duckdb -c "copy G1_1e10_1e4_10_0 to 'data/G1_1e10_1e4_10_0.csv' (FORMAT CSV)"
 
 
 cp ../_control/data_groupby_xlarge.csv ../_control/data.csv
