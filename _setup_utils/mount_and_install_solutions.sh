@@ -1,13 +1,11 @@
 # script to format mount and copy data.
 # mount the data
-./_utils/mount.sj
-
-./_launcher/setup.sh
+./_setup_utils/mount.sh
 
 # setup all the solutions on db-benchmark-metal.
 # creates the necessary python virtual environments and creates the r-libraries
 # needed
-cd ~/db-benchmark-meta && source path.env && python3 _utils/install_all_solutions.py all
+cd ~/db-benchmark-meta && source path.env && python3 _setup_utils/install_all_solutions.py all
 
 
 

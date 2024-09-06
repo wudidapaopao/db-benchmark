@@ -1,5 +1,5 @@
 # get join large (500GB dataset)
-wget https://duckdb-blobs.s3.amazonaws.com/data/db-benchmark-data/join-500gb.duckdb --output-document=data/join-500gb.duckdb
+aws s3 cp s3://duckdb-blobs/data/db-benchmark-data/join-500gb.duckdb data/join-500gb.duckdb
 
 
 # expand groupby-small datasets to csv
