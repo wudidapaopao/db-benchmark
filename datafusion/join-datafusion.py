@@ -39,7 +39,7 @@ if len(src_jn_y) != 3:
   raise Exception("Something went wrong in preparing files used for join")
 
 print("loading datasets " + data_name + ", " + y_data_name[0] + ", " + y_data_name[2] + ", " + y_data_name[2], flush=True)
-scale_factor = data_name.replace("G1_","")[:4].replace("_", "")
+scale_factor = data_name.replace("J1_","")[:4].replace("_", "")
 on_disk = 'TRUE' if float(scale_factor) >= 1e10 else 'FALSE'
 
 
