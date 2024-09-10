@@ -9,7 +9,7 @@ duckdb data/join-500gb.duckdb  -c "copy medium to 'data/J1_1e7_0_0.csv' (FORMAT 
 duckdb data/join-500gb.duckdb  -c "copy small to 'data/J1_1e4_0_0.csv' (FORMAT CSV)"
 
 
-cp ../_control/data_join_xlarge.csv ../_control/data.csv
+cp _control/data_join_xlarge.csv _control/data.csv
 
 echo "Running join x-large (500GB)"
 ./run.sh
