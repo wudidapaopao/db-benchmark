@@ -5,7 +5,7 @@
 # setup all the solutions on db-benchmark-metal.
 # creates the necessary python virtual environments and creates the r-libraries
 # needed
-cd ~/db-benchmark-meta && source path.env && python3 _setup_utils/install_all_solutions.py all
+cd ~/db-benchmark-metal && source path.env && python3 _setup_utils/install_all_solutions.py all
 
 
 
