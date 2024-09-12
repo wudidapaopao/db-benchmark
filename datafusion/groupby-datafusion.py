@@ -35,7 +35,8 @@ data_name = os.environ["SRC_DATANAME"]
 src_grp = os.path.join("data", data_name + ".csv")
 print("loading dataset %s" % data_name, flush=True)
 
-on_disk = 'TRUE' if float(SRC_DATANAME.replace("G1_", "")[:4]) >= 1e10 else 'FALSE'
+scale_factor = data_name.replace("G1_","")[:4].replace("_", "")
+on_disk = 'TRUE' if float(scale_factor) >= 1e10 else 'FALSE'
 
 data = pacsv.read_csv(src_grp, convert_options=pacsv.ConvertOptions(auto_dict_encode=True))
 
