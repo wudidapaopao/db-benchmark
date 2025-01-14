@@ -12,4 +12,4 @@ sudo mount /dev/nvme1n1 ~/db-benchmark-metal
 # change ownsership of the volume
 sudo chown -R ubuntu ~/db-benchmark-metal/
 
-git clone https://github.com/duckdblabs/db-benchmark.git ~/db-benchmark-metal
+git clone $(git remote get-url origin) ~/db-benchmark-metal

@@ -3,10 +3,6 @@
 
 ./_run/run_large.sh
 
-./_run/run_groupby_xl.sh
-
-./_run/run_join_xl.sh
-
 
 # rename the png files to reflect the machine type that
 # benchmark was run on.
