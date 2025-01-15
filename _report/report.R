@@ -128,7 +128,7 @@ model_time = function(d) {
   }
   # d[solution=="polars" & data%like%"G1_1e[7|8]_1e2_5_0" & run==1L & {z=tail(unique(batch, na.rm=TRUE), 3); print(z); batch%in%z}][, dcast(.SD, data+question~batch+version, value.var="chk")]
   if (nrow(
-    d[!is.na(chk), .(unqn1_chk=approxUniqueN1(chk)), .(task, solution, data, question, machine_type)][unqn1_chk==FALSE]
+    d[!is.na(chk), .(unqn1_chk=approxUniqueN1(chk)), .(task, solution, data, question)][unqn1_chk==FALSE]
     )) stop("Value of 'chk' varies for different runs for single solution+question")
   #d[,.SD][!is.na(chk), `:=`(unq_chk=approxUniqueN1(chk), paste_unq_chk=paste(unique(chk), collapse=",")), .(task, data, question)][unq_chk==FALSE, .(paste_unq_chk), .(task, solution, data, question)]
   #d[solution=="polars" & data%like%"G1_1e[7|8]_1e2_5_0" & run==1L & {z=tail(unique(batch, na.rm=TRUE), 3); print(z); batch%in%z}][, dcast(.SD, data+question~batch+version, value.var="out_rows")]
@@ -149,8 +149,9 @@ model_time = function(d) {
   setnames(d, c("chk_1","out_rows_1","out_cols_1"), c("chk","out_rows","out_cols"))
   d
 }
+
 model_logs = function(l) {
-  l = dcast(l, nodename+batch+solution+version+git+task+data ~ action, value.var=c("timestamp","stderr"))
+  l = dcast(l, nodename+batch+solution+version+git+task+data+machine_type ~ action, value.var=c("timestamp","stderr"))
   l[, stderr_start := NULL]
   setnames(l, c("stderr_finish","timestamp_start","timestamp_finish"), c("script_stderr","script_start","script_finish"))
   l
@@ -168,6 +169,7 @@ merge_logs_questions = function(l, q) {
                  nodename, batch, solution, task, data,
                  question=x.question, question_group=x.question_group,
                  version=i.version, git=i.git,
+                 machine_type=i.machine_type,
                  script_start=i.script_start, script_finish=i.script_finish, script_stderr=i.script_stderr
                )]
   lq
@@ -234,7 +236,7 @@ transform = function(ld) {
   }
   
   ld[, c(list(nodename=nodename, batch=batch, ibatch=as.integer(ft(as.character(batch))), solution=solution,
-              question=question, question_group=question_group, fun=fun, on_disk=on_disk, cache=cache, version=version, git=git, task=task, data=data, engine=engine),
+              question=question, question_group=question_group, fun=fun, on_disk=on_disk, cache=cache, version=version, git=git, task=task, data=data, engine=engine, machine_type=machine_type),
          ftdata(data, task=as.character(task)), .SD),
      .SDcols=c(paste(rep(c("timestamp","time_sec","mem_gb","chk_time_sec"), each=2), 1:2, sep="_"),
                paste("script", c("finish","start","stderr","recent"), sep="_"),
@@ -259,13 +261,14 @@ time_logs = function(path=getwd()) {
   ct = ct %>% filter(!(solution == 'duckdb-latest'))
   d = model_time(ct)
   ll <- load_logs(path=path)
+
   ll$solution[ll$solution == "arrow"] <- "R-arrow"
   l = model_logs(clean_logs(ll))
+
   q = model_questions(clean_questions(load_questions(path=path)))
   
   lq = merge_logs_questions(l, q)
   ld = merge_time_logsquestions(d, lq)
-  
   lld = transform(ld)
   lld
 }
