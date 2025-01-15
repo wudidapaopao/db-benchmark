@@ -55,12 +55,13 @@ dt_join = lld[task=="join"]
 
 ```{r helpers}
 loop_benchplot = function(dt_task, report_name, syntax.dict, exceptions, solution.dict, question.txt.fun = NULL, title.txt.fun = NULL, data_namev, q_groupv, cutoff=NULL, pending=NULL) {
+  machine_type = Sys.getenv("MACHINE_TYPE")
   for (data_name in data_namev) {
     for (q_group in q_groupv) {
       message(sprintf("benchplot %s %s %s", report_name, data_name, q_group))
       benchplot(
         x = dt_task[data==data_name & question_group==q_group],
-        filename = file.path("public", report_name, sprintf("%s_%s.png", data_name, q_group)),
+        filename = file.path("public", report_name, sprintf("%s_%s_%s.png", data_name, q_group, machine_type)),
         solution.dict = solution.dict,
         syntax.dict = syntax.dict,
         exceptions = exceptions,
