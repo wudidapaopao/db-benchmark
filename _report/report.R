@@ -128,7 +128,7 @@ model_time = function(d) {
   }
   # d[solution=="polars" & data%like%"G1_1e[7|8]_1e2_5_0" & run==1L & {z=tail(unique(batch, na.rm=TRUE), 3); print(z); batch%in%z}][, dcast(.SD, data+question~batch+version, value.var="chk")]
   if (nrow(
-    d[!is.na(chk), .(unqn1_chk=approxUniqueN1(chk)), .(task, solution, data, question, machine_size)][unqn1_chk==FALSE]
+    d[!is.na(chk), .(unqn1_chk=approxUniqueN1(chk)), .(task, solution, data, question, machine_type)][unqn1_chk==FALSE]
     )) stop("Value of 'chk' varies for different runs for single solution+question")
   #d[,.SD][!is.na(chk), `:=`(unq_chk=approxUniqueN1(chk), paste_unq_chk=paste(unique(chk), collapse=",")), .(task, data, question)][unq_chk==FALSE, .(paste_unq_chk), .(task, solution, data, question)]
   #d[solution=="polars" & data%like%"G1_1e[7|8]_1e2_5_0" & run==1L & {z=tail(unique(batch, na.rm=TRUE), 3); print(z); batch%in%z}][, dcast(.SD, data+question~batch+version, value.var="out_rows")]
