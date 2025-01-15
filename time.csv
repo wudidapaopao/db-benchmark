@@ -1,4 +1,4 @@
-nodename,batch,timestamp,task,data,in_rows,question,out_rows,out_cols,solution,version,git,fun,run,time_sec,mem_gb,cache,chk,chk_time_sec,comment,on_disk,machine_size
+nodename,batch,timestamp,task,data,in_rows,question,out_rows,out_cols,solution,version,git,fun,run,time_sec,mem_gb,cache,chk,chk_time_sec,comment,on_disk,machine_type
 ip-172-31-31-147,1697528140,1697528163.224612,groupby,G1_1e7_1e2_0_0,10000000,sum v1 by id1,100,2,juliads,0.7.18,,combine,1,0.177,1.131,true,29998789.000,0.088,,false,xlarge
 ip-172-31-31-147,1697528140,1697528164.544991,groupby,G1_1e7_1e2_0_0,10000000,sum v1 by id1,100,2,juliads,0.7.18,,combine,2,0.045,0.955,true,29998789.000,0.0,,false,xlarge
 ip-172-31-31-147,1697528140,1697528166.573371,groupby,G1_1e7_1e2_0_0,10000000,sum v1 by id1:id2,10000,3,juliads,0.7.18,,combine,1,0.078,1.005,true,29998789.000,0.0,,false,xlarge

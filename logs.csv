@@ -1,4 +1,4 @@
-nodename,batch,solution,version,git,task,data,timestamp,action,stderr,ret,machine_size
+nodename,batch,solution,version,git,task,data,timestamp,action,stderr,ret,machine_type
 ip-172-31-31-147,1697528140,juliads,0.7.18, ,groupby,G1_1e7_1e2_0_0,1697528145.73121,start,,,xlarge
 ip-172-31-31-147,1697528140,juliads,0.7.18, ,groupby,G1_1e7_1e2_0_0,1697528177.50625,finish,0,0,xlarge
 ip-172-31-31-147,1697528140,juliads,0.7.18, ,groupby,G1_1e8_1e2_0_0,1697528192.52138,start,,,xlarge
