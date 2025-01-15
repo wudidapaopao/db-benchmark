@@ -54,24 +54,25 @@ dt_join = lld[task=="join"]
 ```
 
 ```{r helpers}
-loop_benchplot = function(dt_task, report_name, syntax.dict, exceptions, solution.dict, question.txt.fun = NULL, title.txt.fun = NULL, data_namev, q_groupv, cutoff=NULL, pending=NULL) {
-  machine_type = Sys.getenv("MACHINE_TYPE")
+loop_benchplot = function(dt_task, report_name, syntax.dict, exceptions, solution.dict, question.txt.fun = NULL, title.txt.fun = NULL, data_namev, q_groupv, cutoff=NULL, pending=NULL, machine_types) {
   for (data_name in data_namev) {
-    for (q_group in q_groupv) {
-      message(sprintf("benchplot %s %s %s", report_name, data_name, q_group))
-      benchplot(
-        x = dt_task[data==data_name & question_group==q_group],
-        filename = file.path("public", report_name, sprintf("%s_%s_%s.png", data_name, q_group, machine_type)),
-        solution.dict = solution.dict,
-        syntax.dict = syntax.dict,
-        exceptions = exceptions,
-        question.txt.fun = question.txt.fun,
-        title.txt.fun = title.txt.fun,
-        cutoff = cutoff,
-        pending = pending,
-        url.footer = "https://duckdblabs.github.io/db-benchmark",
-        interactive = FALSE
-      )
+    for (m_type in machine_types) {
+      for (q_group in q_groupv) {
+        message(sprintf("benchplot %s %s %s", report_name, data_name, q_group))
+        benchplot(
+          x = dt_task[data==data_name & question_group==q_group & machine_type==m_type],
+          filename = file.path("public", report_name, sprintf("%s_%s_%s.png", data_name, q_group, m_type)),
+          solution.dict = solution.dict,
+          syntax.dict = syntax.dict,
+          exceptions = exceptions,
+          question.txt.fun = question.txt.fun,
+          title.txt.fun = title.txt.fun,
+          cutoff = cutoff,
+          pending = pending,
+          url.footer = "https://duckdblabs.github.io/db-benchmark",
+          interactive = FALSE
+        )
+      }
     }
   }
 }
@@ -89,12 +90,14 @@ hours_took = function(lld) {
 
 ```{r report_groupby, message=FALSE}
 data_name = get_data_levels()[["groupby"]]
-loop_benchplot(dt_groupby, report_name="groupby", syntax.dict=groupby.syntax.dict, exceptions=groupby.exceptions, solution.dict=solution.dict, data_namev=data_name, q_groupv=c("basic","advanced"), title.txt.fun = header_title_fun, question.txt.fun = groupby_q_title_fun, cutoff = "spark", pending = "Modin")
+machine_types = get_machine_types()
+loop_benchplot(dt_groupby, report_name="groupby", syntax.dict=groupby.syntax.dict, exceptions=groupby.exceptions, solution.dict=solution.dict, data_namev=data_name, q_groupv=c("basic","advanced"), title.txt.fun = header_title_fun, question.txt.fun = groupby_q_title_fun, cutoff = "spark", pending = "Modin", machine_types)
 ```
 
 ```{r report_join, message=FALSE}
 data_name = get_data_levels()[["join"]]
-loop_benchplot(dt_join, report_name="join", syntax.dict=join.syntax.dict, exceptions=join.exceptions, solution.dict=solution.dict, data_namev=data_name, q_groupv=c("basic"), title.txt.fun = header_title_fun, question.txt.fun = join_q_title_fun, cutoff = "spark", pending = "Modin")
+machine_types = get_machine_types()
+loop_benchplot(dt_join, report_name="join", syntax.dict=join.syntax.dict, exceptions=join.exceptions, solution.dict=solution.dict, data_namev=data_name, q_groupv=c("basic"), title.txt.fun = header_title_fun, question.txt.fun = join_q_title_fun, cutoff = "spark", pending = "Modin", machine_types)
 ```
 
 
