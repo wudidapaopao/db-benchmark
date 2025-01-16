@@ -15,7 +15,7 @@ solution = "duckdb"
 cache = TRUE
 
 data_name = Sys.getenv("SRC_DATANAME")
-machine_type = Sys.getenv("MACHINE_TYPE", "large")
+machine_type = Sys.getenv("MACHINE_TYPE")
 src_jn_x = file.path("data", paste(data_name, "csv", sep="."))
 y_data_name = join_to_tbls(data_name)
 src_jn_y = setNames(file.path("data", paste(y_data_name, "csv", sep=".")), names(y_data_name))

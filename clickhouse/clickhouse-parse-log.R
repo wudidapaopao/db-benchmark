@@ -7,7 +7,7 @@ args = commandArgs(TRUE) # args = c("groupby","G1_1e6_1e2_0_0")
 stopifnot(length(args)==2L)
 task = args[1L]
 data_name = args[2L]
-machine_type = Sys.getenv("MACHINE_TYPE", "large")
+machine_type = Sys.getenv("MACHINE_TYPE")
 
 library(data.table)
 # sort files according to question and run

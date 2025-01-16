@@ -16,7 +16,7 @@ fun = "group_by"
 cache = TRUE
 
 data_name = Sys.getenv("SRC_DATANAME")
-machine_type = Sys.getenv("MACHINE_TYPE", "xlarge")
+machine_type = Sys.getenv("MACHINE_TYPE")
 src_grp = file.path("data", paste(data_name, "csv", sep="."))
 cat(sprintf("loading dataset %s\n", data_name))
 
