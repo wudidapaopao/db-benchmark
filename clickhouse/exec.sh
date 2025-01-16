@@ -34,7 +34,7 @@ IS_SORTED=$(clickhouse-client --query "SELECT splitByChar('_','$SRC_DATANAME')[5
 ON_DISK=0
 
 if [ $1 == 'groupby' ]; then
-  ON_DISK=$(clickhouse-client --query "SELECT (splitByChar('_','$SRC_DATANAME')[2])::Float32 >= 1e10::Float32 FORMAT TSV")
+  ON_DISK=$(clickhouse-client --query "SELECT (splitByChar('_','$SRC_DATANAME')[2])::Float32 >= 1e10::Float32 FORMAT TSV") || ($(clickhouse-client --query "SELECT (splitByChar('_','$SRC_DATANAME')[2])::Float32 >= 1e9::Float32 || '$MACHINE_TYPE' == 'small') FORMAT TSV"))
   clickhouse-client --query "DROP TABLE IF EXISTS $SRC_DATANAME"
   if [ $HAS_NULL -eq 1 ]; then
     if [ $IS_SORTED -eq 1 ]; then
