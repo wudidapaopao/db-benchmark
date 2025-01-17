@@ -217,6 +217,33 @@ loop_benchplot(dt_join, report_name="join", syntax.dict=join.syntax.dict, except
 
 <!--
 ##### **advanced questions**
+
+![](./join/J1_1e7_NA_0_0_advanced.png)
+-->
+
+#### 5 GB
+
+##### **basic questions**
+
+![](./join/J1_1e8_NA_0_0_basic.png)
+
+
+<!--
+##### **advanced questions**
+
+![](./join/J1_1e8_NA_0_0_advanced.png)
+-->
+
+#### 50 GB {.active}
+
+##### **basic questions**
+
+![](./join/J1_1e9_NA_0_0_basic.png)
+
+<!--
+##### **advanced questions**
+
+![](./join/J1_1e9_NA_0_0_advanced.png)
 -->
 
 ---
