@@ -38,10 +38,10 @@ src_grp = os.path.join("data", data_name + ".csv")
 print("loading dataset %s" % data_name, flush=True)
 
 scale_factor = data_name.replace("G1_","")[:4].replace("_", "")
-on_disk = 'FALSE':
+on_disk = 'FALSE'
 if float(scale_factor) >= 1e10:
     on_disk = 'TRUE'
-else if (machine_type == 'small' else 'FALSE'):
+else if (machine_type == 'small' and float(scale_factor) >= 1e9):
     on_disk = 'TRUE'
 
 data = pacsv.read_csv(src_grp, convert_options=pacsv.ConvertOptions(auto_dict_encode=True))

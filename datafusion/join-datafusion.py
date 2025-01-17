@@ -43,10 +43,10 @@ if len(src_jn_y) != 3:
 
 print("loading datasets " + data_name + ", " + y_data_name[0] + ", " + y_data_name[2] + ", " + y_data_name[2], flush=True)
 scale_factor = data_name.replace("J1_","")[:4].replace("_", "")
-on_disk = 'FALSE':
+on_disk = 'FALSE'
 if float(scale_factor) >= 1e10:
     on_disk = 'TRUE'
-else if (machine_type == 'small' else 'FALSE'):
+else if (machine_type == 'small' and float(scale_factor) >= 1e9):
     on_disk = 'TRUE'
 
 
