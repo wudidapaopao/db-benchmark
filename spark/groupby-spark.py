@@ -20,7 +20,7 @@ cache = "TRUE"
 
 data_name = os.environ['SRC_DATANAME']
 machine_type = os.environ["MACHINE_TYPE"]
-on_disk = data_name.split("_")[1] == "1e9" and machine_type == "small" # on-disk data storage #126
+on_disk = data_name.split("_")[1] >= "1e9" # on-disk data storage #126
 src_grp = os.path.join("data", data_name+".csv")
 print("loading dataset %s" % data_name, flush=True)
 
