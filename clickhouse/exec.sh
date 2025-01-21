@@ -34,7 +34,8 @@ IS_SORTED=$(clickhouse-client --query "SELECT splitByChar('_','$SRC_DATANAME')[5
 COMPRESS=0
 
 if [ $1 == 'groupby' ]; then
-  COMPRESS=$(clickhouse-client --query "SELECT (splitByChar('_','$SRC_DATANAME')[2])::Float32 >= 1e10::Float32 FORMAT TSV") || ($(clickhouse-client --query "SELECT (splitByChar('_','$SRC_DATANAME')[2])::Float32 >= 1e9::Float32 && '$MACHINE_TYPE' == 'small') FORMAT TSV"))
+  COMPRESS=$(clickhouse-client --query "SELECT (splitByChar('_','$SRC_DATANAME')[2])::Float32 >= 1e9::Float32 FORMAT TSV")
+  ON_DISK=$(clickhouse-client --query "SELECT (splitByChar('_','$SRC_DATANAME')[2])::Float32 >= 1e9::Float32 && '$MACHINE_TYPE' == 'small') FORMAT TSV")
   clickhouse-client --query "DROP TABLE IF EXISTS $SRC_DATANAME"
   if [ $HAS_NULL -eq 1 ]; then
     if [ $IS_SORTED -eq 1 ]; then
@@ -58,7 +59,8 @@ elif [ $1 == 'join' ]; then
   RHS1=$(echo $RHS | cut -d' ' -f1)
   RHS2=$(echo $RHS | cut -d' ' -f2)
   RHS3=$(echo $RHS | cut -d' ' -f3)
-  COMPRESS=$(clickhouse-client --query "SELECT (splitByChar('_','$SRC_DATANAME')[2])::Float32 >= 1e10::Float32 FORMAT TSV") || ($(clickhouse-client --query "SELECT (splitByChar('_','$SRC_DATANAME')[2])::Float32 >= 1e9::Float32 && '$MACHINE_TYPE' == 'small') FORMAT TSV"))
+  COMPRESS=$(clickhouse-client --query "SELECT (splitByChar('_','$SRC_DATANAME')[2])::Float32 >= 1e9::Float32 FORMAT TSV")
+  ON_DISK=$(clickhouse-client --query "SELECT (splitByChar('_','$SRC_DATANAME')[2])::Float32 >= 1e9::Float32 && '$MACHINE_TYPE' == 'small') FORMAT TSV")
 
   # cleanup
   clickhouse-client --query "DROP TABLE IF EXISTS $SRC_DATANAME"

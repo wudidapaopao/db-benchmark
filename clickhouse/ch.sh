@@ -29,6 +29,9 @@ ch_query() {
   if [ $COMPRESS -eq 1 ]; then
   ENGINE="Memory settings compress=1"
   fi
+  if [ $ON_DISK -eq 1 ]; then
+  ENGINE="MergeTree ORDER BY tuple()"
+  fi
   sudo touch '/var/lib/clickhouse/flags/force_drop_table' && sudo chmod 666 '/var/lib/clickhouse/flags/force_drop_table'
   clickhouse-client --query "DROP TABLE IF EXISTS ans;"
   clickhouse-client --log_comment ${RUNNAME} --query "CREATE TABLE ans ENGINE = ${ENGINE} AS ${QUERY} SETTINGS max_insert_threads=${THREADS}, max_threads=${THREADS};"
