@@ -116,6 +116,7 @@ else
 fi
 export COMPRESS
 export THREADS
+export ON_DISK
 
 # cleanup timings from last run if they have not been cleaned up after parsing
 mkdir -p clickhouse/log
