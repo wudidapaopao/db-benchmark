@@ -10,10 +10,16 @@ sudo apt-get install -y clickhouse-server clickhouse-client
 # stop server if service was already running
 sudo service clickhouse-server start ||:
 
-# start server
 
+# modify clickhouse settings so data is stored on the mount.
+sudo mkdir /var/lib/mount/clickhouse-nvme-mount/
+sudo chown clickhouse:clickhouse /var/lib/mount/clickhouse-nvme-mount
+
+# copy clickhouse config
+sudo cp -a /var/lib/clickhouse/. /var/lib/mount/clickhouse-nvme-mount/
+sudo cp clickhouse/clickhouse-mount-config.xml /etc/clickhouse-server/config.d/data-paths.xml
+
+
+# start server
 sudo rm /var/log/clickhouse-server/clickhouse-server.err.log /var/log/clickhouse-server/clickhouse-server.log
 sudo service clickhouse-server start
-
-# interactive debugging
-# copy exec.sh body and substitute $1 for groupby and $2 for G1_1e7_1e2_0_0, avoid exit calls

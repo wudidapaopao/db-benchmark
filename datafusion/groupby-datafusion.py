@@ -33,7 +33,7 @@ on_disk = "FALSE"
 
 data_name = os.environ["SRC_DATANAME"]
 machine_type = os.environ["MACHINE_TYPE"]
-mount_point = os.environ["MOUNT_POINT"]
+spill_dir = os.environ["SPILL_DIR"]
 src_grp = os.path.join("data", data_name + ".csv")
 print("loading dataset %s" % data_name, flush=True)
 
@@ -49,7 +49,7 @@ data = pacsv.read_csv(src_grp, convert_options=pacsv.ConvertOptions(auto_dict_en
 
 ctx = df.SessionContext()
 if on_disk:
-    runtime = df.RuntimeConfig().with_temp_file_path(f"{mount_point}/datafusion/")
+    runtime = df.RuntimeConfig().with_temp_file_path(f"{spill_dir}/datafusion/")
     config = (df.SessionConfig())
     ctx = df.SessionContext(config, runtime)
 

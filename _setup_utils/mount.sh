@@ -26,12 +26,21 @@ NR > 1 && $1 ~ /^nvme/ && $7 == "" {
 END { if (largest) print largest; else print "No match found"; }
 ')
 
+if [ -z "${MOUNT_POINT}" ]; then
+    echo "Error: Environment variable MOUNT_POINT is not set. Set it by running"
+    echo "source path.env"
+    exit 1
+fi
+
 sudo mkfs -t xfs /dev/$mount_name
 
-mkdir ~/db-benchmark-metal
-# mount the nvme volumn
-sudo mount /dev/$mount_name ~/db-benchmark-metal
-# change ownsership of the volume
-sudo chown -R ubuntu ~/db-benchmark-metal/
+mkdir $MOUNT_POINT
+sudo mount /dev/$mount_name $MOUNT_POINT
 
-git clone $(git remote get-url origin) ~/db-benchmark-metal
+# make clone of repo on mount
+sudo mkdir $MOUNT_POINT/db-benchmark-metal
+sudo chown ubuntu:ubuntu $MOUNT_POINT
+
+
+git clone $(git remote get-url origin) $MOUNT_POINT/db-benchmark-metal
+cd $MOUNT_POINT/db-benchmark-metal
