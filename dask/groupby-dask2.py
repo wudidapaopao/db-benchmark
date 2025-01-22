@@ -25,6 +25,7 @@ from dask import distributed
 client = distributed.Client(processes=True, silence_logs=logging.ERROR)
 
 data_name = os.environ['SRC_DATANAME']
+machine_type = os.environ['MACHINE_TYPE']
 on_disk = False #data_name.split("_")[1] == "1e9" # on-disk data storage #126
 on_disk = data_name.split("_")[1] == "1e9" and os.environ["MACHINE_TYPE"] == "small"
 fext = "parquet" if on_disk else "csv"
