@@ -21,7 +21,7 @@ cache = "TRUE"
 
 data_name = os.environ['SRC_DATANAME']
 machine_type = os.environ['MACHINE_TYPE']
-on_disk = data_name.split("_")[1] == "1e10" or (data_name.split("_")[1] == "1e9" and os.environ["MACHINE_TYPE"] == "small")
+on_disk = data_name.split("_")[1] == "1e10" or (data_name.split("_")[1] == "1e9" and os.environ["MACHINE_TYPE"] == "c6id.4xlarge")
 fext = "parquet" if on_disk else "csv"
 src_jn_x = os.path.join("data", data_name+"."+fext)
 y_data_name = join_to_tbls(data_name)

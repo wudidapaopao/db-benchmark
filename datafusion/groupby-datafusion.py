@@ -41,7 +41,7 @@ scale_factor = data_name.replace("G1_","")[:4].replace("_", "")
 on_disk = 'FALSE'
 if float(scale_factor) >= 1e10:
     on_disk = 'TRUE'
-else if (machine_type == 'small' and float(scale_factor) >= 1e9):
+else if (machine_type == 'c6id.4xlarge' and float(scale_factor) >= 1e9):
     on_disk = 'TRUE'
 
 data = pacsv.read_csv(src_grp, convert_options=pacsv.ConvertOptions(auto_dict_encode=True))

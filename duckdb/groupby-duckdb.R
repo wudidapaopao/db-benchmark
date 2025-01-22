@@ -23,14 +23,11 @@ cat(sprintf("loading dataset %s\n", data_name))
 db_file = sprintf('%s-%s-%s.db', solution, task, data_name)
 
 on_disk = as.numeric(strsplit(data_name, "_", fixed=TRUE)[[1L]][2L])>=1e10
-on_disk = on_disk || (as.numeric(strsplit(data_name, "_", fixed=TRUE)[[1L]][2L])>=1e9 && machine_type == "small")
+on_disk = on_disk || (as.numeric(strsplit(data_name, "_", fixed=TRUE)[[1L]][2L])>=1e9 && machine_type == "c6id.4xlarge")
 uses_NAs = as.numeric(strsplit(data_name, "_", fixed=TRUE)[[1L]][4L])>0
 if (on_disk) {
   print("using disk memory-mapped data storage")
   con = dbConnect(duckdb::duckdb(), dbdir=db_file)
-  if (machine_type == "small") {
-    invisible(dbExecute(con, "pragma memory_limit='50GB'"))
-  }
 } else {
   print("using in-memory data storage")
   con = dbConnect(duckdb::duckdb())

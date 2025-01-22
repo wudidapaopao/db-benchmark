@@ -29,8 +29,8 @@ if len(src_jn_y) != 3:
 mem_usage = "220g"
 if "TEST_RUN" in os.environ:
      mem_usage = "2g"
-if machine_type == 'small':
-     mem_usage = "60g"
+if machine_type == 'c6id.4xlarge':
+     mem_usage = "30g"
 
 from pyspark.conf import SparkConf
 spark = SparkSession.builder \

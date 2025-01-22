@@ -29,7 +29,7 @@ with pl.StringCache():
          .with_columns(pl.col(["id1", "id2", "id3"]).cast(pl.Categorical)))
 
 scale_factor = data_name.replace("G1_","")[:4].replace("_", "")
-on_disk = 'TRUE' if (machine_type == "small" and float(scale_factor) >= 1e9) else 'FALSE'
+on_disk = 'TRUE' if (machine_type == "c6id.4xlarge" and float(scale_factor) >= 1e9) else 'FALSE'
 
 in_rows = x.shape[0]
 x.write_ipc(f"{mount_point}/polars/tmp.ipc")

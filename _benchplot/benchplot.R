@@ -4,12 +4,9 @@
 suppressPackageStartupMessages(library(bit64))
 
 format_comma = function(x) {
-       if (x == 1e10) {
-               "10,000,000,000"
-       } else {
-               format(as.integer64(x), big.mark=",")
-       }
+  format(as.integer64(x), big.mark=",")
 }
+
 format_num = function(x, digits=3L) { # at least 3+1 chars on output, there is surely some setting to achieve that better with base R but it is not obvious to find that among all features there
   cx = sprintf("%0.2f", x)
   int = sapply(strsplit(cx, ".", fixed=TRUE), `[`, 1L)

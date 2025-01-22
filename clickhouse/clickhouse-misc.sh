@@ -1,5 +1,5 @@
 CREATE USER IF NOT EXISTS db_benchmark IDENTIFIED WITH no_password SETTINGS max_memory_usage = 40000000000 WRITABLE;
-GRANT select, insert, create, alter, drop on *.* to db_benchmark;
+GRANT select, insert, create, alter, alter user, drop on *.* to db_benchmark;
 
 ALTER USER db_benchmark SETTINGS max_memory_usage_for_user = 40000000000;
 

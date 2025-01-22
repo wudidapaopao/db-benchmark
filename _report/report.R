@@ -25,8 +25,9 @@ get_data_levels = function() {
   list(groupby=groupby, join=join, groupby2014=groupby2014)
 }
 
+# machine types cannot have '.'
 get_machine_types = function() {
-  c('xlarge', 'small')
+  c('c6id.metal', 'c6id.4xlarge')
 }
 
 get_excluded_batch = function() {
