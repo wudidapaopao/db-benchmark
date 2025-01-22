@@ -23,3 +23,12 @@ sudo cp clickhouse/clickhouse-mount-config.xml /etc/clickhouse-server/config.d/d
 # start server
 sudo rm /var/log/clickhouse-server/clickhouse-server.err.log /var/log/clickhouse-server/clickhouse-server.log
 sudo service clickhouse-server start
+
+
+MEMORY_LIMIT=0
+if [ $MACHINE_TYPE == "c6id.4xlarge" ]; then
+	MEMORY_LIMIT=40000000000
+fi
+
+clickhouse-client --query "CREATE USER IF NOT EXISTS db_benchmark IDENTIFIED WITH no_password SETTINGS max_memory_usage = $MEMORY_LIMIT WRITABLE;"
+clickhouse-client --query "GRANT select, insert, create, alter, alter user, drop on *.* to db_benchmark;"

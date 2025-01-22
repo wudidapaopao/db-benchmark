@@ -34,12 +34,12 @@ fi
 
 sudo mkfs -t xfs /dev/$mount_name
 
-mkdir $MOUNT_POINT
+sudo mkdir $MOUNT_POINT
 sudo mount /dev/$mount_name $MOUNT_POINT
 
 # make clone of repo on mount
 sudo mkdir $MOUNT_POINT/db-benchmark-metal
-sudo chown ubuntu:ubuntu $MOUNT_POINT
+sudo chown -R ubuntu:ubuntu $MOUNT_POINT
 
 
 git clone $(git remote get-url origin) $MOUNT_POINT/db-benchmark-metal
