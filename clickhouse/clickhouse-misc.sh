@@ -1,7 +1,7 @@
-CREATE USER IF NOT EXISTS db_benchmark IDENTIFIED WITH no_password SETTINGS max_memory_usage = 40000000000 WRITABLE;
+CREATE USER IF NOT EXISTS db_benchmark IDENTIFIED WITH no_password SETTINGS max_memory_usage = 28000000000 WRITABLE;
 GRANT select, insert, create, alter, alter user, drop on *.* to db_benchmark;
 
-ALTER USER db_benchmark SETTINGS max_memory_usage_for_user = 40000000000;
+ALTER USER db_benchmark SETTINGS max_memory_usage_for_user = 28000000000;
 
 
 CREATE TABLE G1_1e9_1e1_0_0 (id1 LowCardinality(Nullable(String)), id2 LowCardinality(Nullable(String)), id3 Nullable(String), id4 Nullable(Int32), id5 Nullable(Int32), id6 Nullable(Int32), v1 Nullable(Int32), v2 Nullable(Int32), v3 Nullable(Float64)) ENGINE = MergeTree() ORDER BY tuple();
