@@ -182,7 +182,7 @@ merge_time_logsquestions = function(d, lq) {
     stop("Solution version in 'version' does not match between 'time' and 'logs', different 'version' reported from solution script vs launcher script")
   if (nrow(ld[as.character(git)!=as.character(i.git)])) # one side NAs are skipped
     stop("Solution revision in 'git' does not match between 'time' and 'logs', , different 'git' reported from solution script vs launcher script")
-  ld = d[lq, on=c("nodename","batch","version","git","solution","task","data","question"), nomatch=NA] # re-join to get i's version git
+  ld = d[lq, on=c("nodename","batch","version","git","solution","task","data","question", "machine_type"), nomatch=NA] # re-join to get i's version git
   ld
 }
 
@@ -216,7 +216,7 @@ ftdata = function(x, task) {
   }
 }
 transform = function(ld) {
-  ld[,max_batch:=NULL]
+  ld[,max_batch:=0]
   new_ld = ld[0]
 
   machine_types = get_machine_types()
