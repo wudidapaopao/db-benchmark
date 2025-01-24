@@ -76,12 +76,12 @@ loop_benchplot = function(dt_task, report_name, syntax.dict, exceptions, solutio
     }
   }
 }
-link = function(data_name, q_group, report_name) {
-  fnam = sprintf("%s_%s.png", data_name, q_group)
+link = function(data_name, q_group, report_name, machine_type) {
+  fnam = sprintf("%s_%s_%s.png", data_name, q_group, machine_type)
   paste(sprintf("[%s](%s)", q_group, file.path(report_name, fnam)), collapse=", ")
 }
 hours_took = function(lld) {
-  lld_script_time = lld[, .(n_script_time_sec=uniqueN(script_time_sec), script_time_sec=unique(script_time_sec)), .(solution, task, data)]
+  lld_script_time = lld[, .(n_script_time_sec=uniqueN(script_time_sec), script_time_sec=unique(script_time_sec)), .(solution, task, data, machine_type)]
   if (nrow(lld_script_time[n_script_time_sec>1L]))
     stop("There are multiple different 'script_time_sec' for single solution+task+data on report 'index'")
   lld_script_time[, round(sum(script_time_sec, na.rm=TRUE)/60/60, 1)]
@@ -103,7 +103,7 @@ loop_benchplot(dt_join, report_name="join", syntax.dict=join.syntax.dict, except
 
 ## Machine Type {.tabset .tabset-fade .tabset-pills}
 
-### Small (32 cores / 64GB memory)
+### Small (16 cores / 32GB memory)
 
 #### Task {.tabset .tabset-fade .tabset-pills}
 
@@ -119,7 +119,7 @@ loop_benchplot(dt_join, report_name="join", syntax.dict=join.syntax.dict, except
 
 ![](./groupby/G1_1e7_1e2_0_0_advanced_c6id.4xlarge.png)
 
-###### 5 GB
+###### 5 GB {.active}
 
 ####### **basic questions**
 
@@ -129,7 +129,7 @@ loop_benchplot(dt_join, report_name="join", syntax.dict=join.syntax.dict, except
 
 ![](./groupby/G1_1e8_1e2_0_0_advanced_c6id.4xlarge.png)
 
-###### 50 GB {.active}
+###### 50 GB 
 
 ####### **basic questions**
 
@@ -253,7 +253,7 @@ Timings are presented for datasets having random order, no NAs (missing values).
 ### join timings
 
 ```{r pivot_join}
-sdcols = c("solution","question_group","question","data","in_rows","na","sorted","time_sec_1","time_sec_2","version","git","chk_time_sec_1","na_time_sec","out_rows","out_cols")
+sdcols = c("solution","question_group","question","data","in_rows","na","sorted","time_sec_1","time_sec_2","version","git","chk_time_sec_1","na_time_sec","out_rows","out_cols","machine_type")
 data = dt_join[, .SD, .SDcols=sdcols]
 rpivotTable::rpivotTable(
   data,
@@ -327,10 +327,10 @@ Because we have been asked many times to do so, the first task and initial motiv
 ## Explore more data cases
 
 ```{r link_all_benchplot}
-lld[order(task, data), .(task, in_rows, data, knasorted, question_group)
+lld[order(task, data), .(task, in_rows, data, knasorted, question_group, machine_type)
     ][, unique(.SD)
-      ][, .(benchplot=link(data, question_group, task)), .(task, in_rows, knasorted)
-        ][, .(task, `in rows`=in_rows, `data description`=knasorted, benchplot)
+      ][, .(benchplot=link(data, question_group, task, machine_type)), .(task, in_rows, knasorted, machine_type)
+        ][, .(task, `in rows`=in_rows, `data description`=knasorted, `machine type`=machine_type, benchplot)
           ][, kk(.SD)]
 ```
 
