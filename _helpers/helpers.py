@@ -5,7 +5,7 @@ import psutil
 import os
 import platform
 
-def write_log(task, data, in_rows, question, out_rows, out_cols, solution, version, git, fun, run, time_sec, mem_gb, cache, chk, chk_time_sec, on_disk, machine_type='xlarge'):
+def write_log(task, data, in_rows, question, out_rows, out_cols, solution, version, git, fun, run, time_sec, mem_gb, cache, chk, chk_time_sec, on_disk, machine_type):
    batch = os.getenv('BATCH', "") 
    timestamp = time.time()
    csv_file = os.getenv('CSV_TIME_FILE', "time.csv")

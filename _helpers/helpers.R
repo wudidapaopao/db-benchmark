@@ -3,7 +3,7 @@ write.log = function(
   task=NA_character_, data=NA_character_, in_rows=NA_integer_, question=NA_character_, out_rows=NA_integer_,
   out_cols=NA_integer_, solution=NA_character_, version=NA_character_, git=NA_character_, fun=NA_character_,
   run=NA_integer_, time_sec=NA_real_, mem_gb=NA_real_, cache=NA, chk=NA_character_, chk_time_sec=NA_real_,
-  on_disk=FALSE, machine_type='xlarge'
+  on_disk=FALSE, machine_type=''
 ) {
   stopifnot(is.character(task), is.character(data), is.character(solution), is.character(fun), is.logical(on_disk), is.character(machine_type))
   log.file=Sys.getenv("CSV_TIME_FILE", "time.csv")
