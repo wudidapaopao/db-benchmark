@@ -1,9 +1,9 @@
 # download and expand large data
 
 # get groupby large (0.5GB and 5GB datasets)
-aws s3 cp s3://duckdb-blobs/data/db-benchmark-data/groupby_large.duckdb data/groupby_large.duckdb
+aws s3 cp s3://duckdb-blobs/data/db-benchmark-data/groupby_large.duckdb data/groupby_large.duckdb --no-sign-request
 # get join small (0.5GB and 5GB datasets)
-aws s3 cp s3://duckdb-blobs/data/db-benchmark-data/join_large.duckdb data/join_large.duckdb
+aws s3 cp s3://duckdb-blobs/data/db-benchmark-data/join_large.duckdb data/join_large.duckdb --no-sign-request
 
 
 # expand groupby-small datasets to csv
