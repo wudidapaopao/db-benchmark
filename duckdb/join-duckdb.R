@@ -37,6 +37,10 @@ if (on_disk) {
   con = dbConnect(duckdb::duckdb())
 }
 
+if (machine_type == 'c6id.4xlarge') {
+  dbExecute(con, "pragma memory_limit='25G'")
+}
+
 ncores = parallel::detectCores()
 if (less_cores) {
   ncores = min(ncores, 40)
