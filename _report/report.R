@@ -145,7 +145,7 @@ model_time = function(d) {
     stop("Value of 'out_cols' varies for different runs for single question")
   if (nrow(d[, .(unqn_on_disk=uniqueN(on_disk)), .(task, solution, data, batch)][unqn_on_disk>1L]))
     stop("Value of 'on_disk' varies for different questions/runs for single solution+data+batch") # on_disk should be const in script
-  d = dcast(d, nodename+batch+in_rows+question+solution+fun+on_disk+cache+version+git+task+data ~ run, value.var=c("timestamp","time_sec","mem_gb","chk_time_sec","chk","out_rows","out_cols"))
+  d = dcast(d, nodename+batch+in_rows+question+solution+fun+on_disk+cache+version+git+task+data+machine_type ~ run, value.var=c("timestamp","time_sec","mem_gb","chk_time_sec","chk","out_rows","out_cols"))
   d[, c("chk_2","out_rows_2","out_cols_2") := NULL]
   setnames(d, c("chk_1","out_rows_1","out_cols_1"), c("chk","out_rows","out_cols"))
   d
@@ -216,10 +216,25 @@ ftdata = function(x, task) {
   }
 }
 transform = function(ld) {
-  ld[, max_batch:=max(batch), c("solution","task","data")]
-  ld[, script_recent:=FALSE][batch==max_batch, script_recent:=TRUE][, max_batch:=NULL]
-  ld[, "na_time_sec":=FALSE][is.na(time_sec_1) | is.na(time_sec_2), "na_time_sec":=TRUE]
-  ld[, "on_disk" := on_disk[1L], by=c("batch","solution","task","data")] # on_disk is a constant across whole script, fill trailing NA so advanced question group will not stay NA if basic had that info #126
+  ld[,max_batch:=NULL]
+  new_ld = ld[0]
+
+  machine_types = get_machine_types()
+  for (m_type in machine_types) {
+    a = ld[machine_type == m_type]
+    a[, max_batch:=max(batch), c("solution","task","data")]
+    a[, script_recent:=FALSE][batch==max_batch, script_recent:=TRUE][, max_batch:=NULL]
+    a[, "na_time_sec":=FALSE][is.na(time_sec_1) | is.na(time_sec_2), "na_time_sec":=TRUE]
+    a[, "on_disk" := on_disk[1L], by=c("batch","solution","task","data")] # on_disk is a constant across whole script, fill trailing NA so advanced question group will not stay NA if basic had that info #126
+    new_ld <- rbind(new_ld, a, fill=TRUE)
+  }
+
+  ld = new_ld
+
+  # ld[, max_batch:=max(batch), c("solution","task","data","machine_type")]
+  # ld[, script_recent:=FALSE][batch==max_batch, script_recent:=TRUE][, max_batch:=NULL]
+  # ld[, "na_time_sec":=FALSE][is.na(time_sec_1) | is.na(time_sec_2), "na_time_sec":=TRUE]
+  # ld[, "on_disk" := on_disk[1L], by=c("batch","solution","task","data")] # on_disk is a constant across whole script, fill trailing NA so advanced question group will not stay NA if basic had that info #126
 
   { # clickhouse memory/mergetree table engine handling for historical timings only, all new uses mergetree and G1 prefix #137
     ld[, "engine":=NA_character_]
@@ -247,7 +262,7 @@ transform = function(ld) {
   lld[, "iquestion":=as.integer(droplevels(question)), by="task"]
   # complete set of data flag
   lld[, `:=`(task_dataN=uniqueN(data)),.(task)]
-  lld[, "complete" := uniqueN(data)==task_dataN, .(task, solution, batch)]
+  lld[, "complete" := uniqueN(data)==task_dataN, .(task, solution, batch, machine_type)]
   lld[, "task_dataN" := NULL]
   lld[]
 }
@@ -258,6 +273,9 @@ time_logs = function(path=getwd()) {
   lt <- load_time(path=getwd())
 
   ct = clean_time(lt)
+  
+  # ct = ct %>% filter(machine_type != 'c6id.metal')
+
   # remove duckdb-latest for now
   ct = ct %>% filter(!(solution == 'duckdb-latest'))
   d = model_time(ct)
