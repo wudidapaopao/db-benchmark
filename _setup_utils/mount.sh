@@ -34,7 +34,7 @@ fi
 
 sudo mkfs -t xfs /dev/$mount_name
 
-rm -rf $MOUNT_POINT
+sudo rm -rf $MOUNT_POINT
 sudo mkdir $MOUNT_POINT
 sudo mount /dev/$mount_name $MOUNT_POINT
 

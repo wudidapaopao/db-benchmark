@@ -151,14 +151,6 @@ loop_benchplot(dt_join, report_name="join", syntax.dict=join.syntax.dict, except
 
 ####### **basic questions**
 
-![](./join/J1_1e8_NA_0_0_basic_c6id.4xlarge.png)
-
-###### 50 GB {.active}
-
-####### **basic questions**
-
-![](./join/J1_1e9_NA_0_0_basic_c6id.4xlarge.png)
-
 ### X-Large (128 cores / 256GB memory)
 
 #### Task {.tabset .tabset-fade .tabset-pills}
@@ -269,16 +261,16 @@ rpivotTable::rpivotTable(
 
 ## Requesting an updated run
 
-The benchmark will now be updated with PR requests. To publish new results for a solution(s), you can open a PR with changes to solutions scripts or VERSION files, with updates to the time.csv and log.csv files of a run on a c6id.metal machine. To facilitate creating an instance identical to the one with the current results, the script `_utils/format_and_mount.sh`  was created. The script does the following 
+The benchmark will now be updated with PR requests. To publish new results for a solution(s), you can open a PR with changes to solutions scripts or VERSION files, with updates to the time.csv and log.csv files of a run on a c6id.metal machine or c6id.4xlarge. If using a c6id.4xlarge, we recommend a dedicated instance, to avoid variable performance due to noisy neighbors. To facilitate creating an instance identical to the one with the current results, the script `_setup_utils/mount.sh` and `_setup_utils/setup_small` were created. The script does the following 
 
-1. Formats and mounts an nvme drive so that solutions have access to instance storage
+1. Formats and mounts an nvme drive so that solutions have access to instance storage. This prevents variability in performance due to network storage. 
 2. Creates a new directory `db-benchmark-metal` on the nvme drive. This directory is a clone of the repository
 
 Once the `db-benchmark-metal` directory is created, you will need to 
-1. Create or generate all the datasets. The benchmark will not be updated if only a subset of datasets are tested. 
-2. Install the solutions you wish to have updated
-3. Update the solution(s) groupby or join scripts with any desired changes
-4. Run the benchmark on your solution
+1. Install the solutions you wish to have updated
+2. Update the solution(s) groupby or join scripts with any desired changes
+3. Modify the run.conf file so that your desired solution/task is run. 
+4. Run the benchmark on your solution by calling _run/partitioned_run.sh (note this will download the data and then delete it after the run. If you wish to have the benchmark data persist, comment out the lines removing the dta.)
 5. Generate the report to see how the results compare to other solutions
 6. Create your PR! (make sure the new time.csv and logs.csv files are included!)
 
@@ -288,8 +280,8 @@ The PR will then be reviewed by the DuckDB Labs team where we will run the bench
 ## Notes
 
 
-- You are welcome to run this benchmark yourself! All scripts related to setting up environment, data and benchmark are in the repository [repository](https://github.com/duckdblabs/db-benchmark) in the `utils` directory.
-- Data used to generate benchmark plots on this website can be obtained from [time.csv](./time.csv) (together with [logs.csv](./logs.csv)). See [_report/report.R](https://github.com/duckdblabs/db-benchmark/blob/master/_report/report.R) for quick introduction how to work with those.
+- You are welcome to run this benchmark yourself! All scripts related to setting up environment, data and benchmark are in the repository [repository](https://github.com/duckdblabs/db-benchmark) in the `_setup_utils` directory.
+- Data used to generate benchmark plots on this website can be obtained from [time.csv](./time.csv) (together with [logs.csv](./logs.csv)). See [_report/report.R](https://github.com/duckdblabs/db-benchmark/blob/master/_report/report.R) for quick introduction how to work with those. You can also download them from aws s3 without requiring any credentials.
 - Solutions are using in-memory data storage to achieve best timing. In case a solution runs out of memory (we use 250GB machine), it will use nvme storage if correctly set up. In such a case solution name is denoted by a `*` suffix on the legend.
 - ClickHouse and DuckDB queries are `CREATE TABLE ans AS SELECT ...` to match the functionality provided by other solutions in terms of caching results of queries, see [#151](https://github.com/h2oai/db-benchmark/issues/151).
 - We ensure that calculations are not deferred by solution.
