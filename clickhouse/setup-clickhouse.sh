@@ -27,7 +27,7 @@ sudo service clickhouse-server start
 
 MEMORY_LIMIT=0
 BYTES_BEFORE_EXTERNAL_GROUP_BY=0
-if [ $MACHINE_TYPE="c6id.4xlarge" ]; then
+if [[ $MACHINE_TYPE == "c6id.4xlarge" ]]; then
 	MEMORY_LIMIT=28000000000
 	BYTES_BEFORE_EXTERNAL_GROUP_BY=20000000000
 fi
