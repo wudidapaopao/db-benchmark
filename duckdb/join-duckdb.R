@@ -103,9 +103,10 @@ question = "small inner on int" # q1
 fun = "inner_join"
 
 
-table_type = ""
+table_type = "TEMP"
 if (on_disk) {
-  table_type = "TEMP"
+  dbExecute(con, "pragma memory_limit='25G'")
+  table_type = ""
 }
 
 t = system.time({

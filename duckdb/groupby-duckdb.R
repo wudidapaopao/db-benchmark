@@ -25,6 +25,7 @@ db_file = sprintf('%s-%s-%s.db', solution, task, data_name)
 on_disk = as.numeric(strsplit(data_name, "_", fixed=TRUE)[[1L]][2L])>=1e10
 on_disk = on_disk || (as.numeric(strsplit(data_name, "_", fixed=TRUE)[[1L]][2L])>=1e9 && machine_type == "c6id.4xlarge")
 uses_NAs = as.numeric(strsplit(data_name, "_", fixed=TRUE)[[1L]][4L])>0
+
 if (on_disk) {
   print("using disk memory-mapped data storage")
   con = dbConnect(duckdb::duckdb(), dbdir=db_file)
@@ -33,10 +34,10 @@ if (on_disk) {
   con = dbConnect(duckdb::duckdb())
 }
 
-
+table_type = "TEMP"
 if (machine_type == 'c6id.4xlarge' && on_disk) {
   dbExecute(con, "pragma memory_limit='25G'")
-  table_type = "TEMP"
+  table_type = ""
 }
 
 ncores = parallel::detectCores()
