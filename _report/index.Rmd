@@ -151,6 +151,14 @@ loop_benchplot(dt_join, report_name="join", syntax.dict=join.syntax.dict, except
 
 ####### **basic questions**
 
+![](./join/J1_1e8_NA_0_0_basic_c6id.4xlarge.png)
+
+###### 50 GB 
+
+####### **basic questions**
+
+![](./join/J1_1e9_NA_0_0_basic_c6id.4xlarge.png)
+
 ### X-Large (128 cores / 256GB memory)
 
 #### Task {.tabset .tabset-fade .tabset-pills}
