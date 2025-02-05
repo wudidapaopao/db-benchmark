@@ -12,7 +12,7 @@ sudo service clickhouse-server start ||:
 
 
 # modify clickhouse settings so data is stored on the mount.
-sudo mkdir /var/lib/mount/clickhouse-nvme-mount/
+sudo mkdir -p /var/lib/mount/clickhouse-nvme-mount/
 sudo chown clickhouse:clickhouse /var/lib/mount/clickhouse-nvme-mount
 
 # copy clickhouse config
