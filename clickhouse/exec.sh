@@ -36,7 +36,7 @@ MACHINE_TYPE=$MACHINE_TYPE
 
 if [ $1 == 'groupby' ]; then
   COMPRESS=$(clickhouse-client --user db_benchmark --query "SELECT (splitByChar('_','$SRC_DATANAME')[2])::Float32 >= 1e9::Float32 FORMAT TSV")
-  ON_DISK=$(clickhouse-client --user db_benchmark --query "SELECT (splitByChar('_','$SRC_DATANAME')[2])::Float32 >= 1e9::Float32 and '$MACHINE_TYPE' == 'c6id.4xlarge' FORMAT TSV")
+  ON_DISK=$(clickhouse-client --user db_benchmark --query "SELECT ((splitByChar('_','$SRC_DATANAME')[2])::Float32 >= 1e9::Float32 and '$MACHINE_TYPE' == 'c6id.4xlarge') OR FORMAT TSV")
   clickhouse-client --user db_benchmark --query "DROP TABLE IF EXISTS $SRC_DATANAME"
   if [ $HAS_NULL -eq 1 ]; then
     if [ $IS_SORTED -eq 1 ]; then
@@ -61,7 +61,10 @@ elif [ $1 == 'join' ]; then
   RHS2=$(echo $RHS | cut -d' ' -f2)
   RHS3=$(echo $RHS | cut -d' ' -f3)
   COMPRESS=$(clickhouse-client --user db_benchmark --query "SELECT (splitByChar('_','$SRC_DATANAME')[2])::Float32 >= 1e9::Float32 FORMAT TSV")
-  ON_DISK=$(clickhouse-client --user db_benchmark --query "SELECT (splitByChar('_','$SRC_DATANAME')[2])::Float32 >= 1e9::Float32 and '$MACHINE_TYPE' == 'c6id.4xlarge' FORMAT TSV")
+  ON_DISK=$(clickhouse-client --user db_benchmark --query "SELECT ( \
+                                                                   ((splitByChar('_','$SRC_DATANAME')[2])::Float32 >= 1e9::Float32) OR \
+                                                                   ((splitByChar('_','$SRC_DATANAME')[2])::Float32 >= 1e8::Float32 and '$MACHINE_TYPE' == 'c6id.4xlarge') \
+                                                                  ) FORMAT TSV")
 
   # cleanup
   clickhouse-client --user db_benchmark --query "DROP TABLE IF EXISTS $SRC_DATANAME"
