@@ -50,7 +50,7 @@ jobs:
       shell: bash
       run: source path.env && python3 _setup_utils/install_all_solutions.py ${{ matrix.solution }}
 
-    - name: Turn swap off
+    - name: Turn swap off 
       shell: bash
       run: sudo swapoff -a
 
@@ -63,6 +63,7 @@ jobs:
       run: |
         python3 _utils/prep_solutions.py --task=groupby --solution=clickhouse
         source path.env
+        source run.conf
         TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
 
     - name: Run mini GroupBy benchmark
@@ -70,6 +71,7 @@ jobs:
       run: |
         python3 _setup_utils/prep_solutions.py --task=groupby --solution=${{ matrix.solution }}
         source path.env
+        source run.conf
         TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
 
     - name: Run mini Join benchmark
@@ -77,6 +79,7 @@ jobs:
       run: |
         python3 _setup_utils/prep_solutions.py --task=join --solution=${{ matrix.solution }}
         source path.env
+        source run.conf
         TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
 
     - name: Validate benchmark results and report generation
@@ -145,6 +148,7 @@ jobs:
       shell: bash
       run: |
         python3 _setup_utils/prep_solutions.py --task=groupby --solution=all
+        source run.conf
         source path.env
         TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
 
@@ -153,6 +157,7 @@ jobs:
       run: |
         python3 _setup_utils/prep_solutions.py --task=join --solution=all
         source path.env
+        source run.conf
         TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
 
     - name: Validate benchmark results and report generation
