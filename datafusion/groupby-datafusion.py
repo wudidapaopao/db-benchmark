@@ -33,7 +33,9 @@ on_disk = "FALSE"
 
 data_name = os.environ["SRC_DATANAME"]
 machine_type = os.environ["MACHINE_TYPE"]
-spill_dir = os.environ["SPILL_DIR"]
+spill_dir = os.environ["SPILL_DIR"] + "/datafusion-groupby"
+os.makedirs(spill_dir, exist_ok=True)
+
 src_grp = os.path.join("data", data_name + ".csv")
 print("loading dataset %s" % data_name, flush=True)
 
@@ -49,7 +51,7 @@ data = pacsv.read_csv(src_grp, convert_options=pacsv.ConvertOptions(auto_dict_en
 
 ctx = df.SessionContext()
 if on_disk:
-    runtime = df.RuntimeConfig().with_temp_file_path(f"{spill_dir}/datafusion/")
+    runtime = df.RuntimeConfig().with_temp_file_path(f"{spill_dir}")
     config = (df.SessionConfig())
     ctx = df.SessionContext(config, runtime)
 

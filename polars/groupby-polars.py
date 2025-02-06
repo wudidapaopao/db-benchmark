@@ -18,7 +18,9 @@ fun = ".groupby"
 cache = "TRUE"
 on_disk = "FALSE"
 
-mount_point = os.environ["MOUNT_POINT"]
+spill_dir = os.environ["SPILL_DIR"] + "/polars-groupby"
+os.makedirs(spill_dir, exist_ok=True)
+
 data_name = os.environ["SRC_DATANAME"]
 machine_type = os.environ["MACHINE_TYPE"]
 src_grp = os.path.join("data", data_name + ".csv")
@@ -32,9 +34,9 @@ scale_factor = data_name.replace("G1_","")[:4].replace("_", "")
 on_disk = 'TRUE' if (machine_type == "c6id.4xlarge" and float(scale_factor) >= 1e9) else 'FALSE'
 
 in_rows = x.shape[0]
-x.write_ipc(f"{mount_point}/polars/tmp.ipc")
+x.write_ipc(f"{spill_dir}/tmp.ipc")
 del x
-x = pl.read_ipc(f"{mount_point}/polars/tmp.ipc", memory_map=True)
+x = pl.read_ipc(f"{spill_dir}/tmp.ipc", memory_map=True)
 x = x.lazy()
 
 # materialize

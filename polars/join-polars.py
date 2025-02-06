@@ -55,27 +55,28 @@ print(len(small), flush=True)
 print(len(medium), flush=True)
 print(len(big), flush=True)
 
-spill_dir = os.environ["SPILL_DIR"]
+spill_dir = os.environ["SPILL_DIR"] + "/polars-join"
+os.makedirs(spill_dir, exist_ok=True)
 
 with pl.StringCache():
-  x.write_ipc(f"{spill_dir}/polars/x.ipc")
+  x.write_ipc(f"{spill_dir}/x.ipc")
   del x
-  x = pl.read_ipc(f"{spill_dir}/polars/x.ipc") 
+  x = pl.read_ipc(f"{spill_dir}/x.ipc") 
   x = x.lazy()
 
-  small.write_ipc(f"{spill_dir}/polars/small.ipc")
+  small.write_ipc(f"{spill_dir}/small.ipc")
   del small
-  small = pl.read_ipc(f"{spill_dir}/polars/small.ipc")
+  small = pl.read_ipc(f"{spill_dir}/small.ipc")
   small = small.lazy()
 
-  medium.write_ipc(f"{spill_dir}/polars/medium.ipc")
+  medium.write_ipc(f"{spill_dir}/medium.ipc")
   del medium
-  medium = pl.read_ipc(f"{spill_dir}/polars/medium.ipc")
+  medium = pl.read_ipc(f"{spill_dir}/medium.ipc")
   medium = medium.lazy()
 
-  big.write_ipc(f"{spill_dir}/polars/big.ipc")
+  big.write_ipc(f"{spill_dir}/big.ipc")
   del big
-  big = pl.read_ipc(f"{spill_dir}/polars/big.ipc")
+  big = pl.read_ipc(f"{spill_dir}/big.ipc")
   big = big.lazy()
 
 # materialize

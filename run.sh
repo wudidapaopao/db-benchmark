@@ -53,6 +53,7 @@ source ./path.env
 if [[ $TEST_RUN == "true" ]]
 then
     export MOUNT_POINT=$TEST_MOUNT_DIR
+    export SPILL_DIR=$TEST_MOUNT_DIR
 fi
 
 # upgrade tools and VERSION, REVISION metadata files

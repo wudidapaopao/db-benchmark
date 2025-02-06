@@ -33,7 +33,8 @@ on_disk = "FALSE"
 
 data_name = os.environ["SRC_DATANAME"]
 machine_type = os.environ["MACHINE_TYPE"]
-spill_dir = os.environ["SPILL_DIR"]
+spill_dir = os.environ["SPILL_DIR"] + "/datafusion-join"
+os.makedirs(spill_dir, exist_ok=True)
 
 src_jn_x = os.path.join("data", data_name + ".csv")
 y_data_name = join_to_tbls(data_name)
@@ -53,7 +54,7 @@ elif (machine_type == 'c6id.4xlarge' and float(scale_factor) >= 1e9):
 ctx = df.SessionContext()
 
 if on_disk:
-    runtime = df.RuntimeConfig().with_temp_file_path(f"{spill_dir}/datafusion/")
+    runtime = df.RuntimeConfig().with_temp_file_path(f"{spill_dir}")
     config = (df.SessionConfig())
     ctx = df.SessionContext(config, runtime)
 
