@@ -71,7 +71,6 @@ jobs:
       run: |
         python3 _setup_utils/prep_solutions.py --task=groupby --solution=${{ matrix.solution }}
         source path.env
-        source run.conf
         MACHINE_TYPE="c6id.4xlarge" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
         MACHINE_TYPE="c6id.metal" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
 
@@ -80,7 +79,6 @@ jobs:
       run: |
         python3 _setup_utils/prep_solutions.py --task=join --solution=${{ matrix.solution }}
         source path.env
-        source run.conf
         MACHINE_TYPE="c6id.4xlarge" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
         MACHINE_TYPE="c6id.metal" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
 
@@ -150,7 +148,6 @@ jobs:
       shell: bash
       run: |
         python3 _setup_utils/prep_solutions.py --task=groupby --solution=all
-        source run.conf
         source path.env
         MACHINE_TYPE="c6id.4xlarge" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
         MACHINE_TYPE="c6id.metal" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
@@ -160,7 +157,6 @@ jobs:
       run: |
         python3 _setup_utils/prep_solutions.py --task=join --solution=all
         source path.env
-        source run.conf
         MACHINE_TYPE="c6id.4xlarge" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
         MACHINE_TYPE="c6id.metal" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
 
