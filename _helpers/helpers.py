@@ -19,7 +19,7 @@ def write_log(task, data, in_rows, question, out_rows, out_cols, solution, versi
    if math.isnan(mem_gb):
       mem_gb = ""
    log_row = [nodename, batch, timestamp, task, data, in_rows, question, out_rows, out_cols, solution, version, git, fun, run, time_sec, mem_gb, cache, chk, chk_time_sec, comment, on_disk, machine_type]
-   log_header = ["nodename","batch","timestamp","task","data","in_rows","question","out_rows","out_cols","solution","version","git","fun","run","time_sec","mem_gb","cache","chk","chk_time_sec","comment","on_disk"]
+   log_header = ["nodename","batch","timestamp","task","data","in_rows","question","out_rows","out_cols","solution","version","git","fun","run","time_sec","mem_gb","cache","chk","chk_time_sec","comment","on_disk", "machine_type"]
    if os.path.isfile(csv_file) and not(os.path.getsize(csv_file)):
       os.remove(csv_file)
    append = os.path.isfile(csv_file)
