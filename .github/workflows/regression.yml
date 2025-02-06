@@ -61,7 +61,7 @@ jobs:
       shell: bash
       if: ${{ matrix.solution == 'clickhouse' || matrix.solution == 'all' }}
       run: |
-        python3 _utils/prep_solutions.py --task=groupby --solution=clickhouse
+        python3 _setup_utils/prep_solutions.py --task=groupby --solution=clickhouse
         source path.env
         source run.conf
         TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
