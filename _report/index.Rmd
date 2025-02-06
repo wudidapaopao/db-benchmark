@@ -266,6 +266,10 @@ rpivotTable::rpivotTable(
 )
 ```
 
+## Errors
+
+Since adding the new machine type, many updates need to be made to report generation in order to accommodate the extra dimension of the benchmark. One area where this maintenance has not yet occured is with error reporting. Please be patient while this is worked on. Many error "Not Tested" errors are placeholders for "Out of Memory" errors. I can re-run certain benchmarks on request, but please double check that they will not run out of memory. If you see an error that doesn't make sense and you are sure is not an out of memory error feel free to file an issue.
+
 
 ## Requesting an updated run
 
@@ -318,9 +322,6 @@ as.data.table(na.omit(fread("./_control/nodenames.csv")[lld_nodename, on="nodena
 
 We limit the scope to what can be achieved on a single machine. Laptop size memory (8GB) and server size memory (250GB) are in scope. Out-of-memory using local disk such as NVMe is in scope. Multi-node systems such as Spark running in single machine mode is in scope, too. Machines are getting bigger: EC2 X1 has 2TB RAM and 1TB NVMe disk is under $300. If you can perform the task on a single machine, then perhaps you should. To our knowledge, nobody has yet compared this software in this way and published results too. Some solutions are not run on smaller machines. You can request a run for your solution, but there is no guarantee when the run will take place.
 
-## Errors
-
-Since adding new machine types, many updates need to be made to report generation in order to accommodate the extra dimension of the benchmark. One area where this maintenance has not yet occured is with error reporting. Please be patient while this work gets tended to, most error are out of memory errors. If you see an error that doesn't make sense and you are sure is not an out of memory error feel free to file an issue.
 
 ## Why db-benchmark?
 
