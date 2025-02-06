@@ -64,6 +64,7 @@ jobs:
         python3 _setup_utils/prep_solutions.py --task=groupby --solution=clickhouse
         source path.env
         MACHINE_TYPE="c6id.4xlarge" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
+        sleep 60
         MACHINE_TYPE="c6id.metal" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
 
     - name: Run mini GroupBy benchmark
@@ -72,6 +73,7 @@ jobs:
         python3 _setup_utils/prep_solutions.py --task=groupby --solution=${{ matrix.solution }}
         source path.env
         MACHINE_TYPE="c6id.4xlarge" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
+        sleep 60
         MACHINE_TYPE="c6id.metal" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
 
     - name: Run mini Join benchmark
@@ -80,6 +82,7 @@ jobs:
         python3 _setup_utils/prep_solutions.py --task=join --solution=${{ matrix.solution }}
         source path.env
         MACHINE_TYPE="c6id.4xlarge" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
+        sleep 60
         MACHINE_TYPE="c6id.metal" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
 
     - name: Validate benchmark results and report generation
@@ -150,6 +153,7 @@ jobs:
         python3 _setup_utils/prep_solutions.py --task=groupby --solution=all
         source path.env
         MACHINE_TYPE="c6id.4xlarge" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
+        sleep 60
         MACHINE_TYPE="c6id.metal" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
 
     - name: Run mini Join benchmark
@@ -158,6 +162,7 @@ jobs:
         python3 _setup_utils/prep_solutions.py --task=join --solution=all
         source path.env
         MACHINE_TYPE="c6id.4xlarge" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
+        sleep 60
         MACHINE_TYPE="c6id.metal" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
 
     - name: Validate benchmark results and report generation
