@@ -36,7 +36,7 @@ jobs:
 
     - name: Install libraries
       shell: bash
-      run: ./_setup_utils/setup-small.sh
+      run: ./_setup_utils/setup_small.sh
 
     - name: Generate 500mb datasets
       shell: bash
@@ -123,7 +123,7 @@ jobs:
 
     - name: Install libraries
       shell: bash
-      run: ./_setup_utils/setup-small.sh
+      run: ./_setup_utils/setup_small.sh
 
     - name: Generate 500mb datasets
       shell: bash
