@@ -30,8 +30,8 @@ else
 fi
 
 
-if [[ $MACHINE_TYPE != 'c6d.metal' && $MACHINE_TYPE != 'c6id.8xlarge' && $MACHINE_TYPE != 'c6id.4xlarge' ]]; then
-  echo "Machine type is not valid. Must be \`c6d.metal\` \`c6id.8xlarge\` or \`c6id.4xlarge'\`"
+if [[ $MACHINE_TYPE != 'c6id.metal' && $MACHINE_TYPE != 'c6id.8xlarge' && $MACHINE_TYPE != 'c6id.4xlarge' ]]; then
+  echo "Machine type $MACHINE_TYPE is not valid. Must be \`c6d.metal\` or \`c6id.4xlarge'\`"
   exit 1
 fi
 
