@@ -5,9 +5,9 @@ set -e
 # sudo -u clickhouse clickhouse-server --config=/etc/clickhouse-server/config.xml
 
 if [ "$#" -ne 1 ]; then
-  echo 'usage: ./clickhouse/exec.sh groupby';
+  echo 'usage: ./clickhouse/exec.sh groupby'
   exit 1
-fi;
+fi
 
 source ./clickhouse/ch.sh
 source ./_helpers/helpers.sh
@@ -20,7 +20,6 @@ ch_active || sleep 20
 ch_active || echo 'clickhouse-server should be already running, investigate' >&2
 ch_active || exit 1
 
-
 # tail -n+2 data/G1_1e7_1e2_0_0.csv | clickhouse-client --user db_benchmark --query="INSERT INTO G1_1e7_1e2_0_0 SELECT * FROM input('id1 Nullable(String), id2 Nullable(String), id3 Nullable(String), id4 Nullable(Int32), id5 Nullable(Int32), id6 Nullable(Int32), v1 Nullable(Int32), v2 Nullable(Int32), v3 Nullable(Float64)') FORMAT CSV"
 
 # tune CH settings and load data
@@ -28,7 +27,7 @@ sudo touch '/var/lib/clickhouse/flags/force_drop_table' && sudo chmod 666 '/var/
 clickhouse-client --user db_benchmark --query 'DROP TABLE IF EXISTS ans'
 echo '# clickhouse/exec.sh: creating tables and loading data'
 # set ClickHouse parallelism at half of virtual cores
-THREADS=$(($(nproc --all) /2))
+THREADS=$(($(nproc --all) / 2))
 HAS_NULL=$(clickhouse-client --user db_benchmark --query "SELECT splitByChar('_','$SRC_DATANAME')[4]>0 FORMAT TSV")
 IS_SORTED=$(clickhouse-client --user db_benchmark --query "SELECT splitByChar('_','$SRC_DATANAME')[5]=1 FORMAT TSV")
 COMPRESS=0
@@ -36,7 +35,7 @@ MACHINE_TYPE=$MACHINE_TYPE
 
 if [ $1 == 'groupby' ]; then
   COMPRESS=$(clickhouse-client --user db_benchmark --query "SELECT (splitByChar('_','$SRC_DATANAME')[2])::Float32 >= 1e9::Float32 FORMAT TSV")
-  ON_DISK=$(clickhouse-client --user db_benchmark --query "SELECT ((splitByChar('_','$SRC_DATANAME')[2])::Float32 >= 1e9::Float32 and '$MACHINE_TYPE' == 'c6id.4xlarge') OR FORMAT TSV")
+  ON_DISK=$(clickhouse-client --user db_benchmark --query "SELECT ((splitByChar('_','$SRC_DATANAME')[2])::Float32 >= 1e9::Float32 and '$MACHINE_TYPE' == 'c6id.4xlarge') FORMAT TSV")
   clickhouse-client --user db_benchmark --query "DROP TABLE IF EXISTS $SRC_DATANAME"
   if [ $HAS_NULL -eq 1 ]; then
     if [ $IS_SORTED -eq 1 ]; then
@@ -147,7 +146,7 @@ if [ $1 == 'join' ]; then
   ch_active && clickhouse-client --user db_benchmark --query "DROP TABLE IF EXISTS $RHS1" || echo '# clickhouse/exec.sh: finishing, clickhouse server down, could not clean up'
   ch_active && clickhouse-client --user db_benchmark --query "DROP TABLE IF EXISTS $RHS2" || echo '# clickhouse/exec.sh: finishing, clickhouse server down, could not clean up'
   ch_active && clickhouse-client --user db_benchmark --query "DROP TABLE IF EXISTS $RHS3" || echo '# clickhouse/exec.sh: finishing, clickhouse server down, could not clean up'
-fi;
+fi
 
 # stop server
 ch_stop && echo '# clickhouse/exec.sh: stopping server finished' || echo '# clickhouse/exec.sh: stopping server failed'
