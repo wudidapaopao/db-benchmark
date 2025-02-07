@@ -21,7 +21,7 @@ fun = "combine";
 cache = true;
 on_disk = false;
 machine_type = ENV["MACHINE_TYPE"]
-isondisk(indata) = parse(Float64, split(indata, "_")[2])>=10^10 || (parse(Float64, split(indata, "_")[2]) >= 1^9 and machine_type == "c6id.4xlarge")
+isondisk(indata) = parse(Float64, split(indata, "_")[2])>=10^10 || (parse(Float64, split(indata, "_")[2]) >= 1^9 && machine_type == "c6id.4xlarge")
 
 data_name = ENV["SRC_DATANAME"];
 src_grp = string("data/", data_name, ".csv");
