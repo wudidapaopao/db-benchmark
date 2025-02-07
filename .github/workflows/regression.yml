@@ -66,6 +66,7 @@ jobs:
         MACHINE_TYPE="c6id.4xlarge" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
         sleep 60
         MACHINE_TYPE="c6id.metal" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
+        sleep 60
 
     - name: Run mini GroupBy benchmark
       shell: bash
@@ -75,6 +76,7 @@ jobs:
         MACHINE_TYPE="c6id.4xlarge" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
         sleep 60
         MACHINE_TYPE="c6id.metal" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
+        sleep 60
 
     - name: Run mini Join benchmark
       shell: bash
@@ -84,6 +86,7 @@ jobs:
         MACHINE_TYPE="c6id.4xlarge" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
         sleep 60
         MACHINE_TYPE="c6id.metal" TEST_RUN=true TEST_MOUNT_DIR=$GITHUB_WORKSPACE ./run.sh
+        sleep 60
 
     - name: Validate benchmark results and report generation
       shell: bash
