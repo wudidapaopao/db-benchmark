@@ -13,6 +13,6 @@ source path.env
 
 # install julia InMemoryDatasets and csv packages
 julia -q -e 'using Pkg; Pkg.add(["DataFrames", "InMemoryDatasets","DLMReader", "PooledArrays", "Arrow", "CSV"])'
-julia -q -e 'include("$(pwd())/_helpers/helpersds.jl"); pkgmeta = getpkgmeta("InMemoryDatasets"); println(string(pkgmeta["version"])); pkgmeta = getpkgmeta("DLMReader"); println(string(pkgmeta["version"]))'
+julia -q -e 'include("$(pwd())/_helpers/helpers.jl"); pkgmeta = getpkgmeta("InMemoryDatasets"); println(string(pkgmeta["version"])); pkgmeta = getpkgmeta("DLMReader"); println(string(pkgmeta["version"]))'
 
 ./juliadf/ver-juliadf.sh
