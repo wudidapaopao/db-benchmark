@@ -10,7 +10,7 @@ using PooledArrays
 # Force Julia to precompile methods for common patterns
 IMD.warmup()
 
-include("$(pwd())/_helpers/helpers.jl");
+include("$(pwd())/_helpers/helpersds.jl");
 
 pkgmeta = getpkgmeta("InMemoryDatasets");
 ver = pkgmeta["version"];
