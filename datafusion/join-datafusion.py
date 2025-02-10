@@ -54,7 +54,7 @@ elif (machine_type == 'c6id.4xlarge' and float(scale_factor) >= 1e9):
 ctx = df.SessionContext()
 
 if on_disk:
-    runtime = df.RuntimeConfig().with_temp_file_path(f"{spill_dir}")
+    runtime = df.RuntimeEnvBuilder().with_temp_file_path(f"{spill_dir}")
     config = (df.SessionConfig())
     ctx = df.SessionContext(config, runtime)
 

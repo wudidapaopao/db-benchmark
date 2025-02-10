@@ -51,7 +51,7 @@ data = pacsv.read_csv(src_grp, convert_options=pacsv.ConvertOptions(auto_dict_en
 
 ctx = df.SessionContext()
 if on_disk:
-    runtime = df.RuntimeConfig().with_temp_file_path(f"{spill_dir}")
+    runtime = df.RuntimeEnvBuilder().with_temp_file_path(f"{spill_dir}")
     config = (df.SessionConfig())
     ctx = df.SessionContext(config, runtime)
 
