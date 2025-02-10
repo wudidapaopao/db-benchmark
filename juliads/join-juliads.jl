@@ -4,7 +4,6 @@ print("# join-juliads.jl\n"); flush(stdout);
 
 using InMemoryDatasets;
 using Printf;
-using DataFrames;
 using DLMReader
 using PooledArrays
 using Arrow

@@ -5,7 +5,6 @@ print("# groupby-juliads.jl\n"); flush(stdout);
 using InMemoryDatasets;
 using Printf;
 using DLMReader;
-using DataFrames;
 using PooledArrays
 
 # Force Julia to precompile methods for common patterns
