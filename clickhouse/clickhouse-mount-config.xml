@@ -1,5 +1,6 @@
 <clickhouse>
-	<path>/var/lib/clickhouse-nvme-mount/</path>
+	<!-- equivalent to $MOUNT_POINT/clickhouse-nvme-mount -->
+	<path>/var/lib/mount/clickhouse-nvme-mount/</path>
 	<max_table_size_to_drop>0</max_table_size_to_drop>
 	<max_partition_size_to_drop>0</max_partition_size_to_drop>
 </clickhouse>

@@ -181,6 +181,7 @@ def run_query(
     query: Query,
     question: str,
     runs: int = 2,
+    machine_type: str,
 ):
     logger.info("Running query: '%s'" % question)
     try:
@@ -217,7 +218,8 @@ def run_query(
                 cache=cache,
                 chk=make_chk(chk),
                 chk_time_sec=chkt,
-                on_disk=on_disk
+                on_disk=on_disk,
+                machine_type=machine_type
             )
             if run == runs:
                 # Print head / tail on last run
@@ -231,6 +233,7 @@ def run_query(
 def run_task(
     data_name: str,
     src_grp: str,
+    machine_type: str
 ):
     client = dask_client()
     x = load_dataset(src_grp)
@@ -246,6 +249,7 @@ def run_task(
         x=x,
         query=QueryOne,
         question="sum v1 by id1", # q1
+        machine_type=machine_type,
     )
 
     run_query(
@@ -254,6 +258,7 @@ def run_task(
         x=x,
         query=QueryTwo,
         question="sum v1 by id1:id2", # q2
+        machine_type=machine_type,
     )
 
     run_query(
@@ -262,6 +267,7 @@ def run_task(
         x=x,
         query=QueryThree,
         question="sum v1 mean v3 by id3", # q3
+        machine_type=machine_type,
     )
 
     run_query(
@@ -270,6 +276,7 @@ def run_task(
         x=x,
         query=QueryFour,
         question="mean v1:v3 by id4", # q4
+        machine_type=machine_type,
     )
 
     run_query(
@@ -278,6 +285,7 @@ def run_task(
         x=x,
         query=QueryFive,
         question= "sum v1:v3 by id6", # q5
+        machine_type=machine_type,
     )
 
     run_query(
@@ -286,6 +294,7 @@ def run_task(
         x=x,
         query=QuerySix,
         question="median v3 sd v3 by id4 id5", # q6
+        machine_type=machine_type,
     )
 
     run_query(
@@ -294,6 +303,7 @@ def run_task(
         x=x,
         query=QuerySeven,
         question="max v1 - min v2 by id3", # q7
+        machine_type=machine_type,
     )
 
     run_query(
@@ -302,6 +312,7 @@ def run_task(
         x=x,
         query=QueryEight,
         question="largest two v3 by id6", # q8
+        machine_type=machine_type,
     )
 
     run_query(
@@ -310,6 +321,7 @@ def run_task(
         x=x,
         query=QueryNine,
         question="regression v1 v2 by id2 id4", # q9
+        machine_type=machine_type,
     )
 
     run_query(
@@ -318,6 +330,7 @@ def run_task(
         x=x,
         query=QueryTen,
         question= "sum v3 count by id1:id6", # q10
+        machine_type=machine_type,
     )
 
     logger.info("Grouping finished, took %0.fs" % (timeit.default_timer()-task_init))
@@ -325,7 +338,9 @@ def run_task(
 if __name__ == '__main__':
     logger.info("# groupby-dask.py")
     data_name = os.environ['SRC_DATANAME']
+    machine_type = os.environ['MACHINE_TYPE']
     on_disk = False #data_name.split("_")[1] == "1e9" # on-disk data storage #126
+    on_disk = data_name.split("_")[1] == "1e9" and os.environ["MACHINE_TYPE"] == "c6id.4xlarge"
     fext = "parquet" if on_disk else "csv"
     src_grp = os.path.join("data", data_name+"."+fext)
 
@@ -336,5 +351,6 @@ if __name__ == '__main__':
 
     run_task(
         data_name=data_name,
-        src_grp=src_grp
+        src_grp=src_grp,
+        machine_type=machine_type
     )

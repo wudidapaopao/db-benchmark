@@ -21,6 +21,16 @@ echo 'CXXFLAGS=-O3 -mtune=native' >> ~/.R/Makevars
 Rscript -e 'install.packages(c("bit64","rmarkdown","data.table","rpivotTable","formattable","lattice"))'
 Rscript -e 'sapply(c("bit64","rmarkdown","data.table","rpivotTable","formattable","lattice"), requireNamespace)'
 
+# install duckdb for unpacking data
+curl --fail --location --progress-bar --output duckdb_cli-linux-amd64.zip https://github.com/duckdb/duckdb/releases/download/v1.2.0/duckdb_cli-linux-amd64.zip && unzip duckdb_cli-linux-amd64.zip
+sudo mv duckdb /usr/local/bin/
+
+
+# install aws client to download benchmark data
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+
 # after each restart of server
 source clickhouse/ch.sh && ch_stop
 sudo service docker stop
