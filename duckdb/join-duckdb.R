@@ -104,7 +104,7 @@ fun = "inner_join"
 
 
 table_type = "TEMP"
-if (on_disk) {
+if (on_disk && machine_type == "c6id.4xlarge") {
   dbExecute(con, "pragma memory_limit='25G'")
   table_type = ""
 }
