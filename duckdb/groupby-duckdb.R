@@ -47,8 +47,8 @@ git = dbGetQuery(con, "SELECT source_id FROM pragma_version()")[[1L]]
 invisible(dbExecute(con, "CREATE TABLE y(id1 VARCHAR, id2 VARCHAR, id3 VARCHAR, id4 INT, id5 INT, id6 INT, v1 INT, v2 INT, v3 FLOAT)"))
 invisible(dbExecute(con, sprintf("COPY y FROM '%s' (AUTO_DETECT TRUE)", src_grp)))
 
-invisible(dbExecute(con, "CREATE TYPE id1ENUM AS ENUM (SELECT id1 FROM y where id1 not null)"))
-invisible(dbExecute(con, "CREATE TYPE id2ENUM AS ENUM (SELECT id2 FROM y where id2 not null)"))
+invisible(dbExecute(con, "CREATE TYPE id1ENUM AS ENUM (SELECT id1 FROM y where id1 IS NOT NULL)"))
+invisible(dbExecute(con, "CREATE TYPE id2ENUM AS ENUM (SELECT id2 FROM y where id2 NOT NULL)"))
 
 invisible(dbExecute(con, "CREATE TABLE x(id1 id1ENUM, id2 id2ENUM, id3 VARCHAR, id4 INT, id5 INT, id6 INT, v1 INT, v2 INT, v3 FLOAT)"))
 invisible(dbExecute(con, "INSERT INTO x (SELECT * FROM y)"))
