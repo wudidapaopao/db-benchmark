@@ -4,7 +4,7 @@ import os
 import logging
 import timeit
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Iterable, Any
 
 import dask.dataframe as dd
 from dask import distributed
@@ -31,13 +31,17 @@ class Query(ABC):
 
     @staticmethod
     @abstractmethod
-    def query(x: dd.DataFrame) -> dd.DataFrame:
+    def query(*args) -> dd.DataFrame:
         pass
 
     @staticmethod
     @abstractmethod
     def check(ans: dd.DataFrame) -> Any:
         pass
+
+    @classmethod
+    def name(cls) -> str:
+        return f"{cls.__name__}: {cls.question}"
 
 class QueryRunner:
     def __init__(
@@ -62,13 +66,13 @@ class QueryRunner:
         self,
         data_name: str,
         in_rows: int,
-        x: dd.DataFrame,
+        args: Iterable[Any],
         query: Query,
         machine_type: str,
         runs: int = 2,
         raise_exception: bool = False,
     ):
-        logger.info("Running query: '%s'" % query.question)
+        logger.info("Running '%s'" % query.name())
 
         try:
             for run in range(1, runs+1):
@@ -76,7 +80,7 @@ class QueryRunner:
 
                 # Calculate ans
                 t_start = timeit.default_timer()
-                ans = query.query(x)
+                ans = query.query(*args)
                 logger.debug("Answer shape: %s" % (ans.shape, ))
                 t = timeit.default_timer() - t_start
                 m = memory_usage()
@@ -115,7 +119,7 @@ class QueryRunner:
                     logger.debug("Answer tail:\n%s" % ans.tail(3))
                 del ans
         except Exception as err:
-            logger.error("Query '%s' failed!" % query.question)
+            logger.error("Query '%s' failed!" % query.name())
             print(err)
 
             # Re-raise if instructed

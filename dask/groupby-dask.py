@@ -36,8 +36,13 @@ solution = "dask"
 fun = ".groupby"
 cache = "TRUE"
 
-def load_dataset(src_grp: str) -> dd.DataFrame:
+def load_dataset(data_name: str, on_disk: bool) -> dd.DataFrame:
     logger.info("Loading dataset %s" % data_name)
+
+    fext = "parquet" if on_disk else "csv"
+    src_grp = os.path.join("data", data_name+"."+fext)
+
+    logger.info("Reading source: %s" % src_grp)
     x = dd.read_csv(
         src_grp,
         dtype={"id1":"category","id2":"category","id3":"category","id4":"Int32","id5":"Int32","id6":"Int32","v1":"Int32","v2":"Int32","v3":"float64"},
@@ -189,8 +194,8 @@ class QueryTen(Query):
 
 def run_task(
     data_name: str,
-    src_grp: str,
-    machine_type: str
+    machine_type: str,
+    on_disk: bool
 ):
     runner = QueryRunner(
         task=task,
@@ -203,9 +208,12 @@ def run_task(
     )
 
     client = dask_client()
-    x = load_dataset(src_grp)
+    x = load_dataset(
+        data_name=data_name,
+        on_disk=on_disk
+    )
     in_rows = len(x)
-    logger.info("Input dataset rows: %s" % in_rows)
+    logger.info(f"Input dataset rows: {in_rows:,}")
 
     task_init = timeit.default_timer()
     logger.info("Grouping...")
@@ -213,7 +221,7 @@ def run_task(
     runner.run_query(
         data_name=data_name,
         in_rows=in_rows,
-        x=x,
+        args=[x],
         query=QueryOne,
         machine_type=machine_type,
     )
@@ -221,7 +229,7 @@ def run_task(
     runner.run_query(
         data_name=data_name,
         in_rows=in_rows,
-        x=x,
+        args=[x],
         query=QueryTwo,
         machine_type=machine_type,
     )
@@ -229,7 +237,7 @@ def run_task(
     runner.run_query(
         data_name=data_name,
         in_rows=in_rows,
-        x=x,
+        args=[x],
         query=QueryThree,
         machine_type=machine_type,
     )
@@ -237,7 +245,7 @@ def run_task(
     runner.run_query(
         data_name=data_name,
         in_rows=in_rows,
-        x=x,
+        args=[x],
         query=QueryFour,
         machine_type=machine_type,
     )
@@ -245,7 +253,7 @@ def run_task(
     runner.run_query(
         data_name=data_name,
         in_rows=in_rows,
-        x=x,
+        args=[x],
         query=QueryFive,
         machine_type=machine_type,
     )
@@ -253,7 +261,7 @@ def run_task(
     runner.run_query(
         data_name=data_name,
         in_rows=in_rows,
-        x=x,
+        args=[x],
         query=QuerySix,
         machine_type=machine_type,
     )
@@ -261,7 +269,7 @@ def run_task(
     runner.run_query(
         data_name=data_name,
         in_rows=in_rows,
-        x=x,
+        args=[x],
         query=QuerySeven,
         machine_type=machine_type,
     )
@@ -269,7 +277,7 @@ def run_task(
     runner.run_query(
         data_name=data_name,
         in_rows=in_rows,
-        x=x,
+        args=[x],
         query=QueryEight,
         machine_type=machine_type,
     )
@@ -277,7 +285,7 @@ def run_task(
     runner.run_query(
         data_name=data_name,
         in_rows=in_rows,
-        x=x,
+        args=[x],
         query=QueryNine,
         machine_type=machine_type,
     )
@@ -285,7 +293,7 @@ def run_task(
     runner.run_query(
         data_name=data_name,
         in_rows=in_rows,
-        x=x,
+        args=[x],
         query=QueryTen,
         machine_type=machine_type,
     )
@@ -295,11 +303,8 @@ def run_task(
 if __name__ == '__main__':
     logger.info("# groupby-dask.py")
     data_name = os.environ['SRC_DATANAME']
-    machine_type = os.environ['MACHINE_TYPE']
-    on_disk = False #data_name.split("_")[1] == "1e9" # on-disk data storage #126
+    machine_type = os.environ.get('MACHINE_TYPE', 'local')
     on_disk = data_name.split("_")[1] == "1e9" and os.environ["MACHINE_TYPE"] == "c6id.4xlarge"
-    fext = "parquet" if on_disk else "csv"
-    src_grp = os.path.join("data", data_name+"."+fext)
 
     na_flag = int(data_name.split("_")[3])
     if na_flag > 0:
@@ -308,6 +313,6 @@ if __name__ == '__main__':
 
     run_task(
         data_name=data_name,
-        src_grp=src_grp,
-        machine_type=machine_type
+        machine_type=machine_type,
+        on_disk=on_disk,
     )
