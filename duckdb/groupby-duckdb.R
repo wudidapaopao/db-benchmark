@@ -211,7 +211,7 @@ print(dbGetQuery(con, "SELECT * FROM ans LIMIT 3"))                             
 print(dbGetQuery(con, "SELECT * FROM ans WHERE ROWID > (SELECT count(*) FROM ans) - 4")) ## tail
 invisible(dbExecute(con, "DROP TABLE IF EXISTS ans"))
 
-if (machine_type != "c6id.4xlarge") {
+if (!(machine_type == "c6id.4xlarge" && on_disk)) {
   question = "largest two v3 by id6" # q8
   t = system.time({
     dbExecute(con, sprintf("CREATE %s TABLE ans AS SELECT id6, v3 AS largest2_v3 FROM (SELECT id6, v3, row_number() OVER (PARTITION BY id6 ORDER BY v3 DESC) AS order_v3 FROM x WHERE v3 IS NOT NULL) sub_query WHERE order_v3 <= 2", table_type))
