@@ -1,0 +1,83 @@
+name: Run benchmark
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.head_ref || '' }}-${{ github.base_ref || '' }}-${{ github.ref != 'refs/heads/master' || github.sha }}
+  cancel-in-progress: true
+
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  gh_issue_repo: duckdblabs/db-benchmark
+
+
+jobs:
+  # TODO add AWS ACCESS KEYS and such
+  # start-aws-machine:
+  #   name: Start aws-small-machine
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     instance_id: XXXXXXXXX
+
+  #   steps:
+  #     - name: Start EC2 runner
+  #       shell: bash
+  #       env:
+  #         AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+  #         AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+  #         AWS_DEFAULT_REGION: us-east-1
+  #       run: aws ec2 start-instances --instance-id ${{ env.instance_id }}
+
+  #     - name: Create issue if failure
+  #       shell: bash
+  #       if: ${{ failure() && contains(github.ref_name, 'main') }}
+  #       run: |
+  #         gh issue create --repo ${{ env.gh_issue_repo }} --title "Weekly Regression Test Failure" --body "AWS box with instance-id ${{ env.instance_id }} could not be started"
+
+  run-benchmark:
+    name: Regression Tests all solutions
+    runs-on: aws-small-machine
+    env:
+      CC: gcc-10
+      CXX: g++-10
+      GEN: ninja
+
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          path: db-benchmark
+
+      - name: run mount
+        shell: bash
+        working-directory: db-benchmark
+        run: |
+          ./_setup_utils/mount.sh
+
+      - name: Upgrade all solutions
+        shell: bash
+        working-directory: /var/lib/mount/db-benchmark-metal
+        run: |
+          python3 _setup_utils/install_all_solutions.py all
+
+      - name: Run the benchmark
+        shell: bash
+        working-directory: /var/lib/mount/db-benchmark-metal
+        run: |
+          ./_run/run_small_medium.sh
+          ./_run/run_large.sh
+
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+
+      # - name: Publish report
+      #   shell: bash
+      #   working-directory: /var/lib/mount/db-benchmark-metal
+      #   run: |
+      #     git remote add upstream git@github.com/duckdblabs/db-benchmark.git
+      #     git add -u
+      #     date=$(date '+%Y-%m-%d')
+      #     git commit -m "results ${date}"
+      #     git push upstream main
+      #     ./publish.sh
+
+
