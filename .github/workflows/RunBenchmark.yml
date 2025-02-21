@@ -1,6 +1,7 @@
 name: Run benchmark
 on:
   workflow_dispatch:
+  repository_disatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.head_ref || '' }}-${{ github.base_ref || '' }}-${{ github.ref != 'refs/heads/master' || github.sha }}
@@ -35,11 +36,11 @@ env:
 jobs:
   run-benchmark:
     name: Regression Tests all solutions
-    runs-on: self-hosted
     env:
       CC: gcc-10
       CXX: g++-10
       GEN: ninja
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
         with:
