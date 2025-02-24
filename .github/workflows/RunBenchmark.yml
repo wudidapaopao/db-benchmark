@@ -40,6 +40,7 @@ jobs:
       CC: gcc-10
       CXX: g++-10
       GEN: ninja
+      MACHINE_TYPE="c6id.4xlarge"
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
@@ -53,11 +54,13 @@ jobs:
         run: |
           ./_setup_utils/mount.sh
 
-      - name: Upgrade all solutions
+      - name: Install or Upgrade all solutions
         shell: bash
         working-directory: /var/lib/mount/db-benchmark-metal
         run: |
-          python3 _setup_utils/install_all_solutions.py all
+          python3 _setup_utils/install_all_solutions.py all --exclude clickhouse
+          # clickhouse needs sudo priviledges
+          sudo python3 _setup_utils/install_all_solutions clickhouse
 
       - name: Run the benchmark
         shell: bash
