@@ -40,7 +40,7 @@ jobs:
       CC: gcc-10
       CXX: g++-10
       GEN: ninja
-      MACHINE_TYPE="c6id.4xlarge"
+      MACHINE_TYPE: c6id.4xlarge
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
