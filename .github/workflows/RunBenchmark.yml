@@ -43,10 +43,12 @@ jobs:
       MACHINE_TYPE: c6id.4xlarge
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: add_trigger_to_run_the_benchmark
           path: db-benchmark
+
 
       - name: run mount
         shell: bash
