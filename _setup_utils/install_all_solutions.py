@@ -16,7 +16,9 @@ def install_solution(solution_name):
     print(f"Installing {solution_name}")
     do_install = False
     try:
-        subprocess.call([get_version_filename], stdout=subprocess.DEVNULL)
+        result = subprocess.call([get_version_filename], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+        if result != 0:
+            do_install = True
     except Exception as e:
         do_install = True
 
