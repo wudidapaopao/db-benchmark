@@ -16,7 +16,7 @@ def install_solution(solution_name):
     print(f"Installing {solution_name}")
     do_install = False
     try:
-        subprocess.call([get_version_filename], stdout="/dev/null")
+        subprocess.call([get_version_filename], stdout=subprocess.DEVNULL)
     except Exception as e:
         do_install = True
 
@@ -62,6 +62,7 @@ def main():
             include_all_solutions()
         elif solution.strip() == "--exclude":
             including = False
+            continue
         else:
             if including:
                 if solution == "data.table":
