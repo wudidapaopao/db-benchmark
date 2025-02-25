@@ -50,7 +50,6 @@ jobs:
 
       - name: run mount
         shell: bash
-        working-directory: db-benchmark
         run: |
           ./_setup_utils/mount.sh
 
