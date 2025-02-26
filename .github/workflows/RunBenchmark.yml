@@ -53,6 +53,7 @@ jobs:
         run: |
           ./_setup_utils/mount.sh
 
+      # TODO: Remove this.
       - name: checkout correct branch
         shell: bash
         working-directory: /var/lib/mount/db-benchmark-metal
@@ -64,8 +65,18 @@ jobs:
         working-directory: /var/lib/mount/db-benchmark-metal
         run: |
           python3 _setup_utils/install_all_solutions.py all --exclude clickhouse
-          # clickhouse needs sudo priviledges
-          sudo python3 _setup_utils/install_all_solutions clickhouse
+          # installing/updating clickhouse needs sudo priviledges
+          sudo python3 _setup_utils/install_all_solutions.py clickhouse
+
+      - name: Modify run.conf to only have new versions
+        shell: bash
+        working-directory: /var/lib/mount/db-benchmark-metal
+        run: |
+          git diff --name-only **/VERSION > updated_solutions.csv
+          sed -i 's/\/VERSION/ /g' updated_solutions.txt
+          tr --delete '\n' < updated_solutions.txt  > updated_solutions_no_newlines.txt
+          export new_solutions=`cat updated_solutions_no_newlines.txt`
+          sed -i "s/export RUN_SOLUTIONS=.*/export RUN_SOLUTIONS=\"${new_solutions}\"/g" run.conf
 
       - name: Run the benchmark
         shell: bash
