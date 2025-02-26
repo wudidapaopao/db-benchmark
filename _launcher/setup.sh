@@ -22,8 +22,8 @@ Rscript -e 'install.packages(c("bit64","rmarkdown","data.table","rpivotTable","f
 Rscript -e 'sapply(c("bit64","rmarkdown","data.table","rpivotTable","formattable","lattice"), requireNamespace)'
 
 # install duckdb for unpacking data
-curl --fail --location --progress-bar --output duckdb_cli-linux-amd64.zip https://github.com/duckdb/duckdb/releases/download/v1.2.0/duckdb_cli-linux-amd64.zip && unzip duckdb_cli-linux-amd64.zip
-sudo mv duckdb /usr/local/bin/
+curl --fail --location --progress-bar --output duckdb_cli-linux-amd64.zip https://github.com/duckdb/duckdb/releases/download/v1.2.0/duckdb_cli-linux-amd64.zip
+sudo unzip duckdb_cli-linux-amd64.zip -d /usr/local/bin
 
 
 # install aws client to download benchmark data
