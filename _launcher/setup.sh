@@ -5,11 +5,15 @@ set -e
 mkdir -p data
 mkdir -p out
 
+sudo apt-get update
+
 # install R
 sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 sudo apt-get update -qq
 sudo apt-get install -y r-base-dev
+
+sudo chmod a+w /usr/local/lib/R/site-library
 
 # configure R
 echo 'LC_ALL=C' >> ~/.Renviron

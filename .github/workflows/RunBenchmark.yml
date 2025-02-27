@@ -65,7 +65,6 @@ jobs:
         working-directory: /var/lib/mount/db-benchmark-metal
         run: |
           python3 _setup_utils/install_all_solutions.py all --exclude clickhouse
-          echo "__MADE IT HERE__"
           # installing/updating clickhouse needs sudo priviledges
           sudo python3 _setup_utils/install_all_solutions.py clickhouse
 
@@ -86,8 +85,6 @@ jobs:
           ./_run/run_small_medium.sh
           ./_run/run_large.sh
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
 
       # - name: Publish report
       #   shell: bash
