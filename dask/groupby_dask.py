@@ -36,11 +36,15 @@ solution = "dask"
 fun = ".groupby"
 cache = "TRUE"
 
-def load_dataset(data_name: str, on_disk: bool) -> dd.DataFrame:
+def load_dataset(
+    data_name: str,
+    on_disk: bool,
+    data_dir: str = 'data'
+) -> dd.DataFrame:
     logger.info("Loading dataset %s" % data_name)
 
     fext = "parquet" if on_disk else "csv"
-    src_grp = os.path.join("data", data_name+"."+fext)
+    src_grp = os.path.join(data_dir, data_name+"."+fext)
 
     logger.info("Reading source: %s" % src_grp)
     x = dd.read_csv(

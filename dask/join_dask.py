@@ -121,17 +121,18 @@ class QueryFive(Query):
 
 def load_datasets(
     data_name: str,
-    on_disk: bool
+    on_disk: bool,
+    data_dir: str = 'data'
 ) -> List[dd.DataFrame]:
     fext = "parquet" if on_disk else "csv"
 
-    src_jn_x = os.path.join("data", data_name+"."+fext)
+    src_jn_x = os.path.join(data_dir, data_name+"."+fext)
 
     y_data_name = join_to_tbls(data_name)
     src_jn_y = [
-        os.path.join("data", y_data_name[0]+"."+fext),
-        os.path.join("data", y_data_name[1]+"."+fext),
-        os.path.join("data", y_data_name[2]+"."+fext)
+        os.path.join(data_dir, y_data_name[0]+"."+fext),
+        os.path.join(data_dir, y_data_name[1]+"."+fext),
+        os.path.join(data_dir, y_data_name[2]+"."+fext)
     ]
     if len(src_jn_y) != 3:
         raise Exception("Something went wrong in preparing files used for join")
