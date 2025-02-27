@@ -65,6 +65,7 @@ jobs:
         working-directory: /var/lib/mount/db-benchmark-metal
         run: |
           python3 _setup_utils/install_all_solutions.py all --exclude clickhouse
+          echo "__MADE IT HERE__"
           # installing/updating clickhouse needs sudo priviledges
           sudo python3 _setup_utils/install_all_solutions.py clickhouse
 
