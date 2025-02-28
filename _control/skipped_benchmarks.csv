@@ -1,0 +1,5 @@
+solution,task,data,machine_type
+datafusion,join,J1_1e8_NA_0_0,c6id.4xlarge
+datafusion,join,J1_1e8_NA_5_0,c6id.4xlarge
+datafusion,join,J1_1e8_NA_0_1,c6id.4xlarge
+datafusion,join,J1_1e9_NA_0_0,c6id.4xlarge
