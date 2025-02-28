@@ -76,6 +76,7 @@ jobs:
           sed -i 's/\/VERSION/ /g' updated_solutions.txt
           tr --delete '\n' < updated_solutions.txt  > updated_solutions_no_newlines.txt
           export new_solutions=`cat updated_solutions_no_newlines.txt`
+          echo "New benchmarks are " $new_solutions
           sed -i "s/export RUN_SOLUTIONS=.*/export RUN_SOLUTIONS=\"${new_solutions}\"/g" run.conf
 
       - name: Run the benchmark
