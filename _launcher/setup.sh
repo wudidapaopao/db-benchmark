@@ -12,6 +12,7 @@ sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 sudo apt-get update -qq
 sudo apt-get install -y r-base-dev
+sudo apt-get install python3-dev virtualenv
 
 sudo chmod a+w /usr/local/lib/R/site-library
 

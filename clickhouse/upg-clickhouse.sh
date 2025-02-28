@@ -5,6 +5,8 @@ set -e
 echo 'upgrading clickhouse-server clickhouse-client...'
 sudo apt-get install --only-upgrade clickhouse-server clickhouse-client
 
+sudo chown ubuntu:ubuntu clickhouse/VERSION
+sudo chown ubuntu:ubuntu clickhouse/REVISION
 
 
 # modify clickhouse settings so data is stored on the mount.
