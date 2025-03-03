@@ -106,7 +106,6 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         if: always()
-        shell: bash
         working-directory: /var/lib/mount/db-benchmark-metal
         with:
           name: out-dir.zip
