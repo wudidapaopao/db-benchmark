@@ -86,6 +86,8 @@ jobs:
           echo "small edit" >> run.conf
 
       - name: Commit files
+        shell: bash
+        working-directory: /var/lib/mount/db-benchmark-metal
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
@@ -96,6 +98,7 @@ jobs:
       - name: Create Archive
         if: always()
         shell: bash
+        working-directory: /var/lib/mount/db-benchmark-metal
         run: |
           mkdir -p out
           echo "neato" > out/whatever.txt
@@ -103,6 +106,8 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         if: always()
+        shell: bash
+        working-directory: /var/lib/mount/db-benchmark-metal
         with:
           name: out-dir.zip
           path: out-dir.zip
