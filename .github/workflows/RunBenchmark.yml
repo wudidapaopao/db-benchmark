@@ -106,10 +106,9 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         if: always()
-        working-directory: /var/lib/mount/db-benchmark-metal
         with:
           name: out-dir.zip
-          path: out-dir.zip
+          path: /var/lib/mount/db-benchmark-metal/out-dir.zip
           if-no-files-found: error
     
       - name: Push changes
