@@ -11,7 +11,6 @@ env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   gh_issue_repo: duckdblabs/db-benchmark
 
-# TODO add AWS ACCESS KEYS and such
   # start-aws-machine:
   #   name: Start aws-small-machine
   #   runs-on: ubuntu-latest
@@ -40,7 +39,6 @@ jobs:
       CC: gcc-10
       CXX: g++-10
       GEN: ninja
-      MACHINE_TYPE: c6id.4xlarge
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
@@ -60,13 +58,13 @@ jobs:
         run: |
           git checkout add_trigger_to_run_the_benchmark
 
-      # - name: Install or Upgrade all solutions
-      #   shell: bash
-      #   working-directory: /var/lib/mount/db-benchmark-metal
-      #   run: |
-      #     python3 _setup_utils/install_all_solutions.py all --exclude clickhouse
-      #     # installing/updating clickhouse needs sudo priviledges
-      #     sudo python3 _setup_utils/install_all_solutions.py clickhouse
+      - name: Install or Upgrade all solutions
+        shell: bash
+        working-directory: /var/lib/mount/db-benchmark-metal
+        run: |
+          python3 _setup_utils/install_all_solutions.py all --exclude clickhouse
+          # installing/updating clickhouse needs sudo priviledges
+          sudo python3 _setup_utils/install_all_solutions.py clickhouse
 
       - name: Modify run.conf to only have new versions
         shell: bash
@@ -83,9 +81,14 @@ jobs:
         shell: bash
         working-directory: /var/lib/mount/db-benchmark-metal
         run: |
-          echo "small edit" >> run.conf
+          ncores=`python3 -c 'import multiprocessing as mp; print(mp.cpu_count())'`
+          if [ $ncores -eq 16 ]; then export MACHINE_TYPE="c6id.4xlarge"; fi
+          if [ $ncores -eq 32 ]; then export MACHINE_TYPE="c6id.4xlarge"; fi
+          if [ $ncores -eq 128 ]; then export MACHINE_TYPE="c6id.metal"; fi
+          MACHINE_TYPE=$MACHINE_TYPE ./_run/run_small_medium.sh
+          
 
-      - name: Commit files
+      - name: Commit updates
         shell: bash
         working-directory: /var/lib/mount/db-benchmark-metal
         run: |
@@ -101,10 +104,10 @@ jobs:
         working-directory: /var/lib/mount/db-benchmark-metal
         run: |
           mkdir -p out
-          echo "neato" > out/whatever.txt
+          echo "guarantee not empty dir" > out/guarantee.txt
           zip -r out-dir.zip out/
 
-      - name: new branch name check
+      - name: name new branch
         shell: bash
         run: |
           echo "new_branch_name=results-`date +%Y-%m-%d-%Hh%Mm`" >> $GITHUB_ENV
@@ -123,4 +126,21 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ env.branch_name }}
+
+  # shutdown:
+  #   name: shut down
+  #   if: always()
+  #   runs-on: ubuntu-latest
+  #   needs:
+  #     - start-runner
+  #     - run-benchmark
+
+  #   steps:
+  #     - name: shutdown
+  #       shell: bash
+  #       env:
+  #         AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+  #         AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+  #         AWS_DEFAULT_REGION: us-east-1
+  #       run: aws ec2 stop-instances --instance-id ${{ env.instance_id }}
 
