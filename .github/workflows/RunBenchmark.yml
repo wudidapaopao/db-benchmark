@@ -110,7 +110,9 @@ jobs:
     
       - name: Push changes
         uses: ad-m/github-push-action@master
+        env:
+          branch_name: results-${{ date "+%Y-%m-%d-%Hh%Mm" }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ date "+%Y-%m-%d-%Hh%Mm" }}
+          ref: ${{ env.branch_name }}
 
