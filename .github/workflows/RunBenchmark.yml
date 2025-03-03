@@ -60,13 +60,13 @@ jobs:
         run: |
           git checkout add_trigger_to_run_the_benchmark
 
-      - name: Install or Upgrade all solutions
-        shell: bash
-        working-directory: /var/lib/mount/db-benchmark-metal
-        run: |
-          python3 _setup_utils/install_all_solutions.py all --exclude clickhouse
-          # installing/updating clickhouse needs sudo priviledges
-          sudo python3 _setup_utils/install_all_solutions.py clickhouse
+      # - name: Install or Upgrade all solutions
+      #   shell: bash
+      #   working-directory: /var/lib/mount/db-benchmark-metal
+      #   run: |
+      #     python3 _setup_utils/install_all_solutions.py all --exclude clickhouse
+      #     # installing/updating clickhouse needs sudo priviledges
+      #     sudo python3 _setup_utils/install_all_solutions.py clickhouse
 
       - name: Modify run.conf to only have new versions
         shell: bash
@@ -117,5 +117,5 @@ jobs:
           branch_name: results-`date +%Y-%m-%d-%Hh%Mm`
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          ref: ${{ env.branch_name }}
+          branch: ${{ env.branch_name }}
 
