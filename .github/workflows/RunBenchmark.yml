@@ -106,7 +106,7 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add time.csv logs.csv **/VERSION
           git add run.conf
-          git commit -a -m "new_results"
+          git commit -m "new_results"
     
       - name: Push changes
         uses: ad-m/github-push-action@master
