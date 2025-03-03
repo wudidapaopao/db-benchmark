@@ -83,19 +83,34 @@ jobs:
         shell: bash
         working-directory: /var/lib/mount/db-benchmark-metal
         run: |
-          ./_run/run_small_medium.sh
-          ./_run/run_large.sh
+          echo "small edit" >> run.conf
 
+      - name: Create Archive
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p out
+          echo "neato" > out/whatever.txt
+          zip -r out-dir.zip out/
 
-      # - name: Publish report
-      #   shell: bash
-      #   working-directory: /var/lib/mount/db-benchmark-metal
-      #   run: |
-      #     git remote add upstream git@github.com/duckdblabs/db-benchmark.git
-      #     git add -u
-      #     date=$(date '+%Y-%m-%d')
-      #     git commit -m "results ${date}"
-      #     git push upstream main
-      #     ./publish.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: out-dir.zip
+          path: out-dir.zip
+          if-no-files-found: error
 
+      - name: Commit files
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add time.csv logs.csv **/VERSION
+          git add run.conf
+          git commit -a -m "new_results"
+    
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ date "+%Y-%m-%d-%Hh%Mm" }}
 
