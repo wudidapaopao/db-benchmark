@@ -104,6 +104,11 @@ jobs:
           echo "neato" > out/whatever.txt
           zip -r out-dir.zip out/
 
+      - name: new branch name check
+        shell: bash
+        run: |
+          export new_branch_name=`date +%Y-%m-%d-%Hh%Mm`   
+
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -114,7 +119,7 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@master
         env:
-          branch_name: results-`date +%Y-%m-%d-%Hh%Mm`
+          branch_name: results-${{ env.new_branch_name }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ env.branch_name }}
