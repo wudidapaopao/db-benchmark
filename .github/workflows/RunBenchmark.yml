@@ -107,7 +107,7 @@ jobs:
       - name: new branch name check
         shell: bash
         run: |
-          export new_branch_name=`date +%Y-%m-%d-%Hh%Mm`   
+          echo "new_branch_name=results-`date +%Y-%m-%d-%Hh%Mm`" >> $GITHUB_ENV
 
       - uses: actions/upload-artifact@v4
         if: always()
@@ -119,7 +119,7 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@master
         env:
-          branch_name: results-${{ env.new_branch_name }}
+          branch_name: ${{ env.new_branch_name }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ env.branch_name }}
