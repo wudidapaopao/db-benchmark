@@ -85,6 +85,14 @@ jobs:
         run: |
           echo "small edit" >> run.conf
 
+      - name: Commit files
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add time.csv logs.csv **/VERSION
+          git add run.conf
+          git commit -m "new_results"
+
       - name: Create Archive
         if: always()
         shell: bash
@@ -99,14 +107,6 @@ jobs:
           name: out-dir.zip
           path: out-dir.zip
           if-no-files-found: error
-
-      - name: Commit files
-        run: |
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add time.csv logs.csv **/VERSION
-          git add run.conf
-          git commit -m "new_results"
     
       - name: Push changes
         uses: ad-m/github-push-action@master
