@@ -58,34 +58,40 @@ jobs:
         run: |
           git checkout add_trigger_to_run_the_benchmark
 
-      - name: Install or Upgrade all solutions
+      - name: small modification
         shell: bash
         working-directory: /var/lib/mount/db-benchmark-metal
         run: |
-          python3 _setup_utils/install_all_solutions.py all --exclude clickhouse
-          # installing/updating clickhouse needs sudo priviledges
-          sudo python3 _setup_utils/install_all_solutions.py clickhouse
+          echo "small change" >> time.csv
 
-      - name: Modify run.conf to only have new versions
-        shell: bash
-        working-directory: /var/lib/mount/db-benchmark-metal
-        run: |
-          git diff --name-only **/VERSION > updated_solutions.txt
-          sed -i 's/\/VERSION/ /g' updated_solutions.txt
-          tr --delete '\n' < updated_solutions.txt  > updated_solutions_no_newlines.txt
-          export new_solutions=`cat updated_solutions_no_newlines.txt`
-          echo "New benchmarks are " $new_solutions
-          sed -i "s/export RUN_SOLUTIONS=.*/export RUN_SOLUTIONS=\"${new_solutions}\"/g" run.conf
+      # - name: Install or Upgrade all solutions
+      #   shell: bash
+      #   working-directory: /var/lib/mount/db-benchmark-metal
+      #   run: |
+      #     python3 _setup_utils/install_all_solutions.py all --exclude clickhouse
+      #     # installing/updating clickhouse needs sudo priviledges
+      #     sudo python3 _setup_utils/install_all_solutions.py clickhouse
 
-      - name: Run the benchmark
-        shell: bash
-        working-directory: /var/lib/mount/db-benchmark-metal
-        run: |
-          ncores=`python3 -c 'import multiprocessing as mp; print(mp.cpu_count())'`
-          if [ $ncores -eq 16 ]; then export MACHINE_TYPE="c6id.4xlarge"; fi
-          if [ $ncores -eq 32 ]; then export MACHINE_TYPE="c6id.4xlarge"; fi
-          if [ $ncores -eq 128 ]; then export MACHINE_TYPE="c6id.metal"; fi
-          MACHINE_TYPE=$MACHINE_TYPE ./_run/run_small_medium.sh
+      # - name: Modify run.conf to only have new versions
+      #   shell: bash
+      #   working-directory: /var/lib/mount/db-benchmark-metal
+      #   run: |
+      #     git diff --name-only **/VERSION > updated_solutions.txt
+      #     sed -i 's/\/VERSION/ /g' updated_solutions.txt
+      #     tr --delete '\n' < updated_solutions.txt  > updated_solutions_no_newlines.txt
+      #     export new_solutions=`cat updated_solutions_no_newlines.txt`
+      #     echo "New benchmarks are " $new_solutions
+      #     sed -i "s/export RUN_SOLUTIONS=.*/export RUN_SOLUTIONS=\"${new_solutions}\"/g" run.conf
+
+      # - name: Run the benchmark
+      #   shell: bash
+      #   working-directory: /var/lib/mount/db-benchmark-metal
+      #   run: |
+      #     ncores=`python3 -c 'import multiprocessing as mp; print(mp.cpu_count())'`
+      #     if [ $ncores -eq 16 ]; then export MACHINE_TYPE="c6id.4xlarge"; fi
+      #     if [ $ncores -eq 32 ]; then export MACHINE_TYPE="c6id.4xlarge"; fi
+      #     if [ $ncores -eq 128 ]; then export MACHINE_TYPE="c6id.metal"; fi
+      #     MACHINE_TYPE=$MACHINE_TYPE ./_run/run_small_medium.sh
           
       - name: name new branch
         shell: bash
@@ -103,6 +109,7 @@ jobs:
           git add time.csv logs.csv **/VERSION
           git add run.conf
           git commit -m "new_results"
+          git push
 
       - name: Create Archive
         if: always()
@@ -113,22 +120,12 @@ jobs:
           echo "guarantee not empty dir" > out/guarantee.txt
           zip -r out-dir.zip out/
 
-
-
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: out-dir.zip
           path: /var/lib/mount/db-benchmark-metal/out-dir.zip
           if-no-files-found: error
-    
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        env:
-          branch_name: ${{ env.new_branch_name }}
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ env.branch_name }}
 
   # shutdown:
   #   name: shut down
