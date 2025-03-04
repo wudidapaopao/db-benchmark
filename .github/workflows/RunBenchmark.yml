@@ -109,18 +109,17 @@ jobs:
         run: |
           git config --global user.email ""
           git config --global user.name "github-actions[bot]"
-          git switch -c ${{ env.new_branch_name }}
           git add time.csv logs.csv **/VERSION
           git add run.conf
           echo "wat" > new_file.txt
           git add new_file.txt
-          git commit -m "new_results"
+          git commit -m "attempt to push new results"
 
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ env.new_branch_name }}
+          branch: ${{ github.ref }}
 
       - name: Create Archive
         if: always()
