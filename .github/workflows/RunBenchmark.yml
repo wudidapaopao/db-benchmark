@@ -103,14 +103,17 @@ jobs:
         shell: bash
         working-directory: /var/lib/mount/db-benchmark-metal
         run: |
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git checkout -b ${{ env.new_branch_name }}
+          git config --global user.email ""
+          git config --global user.name "github-actions[bot]"
           git add time.csv logs.csv **/VERSION
           git add run.conf
           git commit -m "new_results"
-          git push --set-upstream origin ${{ env.new_branch_name }}
-          git push
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ env.new_branch_name }}
 
       - name: Create Archive
         if: always()
