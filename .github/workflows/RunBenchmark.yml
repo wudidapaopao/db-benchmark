@@ -109,6 +109,7 @@ jobs:
           git add time.csv logs.csv **/VERSION
           git add run.conf
           git commit -m "new_results"
+          git push --set-upstream origin ${{ env.new_branch_name }}
           git push
 
       - name: Create Archive
