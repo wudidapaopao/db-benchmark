@@ -40,11 +40,15 @@ jobs:
       CXX: g++-10
       GEN: ninja
     runs-on: self-hosted
+    permissions:                # Job-level permissions configuration starts here
+      contents: write           # 'write' access to repository contents
+      pull-requests: write      # 'write' access to pull requests
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: add_trigger_to_run_the_benchmark
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
 
       - name: run mount
         shell: bash
@@ -107,6 +111,8 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git add time.csv logs.csv **/VERSION
           git add run.conf
+          echo "wat" > new_file.txt
+          git add new_file.txt
           git commit -m "new_results"
 
       - name: Push changes
