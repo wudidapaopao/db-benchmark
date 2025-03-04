@@ -109,6 +109,7 @@ jobs:
         run: |
           git config --global user.email ""
           git config --global user.name "github-actions[bot]"
+          git switch -c ${{ env.new_branch_name }}
           git add time.csv logs.csv **/VERSION
           git add run.conf
           echo "wat" > new_file.txt
