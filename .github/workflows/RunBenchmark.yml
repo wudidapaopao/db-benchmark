@@ -87,6 +87,11 @@ jobs:
           if [ $ncores -eq 128 ]; then export MACHINE_TYPE="c6id.metal"; fi
           MACHINE_TYPE=$MACHINE_TYPE ./_run/run_small_medium.sh
           
+      - name: name new branch
+        shell: bash
+        run: |
+          echo "new_branch_name=results-`date +%Y-%m-%d-%Hh%Mm`" >> $GITHUB_ENV
+          echo ${{ env.new_branch_name }}
 
       - name: Commit updates
         shell: bash
@@ -94,6 +99,7 @@ jobs:
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
+          git checkout -b ${{ env.new_branch_name }}
           git add time.csv logs.csv **/VERSION
           git add run.conf
           git commit -m "new_results"
@@ -107,10 +113,7 @@ jobs:
           echo "guarantee not empty dir" > out/guarantee.txt
           zip -r out-dir.zip out/
 
-      - name: name new branch
-        shell: bash
-        run: |
-          echo "new_branch_name=results-`date +%Y-%m-%d-%Hh%Mm`" >> $GITHUB_ENV
+
 
       - uses: actions/upload-artifact@v4
         if: always()
