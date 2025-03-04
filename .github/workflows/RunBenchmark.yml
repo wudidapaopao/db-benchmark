@@ -110,6 +110,7 @@ jobs:
           git config --global user.email ""
           git config --global user.name "Actions"
           git remote add upstream git@github.com:duckdblabs/db-benchmark
+          git fetch upstream
           git switch -c ${{ env.new_branch_name }}
           git add time.csv logs.csv **/VERSION
           git add run.conf
