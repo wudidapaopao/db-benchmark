@@ -14,7 +14,7 @@ import dask.dataframe as dd
 
 # Import needed utilities
 THIS_DIR = os.path.abspath(
-    os.path.basename(__file__)
+    os.path.dirname(__file__)
 )
 HELPERS_DIR = os.path.abspath(
     os.path.join(
