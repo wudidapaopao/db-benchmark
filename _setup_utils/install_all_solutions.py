@@ -71,6 +71,7 @@ def main():
                     INCLUDE.add("datatable")
                 elif solution == "clickhouse":
                     INCLUDE.add("clickhouse")
+                    INCLUDE.add("polars")
                 else:
                     INCLUDE.add(solution)
             else:
