@@ -9,7 +9,7 @@ concurrency:
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   gh_issue_repo: duckdblabs/db-benchmark
-  instance_id: i-05460bbcc0028684f
+  instance_id: i-0e75a4f0e0b61c475
 
   start-aws-machine:
     name: Start aws-small-machine
