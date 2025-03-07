@@ -130,7 +130,7 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     needs:
-      - start-runner
+      - start-aws-machine
       - run-benchmark
 
     steps:
