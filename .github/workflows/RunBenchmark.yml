@@ -11,10 +11,11 @@ env:
   gh_issue_repo: duckdblabs/db-benchmark
   instance_id: i-0e75a4f0e0b61c475
 
+
+jobs:
   start-aws-machine:
     name: Start aws-small-machine
     runs-on: ubuntu-latest
-
     steps:
       - name: Start EC2 runner
         shell: bash
@@ -30,7 +31,6 @@ env:
         run: |
           gh issue create --repo ${{ env.gh_issue_repo }} --title "Weekly Regression Test Failure" --body "AWS box with instance-id ${{ env.instance_id }} could not be started"
 
-jobs:
   run-benchmark:
     name: Regression Tests all solutions
     env:
