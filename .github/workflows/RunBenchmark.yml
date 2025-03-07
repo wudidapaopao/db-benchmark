@@ -55,13 +55,6 @@ jobs:
         run: |
           ./_setup_utils/mount.sh
 
-      # TODO: Remove this.
-      - name: checkout correct branch
-        shell: bash
-        working-directory: /var/lib/mount/db-benchmark-metal
-        run: |
-          git checkout add_trigger_to_run_the_benchmark
-
       - name: Install or Upgrade all solutions
         shell: bash
         working-directory: /var/lib/mount/db-benchmark-metal
