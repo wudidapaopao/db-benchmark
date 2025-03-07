@@ -45,10 +45,6 @@ jobs:
       pull-requests: write      # 'write' access to pull requests
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: add_trigger_to_run_the_benchmark
-          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
 
       - name: run mount
         shell: bash
