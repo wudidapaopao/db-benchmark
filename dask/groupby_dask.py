@@ -39,8 +39,21 @@ cache = "TRUE"
 def load_dataset(
     data_name: str,
     on_disk: bool,
-    data_dir: str = 'data'
+    data_dir: str = 'data',
+    **kwargs
 ) -> dd.DataFrame:
+    """
+    Load the dataset into a dask session.
+
+    Args:
+        data_name (str): Name of the data to load
+        on_disk (bool): If the data should be loaded from parquet on disk.
+        data_dir (str, optional): The directory which to look for the data. Defaults to 'data'.
+        **kwargs: Any extra parameters to pass to dask's `read_csv` function.
+
+    Returns:
+        dd.DataFrame: A dataframe loaded from disk.
+    """
     logger.info("Loading dataset %s" % data_name)
 
     fext = "parquet" if on_disk else "csv"
@@ -50,7 +63,8 @@ def load_dataset(
     x = dd.read_csv(
         src_grp,
         dtype={"id1":"category","id2":"category","id3":"category","id4":"Int32","id5":"Int32","id6":"Int32","v1":"Int32","v2":"Int32","v3":"float64"},
-        engine="pyarrow"
+        engine="pyarrow",
+        **kwargs
     )
     x = x.persist()
     return x

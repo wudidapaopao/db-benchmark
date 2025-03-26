@@ -122,8 +122,21 @@ class QueryFive(Query):
 def load_datasets(
     data_name: str,
     on_disk: bool,
-    data_dir: str = 'data'
+    data_dir: str = 'data',
+    **kwargs
 ) -> List[dd.DataFrame]:
+    """
+    Load the datasets into a dask session.
+
+    Args:
+        data_name (str): Name of the data to load.
+        on_disk (bool): If the data should be loaded from parquet on disk.
+        data_dir (str, optional): The directory which to look for the data. Defaults to 'data'.
+        **kwargs: Any extra parameters to pass to dask's `read_csv` function.
+
+    Returns:
+        List[dd.DataFrame]: primary, small, medium, and big datasets respectively.
+    """
     fext = "parquet" if on_disk else "csv"
 
     src_jn_x = os.path.join(data_dir, data_name+"."+fext)
@@ -140,14 +153,14 @@ def load_datasets(
     logging.info("Loading dataset: %s" % data_name)
 
     logging.info("Reading source: %s" % src_jn_x)
-    x = dd.read_csv(src_jn_x, engine="pyarrow").persist()
+    x = dd.read_csv(src_jn_x, engine="pyarrow", **kwargs).persist()
 
     logging.info("Reading source: %s" % src_jn_y[0])
-    small = dd.read_csv(src_jn_y[0], engine="pyarrow").persist()
+    small = dd.read_csv(src_jn_y[0], engine="pyarrow", **kwargs).persist()
     logging.info("Reading source: %s" % src_jn_y[1])
-    medium = dd.read_csv(src_jn_y[1], engine="pyarrow").persist()
+    medium = dd.read_csv(src_jn_y[1], engine="pyarrow", **kwargs).persist()
     logging.info("Reading source: %s" % src_jn_y[2])
-    big = dd.read_csv(src_jn_y[2], engine="pyarrow").persist()
+    big = dd.read_csv(src_jn_y[2], engine="pyarrow", **kwargs).persist()
 
     return [
         x,
