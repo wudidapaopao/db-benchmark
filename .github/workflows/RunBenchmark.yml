@@ -1,6 +1,13 @@
 name: Run benchmark
 on:
   workflow_dispatch:
+    inputs:
+      solutions:
+        type: string
+      instance_id:
+        type: string
+      include_clickhouse:
+        type: bool
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.head_ref || '' }}-${{ github.base_ref || '' }}-${{ github.ref != 'refs/heads/master' || github.sha }}
@@ -9,7 +16,9 @@ concurrency:
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   gh_issue_repo: duckdblabs/db-benchmark
-  instance_id: i-0e75a4f0e0b61c475
+  instance_id: ${{ inputs.instance_id }}
+  solutions: ${{ inputs.solutions }}
+  include_clickhouse: ${{ inputs.include_clickhouse }}
 
 
 jobs:
@@ -30,7 +39,7 @@ jobs:
         shell: bash
         if: ${{ failure() && contains(github.ref_name, 'main') }}
         run: |
-          gh issue create --repo ${{ env.gh_issue_repo }} --title "Weekly Regression Test Failure" --body "AWS box with instance-id ${{ env.instance_id }} could not be started"
+          gh issue create --repo ${{ env.gh_issue_repo }} --title "Could not start DB-benchmark machine" --body "AWS box with instance-id ${{ env.instance_id }} could not be started"
 
   run-benchmark:
     name: Regression Tests all solutions
@@ -55,9 +64,11 @@ jobs:
         shell: bash
         working-directory: /var/lib/mount/db-benchmark-metal
         run: |
-          python3 _setup_utils/install_all_solutions.py all --exclude clickhouse
-          # installing/updating clickhouse needs sudo priviledges
-          sudo python3 _setup_utils/install_all_solutions.py clickhouse
+          python3 _setup_utils/install_all_solutions.py ${{ env.solutions }}
+          if [ ${{ env.include_clickhouse }} ]; then
+            # installing/updating clickhouse needs sudo priviledges
+            sudo python3 _setup_utils/install_all_solutions.py clickhouse
+          fi
 
       - name: Modify run.conf to only have new versions
         shell: bash
@@ -73,6 +84,9 @@ jobs:
       - name: Run the benchmark
         shell: bash
         working-directory: /var/lib/mount/db-benchmark-metal
+        env:
+          DO_REPORT: 1
+          DO_PUBLISH: 0
         run: |
           ncores=`python3 -c 'import multiprocessing as mp; print(mp.cpu_count())'`
           if [ $ncores -eq 16 ]; then export MACHINE_TYPE="c6id.4xlarge"; fi
