@@ -75,10 +75,9 @@ jobs:
         working-directory: /var/lib/mount/db-benchmark-metal
         run: |
           git diff --name-only **/VERSION > updated_solutions.txt
-          sed -i 's/\/VERSION/ /g' updated_solutions.txt
-          tr --delete '\n' < updated_solutions.txt  > updated_solutions_no_newlines.txt
-          export new_solutions=`cat updated_solutions_no_newlines.txt`
-          echo "New benchmarks are " $new_solutions
+          cat updated_solutions.txt
+          export new_solutions="${{ env.solutions }}"
+          echo "testing solutions: " $new_solutions
           sed -i "s/export RUN_SOLUTIONS=.*/export RUN_SOLUTIONS=\"${new_solutions}\"/g" run.conf
 
       - name: Run the benchmark
@@ -124,7 +123,7 @@ jobs:
         run: |
           mkdir -p out
           echo "guarantee not empty dir" > out/guarantee.txt
-          zip -r out-dir.zip out/
+          zip -r out-dir.zip out/ public/
 
       - uses: actions/upload-artifact@v4
         if: always()
