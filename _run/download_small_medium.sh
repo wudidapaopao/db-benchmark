@@ -44,17 +44,3 @@ duckdb data/join_small.duckdb -c "copy J1_1e7_NA_0_0 to 'data/J1_1e7_NA_0_0.csv'
 duckdb data/join_small.duckdb -c "copy J1_1e8_1e2_5_0 to 'data/J1_1e8_1e2_5_0.csv' (FORMAT CSV)"
 duckdb data/join_small.duckdb -c "copy J1_1e8_1e8_0_1 to 'data/J1_1e8_1e8_0_1.csv' (FORMAT CSV)"
 
-
-cp _control/data_small.csv _control/data.csv
-
-
-echo "Running all solutions on small (0.5GB and 5GB) datasets"
-./run.sh
-
-
-###
-echo "done..."
-echo "removing small data files"
-rm data/*.csv
-rm data/*.duckdb
-
