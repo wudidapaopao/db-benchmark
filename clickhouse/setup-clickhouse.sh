@@ -36,3 +36,5 @@ fi
 
 clickhouse-client --query "CREATE USER IF NOT EXISTS db_benchmark IDENTIFIED WITH no_password SETTINGS max_memory_usage = $MEMORY_LIMIT, max_bytes_before_external_group_by = $BYTES_BEFORE_EXTERNAL_GROUP_BY WRITABLE;"
 clickhouse-client --query "GRANT select, insert, create, alter, alter user, create table, truncate, drop, system flush logs on *.* to db_benchmark;"
+
+./clickhouse/ver-clickhouse.sh

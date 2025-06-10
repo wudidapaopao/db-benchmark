@@ -4,3 +4,5 @@ set -e
 # install stable arrow
 mkdir -p ./R-arrow/r-arrow
 Rscript -e 'install.packages(c("arrow","dplyr"), lib="./R-arrow/r-arrow")'
+
+./R-arrow/ver-R-arrow.sh
