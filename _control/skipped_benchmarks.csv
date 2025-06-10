@@ -34,11 +34,16 @@ spark,groupby,G1_1e9_1e1_0_0,c6id.4xlarge
 spark,groupby,G1_1e9_2e0_0_0,c6id.4xlarge
 spark,groupby,G1_1e9_1e2_0_1,c6id.4xlarge
 spark,groupby,G1_1e9_1e2_5_0,c6id.4xlarge
+spark,groupby,G1_1e9_1e2_5_0,c6id.metal
 datafusion,groupby,G1_1e9_1e2_0_0,c6id.4xlarge
 datafusion,groupby,G1_1e9_1e1_0_0,c6id.4xlarge
 datafusion,groupby,G1_1e9_2e0_0_0,c6id.4xlarge
 datafusion,groupby,G1_1e9_1e2_0_1,c6id.4xlarge
 datafusion,groupby,G1_1e9_1e2_5_0,c6id.4xlarge
+datafusion,groupby,G1_1e9_1e1_0_0,c6id.metal
+datafusion,groupby,G1_1e9_2e0_0_0,c6id.metal
+datafusion,groupby,G1_1e9_1e2_0_1,c6id.metal
+datafusion,groupby,G1_1e9_1e2_5_0,c6id.metal
 datafusion,join,J1_1e8_NA_0_0,c6id.4xlarge
 datafusion,join,J1_1e8_NA_5_0,c6id.4xlarge
 datafusion,join,J1_1e8_NA_0_1,c6id.4xlarge
