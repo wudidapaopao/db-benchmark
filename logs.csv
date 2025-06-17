@@ -4768,3 +4768,15 @@ ip-172-31-13-90,1749220225,clickhouse,25.5.2.47,,join,J1_1e8_NA_5_0,1749222680.2
 ip-172-31-13-90,1749220225,clickhouse,25.5.2.47,,join,J1_1e8_NA_5_0,1749222874.76257,finish,0,0,c6id.metal
 ip-172-31-13-90,1749220225,clickhouse,25.5.2.47,,join,J1_1e8_NA_0_1,1749222889.7778,start,,,c6id.metal
 ip-172-31-13-90,1749220225,clickhouse,25.5.2.47,,join,J1_1e8_NA_0_1,1749223092.1426,finish,0,0,c6id.metal
+ip-172-31-18-198,1750156992,collapse,2.1.2,,groupby,G1_1e9_1e2_0_0,1750156992.84211,start,,,c6id.metal
+ip-172-31-18-198,1750156992,collapse,2.1.2,,groupby,G1_1e9_1e2_0_0,1750158989.27113,finish,0,0,c6id.metal
+ip-172-31-18-198,1750156992,collapse,2.1.2,,groupby,G1_1e9_1e1_0_0,1750159004.28641,start,,,c6id.metal
+ip-172-31-18-198,1750156992,collapse,2.1.2,,groupby,G1_1e9_1e1_0_0,1750162520.98944,finish,0,0,c6id.metal
+ip-172-31-18-198,1750156992,collapse,2.1.2,,groupby,G1_1e9_2e0_0_0,1750162536.00454,start,,,c6id.metal
+ip-172-31-18-198,1750156992,collapse,2.1.2,,groupby,G1_1e9_2e0_0_0,1750166156.00842,finish,1,0,c6id.metal
+ip-172-31-18-198,1750156992,collapse,2.1.2,,groupby,G1_1e9_1e2_0_1,1750166171.02366,start,,,c6id.metal
+ip-172-31-18-198,1750156992,collapse,2.1.2,,groupby,G1_1e9_1e2_0_1,1750167875.60897,finish,0,0,c6id.metal
+ip-172-31-18-198,1750156992,collapse,2.1.2,,groupby,G1_1e9_1e2_5_0,1750167890.62417,start,,,c6id.metal
+ip-172-31-18-198,1750156992,collapse,2.1.2,,groupby,G1_1e9_1e2_5_0,1750169917.62336,finish,0,0,c6id.metal
+ip-172-31-18-198,1750156992,collapse,2.1.2,,join,J1_1e9_NA_0_0,1750169932.63864,start,,,c6id.metal
+ip-172-31-18-198,1750156992,collapse,2.1.2,,join,J1_1e9_NA_0_0,1750173552.64605,finish,1,0,c6id.metal
