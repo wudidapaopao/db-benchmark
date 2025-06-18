@@ -54,7 +54,6 @@ datatable,join,J1_1e9_NA_0_0,c6id.4xlarge
 juliadf,join,J1_1e9_NA_0_0,c6id.4xlarge
 juliads,join,J1_1e9_NA_0_0,c6id.4xlarge
 pandas,join,J1_1e9_NA_0_0,c6id.4xlarge
-collapse,join,J1_1e9_NA_0_0,c6id.4xlarge
 polars,join,J1_1e9_NA_0_0,c6id.4xlarge
 pydatatable,join,J1_1e9_NA_0_0,c6id.4xlarge
 spark,join,J1_1e9_NA_0_0,c6id.4xlarge
