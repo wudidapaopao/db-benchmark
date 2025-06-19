@@ -17,6 +17,10 @@ sudo service clickhouse-server start ||:
 sudo mkdir -p /var/lib/mount/clickhouse-nvme-mount/
 sudo chown clickhouse:clickhouse /var/lib/mount/clickhouse-nvme-mount
 
+# set up clickhouse tmp space
+sudo mkdir -p /var/lib/mount/clickhouse-tmp/
+sudo chown clickhouse:clickhouse /var/lib/mount/clickhouse-tmp
+
 # copy clickhouse config
 sudo cp -a /var/lib/clickhouse/. /var/lib/mount/clickhouse-nvme-mount/
 sudo cp clickhouse/clickhouse-mount-config.xml /etc/clickhouse-server/config.d/data-paths.xml
