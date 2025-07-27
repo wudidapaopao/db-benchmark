@@ -67,7 +67,7 @@ print("joining...", flush=True)
 question = "small inner on int" # q1
 gc.collect()
 t_start = timeit.default_timer()
-QUERY=f"CREATE TABLE ans AS SELECT x.*, small.id4 AS small_id4, v2 FROM x AS x INNER JOIN small AS y USING (id1)"
+QUERY=f"CREATE TABLE ans AS SELECT x.*, small.id4 AS small_id4, v2 FROM x INNER JOIN small USING (id1)"
 cur.query(QUERY)
 nr=cur.query("SELECT count(*) AS cnt FROM ans")
 nc=cur.query("SELECT * FROM ans LIMIT 0")
@@ -81,7 +81,7 @@ write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_row
 cur.query("DROP TABLE IF EXISTS ans")
 gc.collect()
 t_start = timeit.default_timer()
-QUERY=f"CREATE TABLE ans AS SELECT x.*, small.id4 AS small_id4, v2 FROM x AS x INNER JOIN small AS y USING (id1)"
+QUERY=f"CREATE TABLE ans AS SELECT x.*, small.id4 AS small_id4, v2 FROM x INNER JOIN small USING (id1)"
 cur.query(QUERY)
 nr=cur.query("SELECT count(*) AS cnt FROM ans")
 nc=cur.query("SELECT * FROM ans LIMIT 0")
@@ -92,14 +92,14 @@ t_start = timeit.default_timer()
 chk = cur.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
-print(cur.query("SELECT * FROM ans LIMIT 3"))
-print(cur.query("SELECT * FROM ans ORDER BY _part_offset DESC LIMIT 3"))
+print(cur.query("SELECT * FROM ans LIMIT 3"), flush=True)
+print(cur.query("SELECT * FROM ans ORDER BY _part_offset DESC LIMIT 3"), flush=True)
 cur.query("DROP TABLE IF EXISTS ans")
 
 question = "medium inner on int" # q2
 gc.collect()
 t_start = timeit.default_timer()
-QUERY=f"CREATE TABLE ans AS SELECT x.*, medium.id1 AS medium_id1, medium.id4 AS medium_id4, medium.id5 as medium_id5, v2 FROM x AS x INNER JOIN medium AS y USING (id2)"
+QUERY=f"CREATE TABLE ans AS SELECT x.*, medium.id1 AS medium_id1, medium.id4 AS medium_id4, medium.id5 as medium_id5, v2 FROM x INNER JOIN medium USING (id2)"
 cur.query(QUERY)
 nr=cur.query("SELECT count(*) AS cnt FROM ans")
 nc=cur.query("SELECT * FROM ans LIMIT 0")
@@ -113,7 +113,7 @@ write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_row
 cur.query("DROP TABLE IF EXISTS ans")
 gc.collect()
 t_start = timeit.default_timer()
-QUERY=f"CREATE TABLE ans AS SELECT x.*, medium.id1 AS medium_id1, medium.id4 AS medium_id4, medium.id5 as medium_id5, v2 FROM x AS x INNER JOIN medium AS y USING (id2)"
+QUERY=f"CREATE TABLE ans AS SELECT x.*, medium.id1 AS medium_id1, medium.id4 AS medium_id4, medium.id5 as medium_id5, v2 FROM x INNER JOIN medium USING (id2)"
 cur.query(QUERY)
 nr=cur.query("SELECT count(*) AS cnt FROM ans")
 nc=cur.query("SELECT * FROM ans LIMIT 0")
@@ -124,14 +124,14 @@ t_start = timeit.default_timer()
 chk = cur.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
-print(cur.query("SELECT * FROM ans LIMIT 3"))
-print(cur.query("SELECT * FROM ans ORDER BY _part_offset DESC LIMIT 3"))
+print(cur.query("SELECT * FROM ans LIMIT 3"), flush=True)
+print(cur.query("SELECT * FROM ans ORDER BY _part_offset DESC LIMIT 3"), flush=True)
 cur.query("DROP TABLE IF EXISTS ans")
 
 question = "medium outer on int" # q3
 gc.collect()
 t_start = timeit.default_timer()
-QUERY=f"CREATE TABLE ans AS SELECT x.*, medium.id1 AS medium_id1, medium.id4 AS medium_id4, medium.id5 as medium_id5, v2 FROM x AS x LEFT JOIN medium AS y USING (id2)"
+QUERY=f"CREATE TABLE ans AS SELECT x.*, medium.id1 AS medium_id1, medium.id4 AS medium_id4, medium.id5 as medium_id5, v2 FROM x LEFT JOIN medium USING (id2)"
 cur.query(QUERY)
 nr=cur.query("SELECT count(*) AS cnt FROM ans")
 nc=cur.query("SELECT * FROM ans LIMIT 0")
@@ -145,7 +145,7 @@ write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_row
 cur.query("DROP TABLE IF EXISTS ans")
 gc.collect()
 t_start = timeit.default_timer()
-QUERY=f"CREATE TABLE ans AS SELECT x.*, medium.id1 AS medium_id1, medium.id4 AS medium_id4, medium.id5 as medium_id5, v2 FROM x AS x LEFT JOIN medium AS y USING (id2)"
+QUERY=f"CREATE TABLE ans AS SELECT x.*, medium.id1 AS medium_id1, medium.id4 AS medium_id4, medium.id5 as medium_id5, v2 FROM x LEFT JOIN medium USING (id2)"
 cur.query(QUERY)
 nr=cur.query("SELECT count(*) AS cnt FROM ans")
 nc=cur.query("SELECT * FROM ans LIMIT 0")
@@ -156,14 +156,14 @@ t_start = timeit.default_timer()
 chk = cur.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
-print(cur.query("SELECT * FROM ans LIMIT 3"))
-print(cur.query("SELECT * FROM ans ORDER BY _part_offset DESC LIMIT 3"))
+print(cur.query("SELECT * FROM ans LIMIT 3"), flush=True)
+print(cur.query("SELECT * FROM ans ORDER BY _part_offset DESC LIMIT 3"), flush=True)
 cur.query("DROP TABLE IF EXISTS ans")
 
 question = "medium inner on factor" # q4
 gc.collect()
 t_start = timeit.default_timer()
-QUERY=f"CREATE TABLE ans AS SELECT x.*, medium.id1 AS medium_id1, medium.id2 AS medium_id2, medium.id4 as medium_id4, v2 FROM x AS x INNER JOIN medium AS y USING (id5)"
+QUERY=f"CREATE TABLE ans AS SELECT x.*, medium.id1 AS medium_id1, medium.id2 AS medium_id2, medium.id4 as medium_id4, v2 FROM x INNER JOIN medium USING (id5)"
 cur.query(QUERY)
 nr=cur.query("SELECT count(*) AS cnt FROM ans")
 nc=cur.query("SELECT * FROM ans LIMIT 0")
@@ -177,7 +177,7 @@ write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_row
 cur.query("DROP TABLE IF EXISTS ans")
 gc.collect()
 t_start = timeit.default_timer()
-QUERY=f"CREATE TABLE ans AS SELECT x.*, medium.id1 AS medium_id1, medium.id2 AS medium_id2, medium.id4 as medium_id4, v2 FROM x AS x INNER JOIN medium AS y USING (id5)"
+QUERY=f"CREATE TABLE ans AS SELECT x.*, medium.id1 AS medium_id1, medium.id2 AS medium_id2, medium.id4 as medium_id4, v2 FROM x INNER JOIN medium USING (id5)"
 cur.query(QUERY)
 nr=cur.query("SELECT count(*) AS cnt FROM ans")
 nc=cur.query("SELECT * FROM ans LIMIT 0")
@@ -188,14 +188,14 @@ t_start = timeit.default_timer()
 chk = cur.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
-print(cur.query("SELECT * FROM ans LIMIT 3"))
-print(cur.query("SELECT * FROM ans ORDER BY _part_offset DESC LIMIT 3"))
+print(cur.query("SELECT * FROM ans LIMIT 3"), flush=True)
+print(cur.query("SELECT * FROM ans ORDER BY _part_offset DESC LIMIT 3"), flush=True)
 cur.query("DROP TABLE IF EXISTS ans")
 
 question = "big inner on int" # q5
 gc.collect()
 t_start = timeit.default_timer()
-QUERY=f"CREATE TABLE ans AS SELECT x.*, big.id1 AS big_id1, big.id2 AS big_id2, big.id4 as big_id4, big.id5 AS big_id5, big.id6 AS big_id6, v2 FROM x AS x INNER JOIN big AS y USING (id3)"
+QUERY=f"CREATE TABLE ans AS SELECT x.*, big.id1 AS big_id1, big.id2 AS big_id2, big.id4 as big_id4, big.id5 AS big_id5, big.id6 AS big_id6, v2 FROM x INNER JOIN big USING (id3)"
 cur.query(QUERY)
 nr=cur.query("SELECT count(*) AS cnt FROM ans")
 nc=cur.query("SELECT * FROM ans LIMIT 0")
@@ -209,7 +209,7 @@ write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_row
 cur.query("DROP TABLE IF EXISTS ans")
 gc.collect()
 t_start = timeit.default_timer()
-QUERY=f"CREATE TABLE ans AS SELECT x.*, big.id1 AS big_id1, big.id2 AS big_id2, big.id4 as big_id4, big.id5 AS big_id5, big.id6 AS big_id6, v2 FROM x AS x INNER JOIN big AS y USING (id3)"
+QUERY=f"CREATE TABLE ans AS SELECT x.*, big.id1 AS big_id1, big.id2 AS big_id2, big.id4 as big_id4, big.id5 AS big_id5, big.id6 AS big_id6, v2 FROM x INNER JOIN big USING (id3)"
 cur.query(QUERY)
 nr=cur.query("SELECT count(*) AS cnt FROM ans")
 nc=cur.query("SELECT * FROM ans LIMIT 0")
@@ -220,10 +220,12 @@ t_start = timeit.default_timer()
 chk = cur.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
-print(cur.query("SELECT * FROM ans LIMIT 3"))
-print(cur.query("SELECT * FROM ans ORDER BY _part_offset DESC LIMIT 3"))
+print(cur.query("SELECT * FROM ans LIMIT 3"), flush=True)
+print(cur.query("SELECT * FROM ans ORDER BY _part_offset DESC LIMIT 3"), flush=True)
 cur.query("DROP TABLE IF EXISTS ans")
 
 print("joining finished, took %0.fs" % (timeit.default_timer() - task_init), flush=True)
 
+cur.close()
+conn.close()
 exit(0)
