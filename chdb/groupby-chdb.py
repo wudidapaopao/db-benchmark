@@ -57,7 +57,7 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT id1, sum(v1) AS v1 FROM db_benchmark.x GROUP BY id1"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=conn.query("SELECT * FROM ans LIMIT 0")
+nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -71,7 +71,7 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT id1, sum(v1) AS v1 FROM db_benchmark.x GROUP BY id1"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=conn.query("SELECT * FROM ans LIMIT 0")
+nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -89,7 +89,7 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT id1, id2, sum(v1) AS v1 FROM db_benchmark.x GROUP BY id1, id2"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=conn.query("SELECT * FROM ans LIMIT 0")
+nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -103,7 +103,7 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT id1, id2, sum(v1) AS v1 FROM db_benchmark.x GROUP BY id1, id2"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=conn.query("SELECT * FROM ans LIMIT 0")
+nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -121,7 +121,7 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT id3, sum(v1) AS v1, avg(v3) AS v3 FROM db_benchmark.x GROUP BY id3"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=conn.query("SELECT * FROM ans LIMIT 0")
+nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -135,7 +135,7 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT id3, sum(v1) AS v1, avg(v3) AS v3 FROM db_benchmark.x GROUP BY id3"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=conn.query("SELECT * FROM ans LIMIT 0")
+nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -153,7 +153,7 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT id4, avg(v1) AS v1, avg(v2) AS v2, avg(v3) AS v3 FROM db_benchmark.x GROUP BY id4"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=conn.query("SELECT * FROM ans LIMIT 0")
+nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -167,7 +167,7 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT id4, avg(v1) AS v1, avg(v2) AS v2, avg(v3) AS v3 FROM db_benchmark.x GROUP BY id4"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=conn.query("SELECT * FROM ans LIMIT 0")
+nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -185,7 +185,7 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT id6, sum(v1) AS v1, sum(v2) AS v2, sum(v3) AS v3 FROM db_benchmark.x GROUP BY id6"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=conn.query("SELECT * FROM ans LIMIT 0")
+nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -199,7 +199,7 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT id6, sum(v1) AS v1, sum(v2) AS v2, sum(v3) AS v3 FROM db_benchmark.x GROUP BY id6"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=conn.query("SELECT * FROM ans LIMIT 0")
+nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -217,7 +217,7 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT id4, id5, medianExact(v3) AS median_v3, stddevPop(v3) AS sd_v3 FROM db_benchmark.x GROUP BY id4, id5"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=conn.query("SELECT * FROM ans LIMIT 0")
+nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -231,7 +231,7 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT id4, id5, medianExact(v3) AS median_v3, stddevPop(v3) AS sd_v3 FROM db_benchmark.x GROUP BY id4, id5"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=conn.query("SELECT * FROM ans LIMIT 0")
+nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -249,7 +249,7 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT id3, max(v1) - min(v2) AS range_v1_v2 FROM db_benchmark.x GROUP BY id3"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=conn.query("SELECT * FROM ans LIMIT 0")
+nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -263,7 +263,7 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT id3, max(v1) - min(v2) AS range_v1_v2 FROM db_benchmark.x GROUP BY id3"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=conn.query("SELECT * FROM ans LIMIT 0")
+nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -281,7 +281,7 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT id6, arrayJoin(arraySlice(arrayReverseSort(groupArray(v3)), 1, 2)) AS largest2_v3 FROM (SELECT id6, v3 FROM db_benchmark.x WHERE v3 IS NOT NULL) AS subq GROUP BY id6"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=conn.query("SELECT * FROM ans LIMIT 0")
+nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -295,7 +295,7 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT id6, arrayJoin(arraySlice(arrayReverseSort(groupArray(v3)), 1, 2)) AS largest2_v3 FROM (SELECT id6, v3 FROM db_benchmark.x WHERE v3 IS NOT NULL) AS subq GROUP BY id6"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=conn.query("SELECT * FROM ans LIMIT 0")
+nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -313,7 +313,7 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT id2, id4, pow(corr(v1, v2), 2) AS r2 FROM db_benchmark.x GROUP BY id2, id4"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=conn.query("SELECT * FROM ans LIMIT 0")
+nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -327,7 +327,7 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT id2, id4, pow(corr(v1, v2), 2) AS r2 FROM db_benchmark.x GROUP BY id2, id4"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=conn.query("SELECT * FROM ans LIMIT 0")
+nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -345,7 +345,7 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT id1, id2, id3, id4, id5, id6, sum(v3) AS v3, count() AS cnt FROM db_benchmark.x GROUP BY id1, id2, id3, id4, id5, id6"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=conn.query("SELECT * FROM ans LIMIT 0")
+nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -359,7 +359,7 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT id1, id2, id3, id4, id5, id6, sum(v3) AS v3, count() AS cnt FROM db_benchmark.x GROUP BY id1, id2, id3, id4, id5, id6"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=conn.query("SELECT * FROM ans LIMIT 0")
+nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
