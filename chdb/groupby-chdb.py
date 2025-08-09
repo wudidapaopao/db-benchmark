@@ -28,22 +28,26 @@ chdb_join_db = f'{solution}_{task}_{data_name}.chdb'
 scale_factor = data_name.replace("G1_","")[:4].replace("_", "")
 on_disk = 'TRUE' if (machine_type == "c6id.4xlarge" and float(scale_factor) >= 1e9) else 'FALSE'
 
-#if on_disk:
-#  print("using disk memory-mapped data storage")
-#  conn = chdb.session.Session(chdb_join_db) # TODO: check if the database should be created first
-#  query_engine = 'ENGINE = MergeTree'
-#else:
-#  print("using in-memory data storage")
-#  conn = chdb.session.Session()
-#  query_engine = 'ENGINE = Memory'
+if on_disk == 'TRUE':
+  print("using disk memory-mapped data storage")
+  conn = chdb.session.Session(chdb_join_db) # TODO: check if the database should be created first
+  query_engine = 'ENGINE = MergeTree'
+else:
+  print("using in-memory data storage")
+  conn = chdb.session.Session()
+  query_engine = 'ENGINE = Memory'
 
-conn = chdb.session.Session()
-query_engine = 'ENGINE = Memory'
+na_flag = int(data_name.split("_")[3])
 
 engine_type = 'LOG'
 conn.query("CREATE DATABASE IF NOT EXISTS db_benchmark ENGINE = Atomic")
 conn.query("DROP TABLE IF EXISTS db_benchmark.x")
-conn.query("CREATE TABLE db_benchmark.x (id1 LowCardinality(Nullable(String)), id2 LowCardinality(Nullable(String)), id3 Nullable(String), id4 Nullable(Int32), id5 Nullable(Int32), id6 Nullable(Int32), v1 Nullable(Int32), v2 Nullable(Int32), v3 Nullable(Float64)) ENGINE = MergeTree() ORDER BY tuple();")
+
+if na_flag != 0:
+    conn.query("CREATE TABLE db_benchmark.x (id1 LowCardinality(Nullable(String)), id2 LowCardinality(Nullable(String)), id3 Nullable(String), id4 Nullable(Int32), id5 Nullable(Int32), id6 Nullable(Int32), v1 Nullable(Int32), v2 Nullable(Int32), v3 Nullable(Float64)) ENGINE = MergeTree() ORDER BY tuple();")
+else:
+    conn.query("CREATE TABLE db_benchmark.x (id1 LowCardinality(String), id2 LowCardinality(String), id3 String, id4 Int32, id5 Int32, id6 Int32, v1 Int32, v2 Int32, v3 Float64) ENGINE = MergeTree() ORDER BY tuple();")
+
 
 conn.query(f"INSERT INTO db_benchmark.x FROM INFILE '{src_grp}'")
 in_rows = conn.query("SELECT count(*) from db_benchmark.x")

@@ -18,7 +18,6 @@ fun = ".join"
 cache = "TRUE"
 on_disk = "FALSE"
 
-
 data_name = os.environ["SRC_DATANAME"]
 #machine_type = os.environ["MACHINE_TYPE"]
 machine_type = 'local'
@@ -35,14 +34,16 @@ on_disk = 'TRUE' if (machine_type == "c6id.4xlarge" and float(scale_factor) >= 1
 
 print("loading datasets " + data_name + ", " + y_data_name[0] + ", " + y_data_name[2] + ", " + y_data_name[2], flush=True)
 
-if on_disk:
+if on_disk == 'TRUE':
   print("using disk memory-mapped data storage")
   conn = chdb.session.Session(chdb_join_db) # TODO: check if the database should be created first
+  query_engine = 'ENGINE = MergeTree()'
 else:
   print("using in-memory data storage")
   conn = chdb.session.Session("")
+  query_engine = 'ENGINE = Memory'
 
-# TODO: add logic for is_sorted, has_na
+na_flag = int(data_name.split("_")[3])
 
 # reading data
 engine_type = 'MergeTree()'
@@ -51,10 +52,17 @@ conn.query("DROP TABLE IF EXISTS db_benchmark.x")
 conn.query("DROP TABLE IF EXISTS db_benchmark.small")
 conn.query("DROP TABLE IF EXISTS db_benchmark.medium")
 conn.query("DROP TABLE IF EXISTS db_benchmark.big")
-conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.x (id1 Nullable(Int32), id2 Nullable(Int32), id3 Nullable(Int32), id4 Nullable(String), id5 Nullable(String), id6 Nullable(String), v1 Nullable(Float64)) ENGINE = {engine_type} ORDER BY tuple()")
-conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.small (id1 Nullable(Int32), id4 Nullable(String), v2 Nullable(Float64)) ENGINE = {engine_type} ORDER BY tuple()")
-conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.medium (id1 Nullable(Int32), id2 Nullable(Int32), id4 Nullable(String), id5 Nullable(String), v2 Nullable(Float64)) ENGINE = {engine_type} ORDER BY tuple()")
-conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.big (id1 Nullable(Int32), id2 Nullable(Int32), id3 Nullable(Int32), id4 Nullable(String), id5 Nullable(String), id6 Nullable(String), v2 Nullable(Float64)) ENGINE = {engine_type} ORDER BY tuple()")
+
+if na_flag != 0:
+    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.x (id1 Nullable(Int32), id2 Nullable(Int32), id3 Nullable(Int32), id4 Nullable(String), id5 Nullable(String), id6 Nullable(String), v1 Nullable(Float64)) ENGINE = {engine_type} ORDER BY tuple()")
+    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.small (id1 Nullable(Int32), id4 Nullable(String), v2 Nullable(Float64)) ENGINE = {engine_type} ORDER BY tuple()")
+    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.medium (id1 Nullable(Int32), id2 Nullable(Int32), id4 Nullable(String), id5 Nullable(String), v2 Nullable(Float64)) ENGINE = {engine_type} ORDER BY tuple()")
+    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.big (id1 Nullable(Int32), id2 Nullable(Int32), id3 Nullable(Int32), id4 Nullable(String), id5 Nullable(String), id6 Nullable(String), v2 Nullable(Float64)) ENGINE = {engine_type} ORDER BY tuple()")
+else:
+    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.x (id1 Int32, id2 Int32, id3 Int32, id4 String, id5 String, id6 String, v1 Float64) ENGINE = {engine_type} ORDER BY tuple()")
+    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.small (id1 Int32, id4 String, v2 Float64) ENGINE = {engine_type} ORDER BY tuple()")
+    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.medium (id1 Int32, id2 Int32, id4 String, id5 String, v2 Float64) ENGINE = {engine_type} ORDER BY tuple()")
+    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.big (id1 Int32, id2 Int32, id3 Int32, id4 String, id5 String, id6 String, v2 Float64) ENGINE = {engine_type} ORDER BY tuple()")
 
 conn.query(f"INSERT INTO db_benchmark.x FROM INFILE '{src_jn_x}'")
 conn.query(f"INSERT INTO db_benchmark.small FROM INFILE '{src_jn_y[0]}'")
@@ -71,7 +79,6 @@ in_rows = conn.query("SELECT count(*) from db_benchmark.x")
 task_init = timeit.default_timer()
 print("joining...", flush=True)
 
-query_engine = 'ENGINE = Memory'
 question = "small inner on int" # q1
 gc.collect()
 t_start = timeit.default_timer()
