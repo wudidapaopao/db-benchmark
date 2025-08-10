@@ -36,11 +36,11 @@ print("loading datasets " + data_name + ", " + y_data_name[0] + ", " + y_data_na
 
 if on_disk == 'TRUE':
   print("using disk memory-mapped data storage")
-  conn = chdb.session.Session(chdb_join_db) # TODO: check if the database should be created first
+  conn = chdb.connect(chdb_join_db)
   query_engine = 'ENGINE = MergeTree()'
 else:
   print("using in-memory data storage")
-  conn = chdb.session.Session("")
+  conn = chdb.connect(":memory:")
   query_engine = 'ENGINE = Memory'
 
 na_flag = int(data_name.split("_")[3])

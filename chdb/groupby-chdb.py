@@ -20,7 +20,8 @@ on_disk = "FALSE"
 
 
 data_name = os.environ["SRC_DATANAME"]
-machine_type = os.environ["MACHINE_TYPE"]
+#machine_type = os.environ["MACHINE_TYPE"]
+machine_type = 'local'
 src_grp = os.path.join("data", data_name + ".csv")
 print("loading dataset %s" % data_name, flush=True)
 
@@ -30,11 +31,11 @@ on_disk = 'TRUE' if (machine_type == "c6id.4xlarge" and float(scale_factor) >= 1
 
 if on_disk == 'TRUE':
   print("using disk memory-mapped data storage")
-  conn = chdb.session.Session(chdb_join_db) # TODO: check if the database should be created first
+  conn = chdb.connect(chdb_join_db)
   query_engine = 'ENGINE = MergeTree'
 else:
   print("using in-memory data storage")
-  conn = chdb.session.Session()
+  conn = chdb.connect(":memory:")
   query_engine = 'ENGINE = Memory'
 
 na_flag = int(data_name.split("_")[3])
