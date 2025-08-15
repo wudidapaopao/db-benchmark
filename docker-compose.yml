@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  db-benchmark:
+    build: .
+    working_dir: /benchmark
+    volumes:
+      - ./:/benchmark
+      - data:/benchmark/data
+    environment:
+      - SRC_DATANAME=G1_1e7_1e2_0_0
+    tty: true
+    stdin_open: true
+    command: ["/bin/bash"]
+volumes:
+  data:
