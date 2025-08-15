@@ -37,13 +37,16 @@ print("loading datasets " + data_name + ", " + y_data_name[0] + ", " + y_data_na
 if on_disk == 'TRUE':
   print("using disk memory-mapped data storage")
   conn = chdb.connect(chdb_join_db)
-  query_engine = 'ENGINE = MergeTree()'
+  query_engine = 'ENGINE = MergeTree ORDER BY tuple()'
 else:
   print("using in-memory data storage")
   conn = chdb.connect(":memory:")
   query_engine = 'ENGINE = Memory'
 
 na_flag = int(data_name.split("_")[3])
+
+threads = 32
+settings = f"SETTINGS max_insert_threads={threads}, max_threads={threads}"
 
 # reading data
 engine_type = 'MergeTree()'
@@ -82,7 +85,7 @@ print("joining...", flush=True)
 question = "small inner on int" # q1
 gc.collect()
 t_start = timeit.default_timer()
-QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, small.id4 AS small_id4, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.small AS small USING (id1)"
+QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, small.id4 AS small_id4, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.small AS small USING (id1) {settings}"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
 nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
@@ -96,7 +99,7 @@ write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_row
 conn.query("DROP TABLE IF EXISTS ans")
 gc.collect()
 t_start = timeit.default_timer()
-QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, small.id4 AS small_id4, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.small AS small USING (id1)"
+QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, small.id4 AS small_id4, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.small AS small USING (id1) {settings}"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
 nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
@@ -114,7 +117,7 @@ conn.query("DROP TABLE IF EXISTS ans")
 question = "medium inner on int" # q2
 gc.collect()
 t_start = timeit.default_timer()
-QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, medium.id1 AS medium_id1, medium.id4 AS medium_id4, medium.id5 as medium_id5, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.medium AS medium USING (id2)"
+QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, medium.id1 AS medium_id1, medium.id4 AS medium_id4, medium.id5 as medium_id5, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.medium AS medium USING (id2) {settings}"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
 nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
@@ -128,7 +131,7 @@ write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_row
 conn.query("DROP TABLE IF EXISTS ans")
 gc.collect()
 t_start = timeit.default_timer()
-QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, medium.id1 AS medium_id1, medium.id4 AS medium_id4, medium.id5 as medium_id5, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.medium AS medium USING (id2)"
+QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, medium.id1 AS medium_id1, medium.id4 AS medium_id4, medium.id5 as medium_id5, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.medium AS medium USING (id2) {settings}"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
 nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
@@ -146,7 +149,7 @@ conn.query("DROP TABLE IF EXISTS ans")
 question = "medium outer on int" # q3
 gc.collect()
 t_start = timeit.default_timer()
-QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, medium.id1 AS medium_id1, medium.id4 AS medium_id4, medium.id5 as medium_id5, v2 FROM db_benchmark.x AS x LEFT JOIN db_benchmark.medium AS medium USING (id2)"
+QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, medium.id1 AS medium_id1, medium.id4 AS medium_id4, medium.id5 as medium_id5, v2 FROM db_benchmark.x AS x LEFT JOIN db_benchmark.medium AS medium USING (id2) {settings}"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
 nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
@@ -160,7 +163,7 @@ write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_row
 conn.query("DROP TABLE IF EXISTS ans")
 gc.collect()
 t_start = timeit.default_timer()
-QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, medium.id1 AS medium_id1, medium.id4 AS medium_id4, medium.id5 as medium_id5, v2 FROM db_benchmark.x AS x LEFT JOIN db_benchmark.medium AS medium USING (id2)"
+QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, medium.id1 AS medium_id1, medium.id4 AS medium_id4, medium.id5 as medium_id5, v2 FROM db_benchmark.x AS x LEFT JOIN db_benchmark.medium AS medium USING (id2) {settings}"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
 nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
@@ -178,7 +181,7 @@ conn.query("DROP TABLE IF EXISTS ans")
 question = "medium inner on factor" # q4
 gc.collect()
 t_start = timeit.default_timer()
-QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, medium.id1 AS medium_id1, medium.id2 AS medium_id2, medium.id4 as medium_id4, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.medium AS medium USING (id5)"
+QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, medium.id1 AS medium_id1, medium.id2 AS medium_id2, medium.id4 as medium_id4, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.medium AS medium USING (id5) {settings}"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
 nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
@@ -192,7 +195,7 @@ write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_row
 conn.query("DROP TABLE IF EXISTS ans")
 gc.collect()
 t_start = timeit.default_timer()
-QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, medium.id1 AS medium_id1, medium.id2 AS medium_id2, medium.id4 as medium_id4, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.medium AS medium USING (id5)"
+QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, medium.id1 AS medium_id1, medium.id2 AS medium_id2, medium.id4 as medium_id4, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.medium AS medium USING (id5) {settings}"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
 nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
@@ -210,7 +213,7 @@ conn.query("DROP TABLE IF EXISTS ans")
 question = "big inner on int" # q5
 gc.collect()
 t_start = timeit.default_timer()
-QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, big.id1 AS big_id1, big.id2 AS big_id2, big.id4 as big_id4, big.id5 AS big_id5, big.id6 AS big_id6, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.big AS big USING (id3)"
+QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, big.id1 AS big_id1, big.id2 AS big_id2, big.id4 as big_id4, big.id5 AS big_id5, big.id6 AS big_id6, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.big AS big USING (id3) {settings}"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
 nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
@@ -224,7 +227,7 @@ write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_row
 conn.query("DROP TABLE IF EXISTS ans")
 gc.collect()
 t_start = timeit.default_timer()
-QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, big.id1 AS big_id1, big.id2 AS big_id2, big.id4 as big_id4, big.id5 AS big_id5, big.id6 AS big_id6, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.big AS big USING (id3)"
+QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, big.id1 AS big_id1, big.id2 AS big_id2, big.id4 as big_id4, big.id5 AS big_id5, big.id6 AS big_id6, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.big AS big USING (id3) {settings}"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
 nc=str(conn.query("SELECT * FROM ans LIMIT 0"))

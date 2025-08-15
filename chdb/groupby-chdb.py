@@ -36,12 +36,12 @@ if on_disk == 'TRUE':
 else:
   print("using in-memory data storage")
   conn = chdb.connect(":memory:")
-  #query_engine = 'ENGINE = Memory'
-  query_engine = 'ENGINE = MergeTree ORDER BY tuple()'
+  query_engine = 'ENGINE = Memory'
+  #query_engine = 'ENGINE = MergeTree ORDER BY tuple()'
 
 na_flag = int(data_name.split("_")[3])
 
-threads = 6
+threads = 32
 settings = f"SETTINGS max_insert_threads={threads}"
 
 engine_type = 'LOG'
