@@ -40,8 +40,8 @@ else:
 
 na_flag = int(data_name.split("_")[3])
 
-threads = 4
-settings = f"SETTINGS max_insert_threads={threads}"
+threads = 16
+settings = f"SETTINGS max_insert_threads={threads}, max_threads={threads}"
 
 engine_type = 'LOG'
 conn.query("CREATE DATABASE IF NOT EXISTS db_benchmark ENGINE = Atomic")
@@ -350,7 +350,7 @@ conn.query("DROP TABLE IF EXISTS ans")
 question = "sum v3 count by id1:id6" # q10
 gc.collect()
 t_start = timeit.default_timer()
-QUERY=f"CREATE TABLE ans {query_engine} AS SELECT id1, id2, id3, id4, id5, id6, sum(v3) AS v3, count() AS cnt FROM db_benchmark.x GROUP BY id1, id2, id3, id4, id5, id6"
+QUERY=f"CREATE TABLE ans {query_engine} AS SELECT id1, id2, id3, id4, id5, id6, sum(v3) AS v3, count() AS cnt FROM db_benchmark.x GROUP BY id1, id2, id3, id4, id5, id6 {settings}"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
 nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
