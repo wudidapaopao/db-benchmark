@@ -41,7 +41,7 @@ else:
 
 na_flag = int(data_name.split("_")[3])
 
-threads = 32
+threads = 8
 settings = f"SETTINGS max_insert_threads={threads}"
 
 engine_type = 'LOG'
