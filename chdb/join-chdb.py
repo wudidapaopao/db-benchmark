@@ -5,8 +5,8 @@ print("# join-chdb.py", flush=True)
 import os
 import gc
 import timeit
-
 import chdb
+import shutil
 
 exec(open("./_helpers/helpers.py").read())
 
@@ -19,8 +19,7 @@ cache = "TRUE"
 on_disk = "FALSE"
 
 data_name = os.environ["SRC_DATANAME"]
-#machine_type = os.environ["MACHINE_TYPE"]
-machine_type = 'local'
+machine_type = os.environ["MACHINE_TYPE"]
 src_jn_x = os.path.join("data", data_name + ".csv")
 y_data_name = join_to_tbls(data_name)
 src_jn_y = [os.path.join("data", y_data_name[0] + ".csv"), os.path.join("data", y_data_name[1] + ".csv"), os.path.join("data", y_data_name[2] + ".csv")]
@@ -31,25 +30,28 @@ if len(src_jn_y) != 3:
 chdb_join_db = f'{solution}_{task}_{data_name}.chdb'
 scale_factor = data_name.replace("J1_","")[:4].replace("_", "")
 on_disk = 'TRUE' if (machine_type == "c6id.4xlarge" and float(scale_factor) >= 1e9) else 'FALSE'
+conn = chdb.session.Session(chdb_join_db)
 
 print("loading datasets " + data_name + ", " + y_data_name[0] + ", " + y_data_name[2] + ", " + y_data_name[2], flush=True)
 
 if on_disk == 'TRUE':
   print("using disk memory-mapped data storage")
-  conn = chdb.session.Session(chdb_join_db) # TODO: check if the database should be created first
   query_engine = 'ENGINE = MergeTree ORDER BY tuple()'
 else:
   print("using in-memory data storage")
-  conn = chdb.session.Session("")
   query_engine = 'ENGINE = Memory'
 
 na_flag = int(data_name.split("_")[3])
 
 threads = 8
-settings = f"SETTINGS max_insert_threads={threads}, max_threads={threads}"
+settings = f"SETTINGS max_insert_threads={threads}"
 
 # reading data
-engine_type = 'MergeTree()'
+use_disk = 'TRUE' if (machine_type != "c6id.metal" and float(scale_factor) >= 1e9) else 'FALSE'
+if use_disk == 'TRUE':
+  engine_type = 'MergeTree() ORDER BY tuple()'
+else:
+  engine_type = 'Memory()'
 conn.query("CREATE DATABASE IF NOT EXISTS db_benchmark ENGINE = Atomic")
 conn.query("DROP TABLE IF EXISTS db_benchmark.x")
 conn.query("DROP TABLE IF EXISTS db_benchmark.small")
@@ -57,15 +59,15 @@ conn.query("DROP TABLE IF EXISTS db_benchmark.medium")
 conn.query("DROP TABLE IF EXISTS db_benchmark.big")
 
 if na_flag != 0:
-    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.x (id1 Nullable(Int32), id2 Nullable(Int32), id3 Nullable(Int32), id4 Nullable(String), id5 Nullable(String), id6 Nullable(String), v1 Nullable(Float64)) ENGINE = {engine_type} ORDER BY tuple()")
-    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.small (id1 Nullable(Int32), id4 Nullable(String), v2 Nullable(Float64)) ENGINE = {engine_type} ORDER BY tuple()")
-    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.medium (id1 Nullable(Int32), id2 Nullable(Int32), id4 Nullable(String), id5 Nullable(String), v2 Nullable(Float64)) ENGINE = {engine_type} ORDER BY tuple()")
-    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.big (id1 Nullable(Int32), id2 Nullable(Int32), id3 Nullable(Int32), id4 Nullable(String), id5 Nullable(String), id6 Nullable(String), v2 Nullable(Float64)) ENGINE = {engine_type} ORDER BY tuple()")
+    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.x (id1 Nullable(Int32), id2 Nullable(Int32), id3 Nullable(Int32), id4 Nullable(String), id5 Nullable(String), id6 Nullable(String), v1 Nullable(Float64)) ENGINE = {engine_type}")
+    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.small (id1 Nullable(Int32), id4 Nullable(String), v2 Nullable(Float64)) ENGINE = {engine_type}")
+    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.medium (id1 Nullable(Int32), id2 Nullable(Int32), id4 Nullable(String), id5 Nullable(String), v2 Nullable(Float64)) ENGINE = {engine_type}")
+    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.big (id1 Nullable(Int32), id2 Nullable(Int32), id3 Nullable(Int32), id4 Nullable(String), id5 Nullable(String), id6 Nullable(String), v2 Nullable(Float64)) ENGINE = {engine_type}")
 else:
-    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.x (id1 Int32, id2 Int32, id3 Int32, id4 String, id5 String, id6 String, v1 Float64) ENGINE = {engine_type} ORDER BY tuple()")
-    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.small (id1 Int32, id4 String, v2 Float64) ENGINE = {engine_type} ORDER BY tuple()")
-    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.medium (id1 Int32, id2 Int32, id4 String, id5 String, v2 Float64) ENGINE = {engine_type} ORDER BY tuple()")
-    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.big (id1 Int32, id2 Int32, id3 Int32, id4 String, id5 String, id6 String, v2 Float64) ENGINE = {engine_type} ORDER BY tuple()")
+    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.x (id1 Int32, id2 Int32, id3 Int32, id4 String, id5 String, id6 String, v1 Float64) ENGINE = {engine_type}")
+    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.small (id1 Int32, id4 String, v2 Float64) ENGINE = {engine_type}")
+    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.medium (id1 Int32, id2 Int32, id4 String, id5 String, v2 Float64) ENGINE = {engine_type}")
+    conn.query(f"CREATE TABLE IF NOT EXISTS db_benchmark.big (id1 Int32, id2 Int32, id3 Int32, id4 String, id5 String, id6 String, v2 Float64) ENGINE = {engine_type}")
 
 conn.query(f"INSERT INTO db_benchmark.x FROM INFILE '{src_jn_x}'")
 conn.query(f"INSERT INTO db_benchmark.small FROM INFILE '{src_jn_y[0]}'")
@@ -111,7 +113,8 @@ chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
-print(conn.query(f"SELECT * FROM ans LIMIT {int(nr) - 3}, 3"), flush=True)
+if int(nr) > 3:
+  print(conn.query(f"SELECT * FROM ans LIMIT {int(nr) - 3}, 3"), flush=True)
 conn.query("DROP TABLE IF EXISTS ans")
 
 question = "medium inner on int" # q2
@@ -143,7 +146,8 @@ chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
-print(conn.query(f"SELECT * FROM ans LIMIT {int(nr) - 3}, 3"), flush=True)
+if int(nr) > 3:
+  print(conn.query(f"SELECT * FROM ans LIMIT {int(nr) - 3}, 3"), flush=True)
 conn.query("DROP TABLE IF EXISTS ans")
 
 question = "medium outer on int" # q3
@@ -175,7 +179,8 @@ chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
-print(conn.query(f"SELECT * FROM ans LIMIT {int(nr) - 3}, 3"), flush=True)
+if int(nr) > 3:
+  print(conn.query(f"SELECT * FROM ans LIMIT {int(nr) - 3}, 3"), flush=True)
 conn.query("DROP TABLE IF EXISTS ans")
 
 question = "medium inner on factor" # q4
@@ -207,7 +212,8 @@ chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
-print(conn.query(f"SELECT * FROM ans LIMIT {int(nr) - 3}, 3"), flush=True)
+if int(nr) > 3:
+  print(conn.query(f"SELECT * FROM ans LIMIT {int(nr) - 3}, 3"), flush=True)
 conn.query("DROP TABLE IF EXISTS ans")
 
 question = "big inner on int" # q5
@@ -239,10 +245,12 @@ chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
-print(conn.query(f"SELECT * FROM ans LIMIT {int(nr) - 3}, 3"), flush=True)
+if int(nr) > 3:
+  print(conn.query(f"SELECT * FROM ans LIMIT {int(nr) - 3}, 3"), flush=True)
 conn.query("DROP TABLE IF EXISTS ans")
 
 print("joining finished, took %0.fs" % (timeit.default_timer() - task_init), flush=True)
 
 conn.close()
+shutil.rmtree(chdb_join_db, ignore_errors=True)
 exit(0)
