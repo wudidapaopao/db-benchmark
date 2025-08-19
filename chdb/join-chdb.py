@@ -47,8 +47,7 @@ threads = 8
 settings = f"SETTINGS max_insert_threads={threads}"
 
 # reading data
-use_disk = 'TRUE' if (machine_type != "c6id.metal" and float(scale_factor) >= 1e9) else 'FALSE'
-if use_disk == 'TRUE':
+if on_disk == 'TRUE':
   engine_type = 'MergeTree() ORDER BY tuple()'
 else:
   engine_type = 'Memory()'
@@ -79,7 +78,7 @@ print(conn.query("SELECT count(*) from db_benchmark.small"))
 print(conn.query("SELECT count(*) from db_benchmark.medium"))
 print(conn.query("SELECT count(*) from db_benchmark.big"))
 
-in_rows = conn.query("SELECT count(*) from db_benchmark.x")
+in_rows = int(str(conn.query("SELECT count(*) from db_benchmark.x")).strip())
 
 task_init = timeit.default_timer()
 print("joining...", flush=True)
@@ -90,28 +89,28 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, small.id4 AS small_id4, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.small AS small USING (id1) {settings}"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
+nc=len(str(conn.query("SELECT * FROM ans LIMIT 0", "CSVWITHNAMES")).split(','))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
+# chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
-write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
+write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 conn.query("DROP TABLE IF EXISTS ans")
 gc.collect()
 t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, small.id4 AS small_id4, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.small AS small USING (id1) {settings}"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
+nc=len(str(conn.query("SELECT * FROM ans LIMIT 0", "CSVWITHNAMES")).split(','))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
+# chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
-write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
+write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
 if int(nr) > 3:
   print(conn.query(f"SELECT * FROM ans LIMIT {int(nr) - 3}, 3"), flush=True)
@@ -123,28 +122,28 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, medium.id1 AS medium_id1, medium.id4 AS medium_id4, medium.id5 as medium_id5, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.medium AS medium USING (id2) {settings}"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
+nc=len(str(conn.query("SELECT * FROM ans LIMIT 0", "CSVWITHNAMES")).split(','))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
+# chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
-write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
+write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 conn.query("DROP TABLE IF EXISTS ans")
 gc.collect()
 t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, medium.id1 AS medium_id1, medium.id4 AS medium_id4, medium.id5 as medium_id5, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.medium AS medium USING (id2) {settings}"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
+nc=len(str(conn.query("SELECT * FROM ans LIMIT 0", "CSVWITHNAMES")).split(','))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
+# chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
-write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
+write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
 if int(nr) > 3:
   print(conn.query(f"SELECT * FROM ans LIMIT {int(nr) - 3}, 3"), flush=True)
@@ -156,28 +155,28 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, medium.id1 AS medium_id1, medium.id4 AS medium_id4, medium.id5 as medium_id5, v2 FROM db_benchmark.x AS x LEFT JOIN db_benchmark.medium AS medium USING (id2) {settings}"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
+nc=len(str(conn.query("SELECT * FROM ans LIMIT 0", "CSVWITHNAMES")).split(','))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
+# chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
-write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
+write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 conn.query("DROP TABLE IF EXISTS ans")
 gc.collect()
 t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, medium.id1 AS medium_id1, medium.id4 AS medium_id4, medium.id5 as medium_id5, v2 FROM db_benchmark.x AS x LEFT JOIN db_benchmark.medium AS medium USING (id2) {settings}"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
+nc=len(str(conn.query("SELECT * FROM ans LIMIT 0", "CSVWITHNAMES")).split(','))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
+# chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
-write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
+write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
 if int(nr) > 3:
   print(conn.query(f"SELECT * FROM ans LIMIT {int(nr) - 3}, 3"), flush=True)
@@ -189,28 +188,28 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, medium.id1 AS medium_id1, medium.id2 AS medium_id2, medium.id4 as medium_id4, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.medium AS medium USING (id5) {settings}"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
+nc=len(str(conn.query("SELECT * FROM ans LIMIT 0", "CSVWITHNAMES")).split(','))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
+# chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
-write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
+write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 conn.query("DROP TABLE IF EXISTS ans")
 gc.collect()
 t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, medium.id1 AS medium_id1, medium.id2 AS medium_id2, medium.id4 as medium_id4, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.medium AS medium USING (id5) {settings}"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
+nc=len(str(conn.query("SELECT * FROM ans LIMIT 0", "CSVWITHNAMES")).split(','))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
+# chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
-write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
+write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
 if int(nr) > 3:
   print(conn.query(f"SELECT * FROM ans LIMIT {int(nr) - 3}, 3"), flush=True)
@@ -222,28 +221,28 @@ t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, big.id1 AS big_id1, big.id2 AS big_id2, big.id4 as big_id4, big.id5 AS big_id5, big.id6 AS big_id6, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.big AS big USING (id3) {settings}"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
+nc=len(str(conn.query("SELECT * FROM ans LIMIT 0", "CSVWITHNAMES")).split(','))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
+# chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
-write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
+write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 conn.query("DROP TABLE IF EXISTS ans")
 gc.collect()
 t_start = timeit.default_timer()
 QUERY=f"CREATE TABLE ans {query_engine} AS SELECT x.*, big.id1 AS big_id1, big.id2 AS big_id2, big.id4 as big_id4, big.id5 AS big_id5, big.id6 AS big_id6, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.big AS big USING (id3) {settings}"
 conn.query(QUERY)
 nr=str(conn.query("SELECT count(*) AS cnt FROM ans"))
-nc=str(conn.query("SELECT * FROM ans LIMIT 0"))
+nc=len(str(conn.query("SELECT * FROM ans LIMIT 0", "CSVWITHNAMES")).split(','))
 print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
+# chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
-write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=make_chk(chk), chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
+write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
 if int(nr) > 3:
   print(conn.query(f"SELECT * FROM ans LIMIT {int(nr) - 3}, 3"), flush=True)
