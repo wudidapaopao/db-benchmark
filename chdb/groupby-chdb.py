@@ -27,10 +27,10 @@ print("loading dataset %s" % data_name, flush=True)
 
 chdb_join_db = f'{solution}_{task}_{data_name}.chdb'
 scale_factor = data_name.replace("G1_","")[:4].replace("_", "")
-on_disk = 'TRUE' if (machine_type == "c6id.4xlarge" and float(scale_factor) >= 1e9) else 'FALSE'
+use_mt = 'TRUE' if (machine_type == "c6id.4xlarge" and float(scale_factor) >= 1e9) else 'FALSE'
 conn = chdb.session.Session(chdb_join_db)
 
-if on_disk == 'TRUE':
+if use_mt == 'TRUE':
   print("using disk memory-mapped data storage")
   query_engine = 'ENGINE = MergeTree ORDER BY tuple()'
 else:
@@ -45,6 +45,7 @@ settings = f"SETTINGS max_insert_threads={threads}"
 conn.query("CREATE DATABASE IF NOT EXISTS db_benchmark ENGINE = Atomic")
 conn.query("DROP TABLE IF EXISTS db_benchmark.x")
 
+on_disk = 'TRUE' if (float(scale_factor) >= 1e9) else 'FALSE'
 if na_flag != 0:
     if on_disk == 'TRUE':
       conn.query("CREATE TABLE db_benchmark.x (id1 LowCardinality(Nullable(String)), id2 LowCardinality(Nullable(String)), id3 Nullable(String), id4 Nullable(Int32), id5 Nullable(Int32), id6 Nullable(Int32), v1 Nullable(Int32), v2 Nullable(Int32), v3 Nullable(Float64)) ENGINE = MergeTree() ORDER BY tuple();")

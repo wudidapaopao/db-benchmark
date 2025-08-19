@@ -29,12 +29,12 @@ if len(src_jn_y) != 3:
 
 chdb_join_db = f'{solution}_{task}_{data_name}.chdb'
 scale_factor = data_name.replace("J1_","")[:4].replace("_", "")
-on_disk = 'TRUE' if (machine_type == "c6id.4xlarge" and float(scale_factor) >= 1e9) else 'FALSE'
+use_mt = 'TRUE' if (machine_type == "c6id.4xlarge" and float(scale_factor) >= 1e9) else 'FALSE'
 conn = chdb.session.Session(chdb_join_db)
 
 print("loading datasets " + data_name + ", " + y_data_name[0] + ", " + y_data_name[2] + ", " + y_data_name[2], flush=True)
 
-if on_disk == 'TRUE':
+if use_mt == 'TRUE':
   print("using disk memory-mapped data storage")
   query_engine = 'ENGINE = MergeTree ORDER BY tuple()'
 else:
@@ -47,6 +47,7 @@ threads = 8
 settings = f"SETTINGS max_insert_threads={threads}"
 
 # reading data
+on_disk = 'TRUE' if (float(scale_factor) >= 1e9) else 'FALSE'
 if on_disk == 'TRUE':
   engine_type = 'MergeTree() ORDER BY tuple()'
 else:
