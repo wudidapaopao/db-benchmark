@@ -73,7 +73,7 @@ print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk =  [conn.query("SELECT SUM(v1) AS v1_sum FROM ans")]
+chk = [conn.query("SELECT SUM(v1) AS v1_sum FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 conn.query("DROP TABLE IF EXISTS ans")
@@ -87,7 +87,7 @@ print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk =  [conn.query("SELECT SUM(v1) AS v1_sum FROM ans")]
+chk = [conn.query("SELECT SUM(v1) AS v1_sum FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
@@ -106,7 +106,7 @@ print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk =  [conn.query("SELECT SUM(v1) AS v1_sum FROM ans")]
+chk = [conn.query("SELECT SUM(v1) AS v1_sum FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 conn.query("DROP TABLE IF EXISTS ans")
@@ -120,7 +120,7 @@ print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk =  [conn.query("SELECT SUM(v1) AS v1_sum FROM ans")]
+chk = [conn.query("SELECT SUM(v1) AS v1_sum FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
@@ -139,7 +139,7 @@ print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk =  [conn.query("SELECT SUM(v1) AS v1_sum, SUM(v3) AS v3_sum FROM ans")]
+chk = [conn.query("SELECT SUM(v1) AS v1_sum, SUM(v3) AS v3_sum FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 conn.query("DROP TABLE IF EXISTS ans")
@@ -153,7 +153,7 @@ print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk =  [conn.query("SELECT SUM(v1) AS v1_sum, SUM(v3) AS v3_sum FROM ans")]
+chk = [conn.query("SELECT SUM(v1) AS v1_sum, SUM(v3) AS v3_sum FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
@@ -172,7 +172,7 @@ print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk =  [conn.query("SELECT SUM(v1) AS v1_sum, SUM(v2) AS v2_sum, SUM(v3) AS v3_sum FROM ans")]
+chk = [conn.query("SELECT SUM(v1) AS v1_sum, SUM(v2) AS v2_sum, SUM(v3) AS v3_sum FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 conn.query("DROP TABLE IF EXISTS ans")
@@ -186,7 +186,7 @@ print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk =  [conn.query("SELECT SUM(v1) AS v1_sum, SUM(v2) AS v2_sum, SUM(v3) AS v3_sum FROM ans")]
+chk = [conn.query("SELECT SUM(v1) AS v1_sum, SUM(v2) AS v2_sum, SUM(v3) AS v3_sum FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
@@ -205,7 +205,7 @@ print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk =  [conn.query("SELECT SUM(v1) AS v1_sum, SUM(v2) AS v2_sum, SUM(v3) AS v3_sum FROM ans")]
+chk = [conn.query("SELECT SUM(v1) AS v1_sum, SUM(v2) AS v2_sum, SUM(v3) AS v3_sum FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 conn.query("DROP TABLE IF EXISTS ans")
@@ -219,7 +219,7 @@ print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk =  [conn.query("SELECT SUM(v1) AS v1_sum, SUM(v2) AS v2_sum, SUM(v3) AS v3_sum FROM ans")]
+chk = [conn.query("SELECT SUM(v1) AS v1_sum, SUM(v2) AS v2_sum, SUM(v3) AS v3_sum FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
@@ -238,7 +238,7 @@ print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk =  [conn.query("SELECT SUM(median_v3) AS median_v3, SUM(sd_v3) AS sd_v3 FROM ans")]
+chk = [conn.query("SELECT SUM(median_v3) AS median_v3, SUM(sd_v3) AS sd_v3 FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 conn.query("DROP TABLE IF EXISTS ans")
@@ -252,7 +252,7 @@ print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk =  [conn.query("SELECT SUM(median_v3) AS median_v3, SUM(sd_v3) AS sd_v3 FROM ans")]
+chk = [conn.query("SELECT SUM(median_v3) AS median_v3, SUM(sd_v3) AS sd_v3 FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
@@ -271,7 +271,7 @@ print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk =  [conn.query("SELECT SUM(range_v1_v2) AS range_v1_v2 FROM ans")]
+chk = [conn.query("SELECT SUM(range_v1_v2) AS range_v1_v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 conn.query("DROP TABLE IF EXISTS ans")
@@ -285,7 +285,7 @@ print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk =  [conn.query("SELECT SUM(range_v1_v2) AS range_v1_v2 FROM ans")]
+chk = [conn.query("SELECT SUM(range_v1_v2) AS range_v1_v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
@@ -304,7 +304,7 @@ print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk =  [conn.query("SELECT SUM(largest2_v3) AS largest2_v3 FROM ans")]
+chk = [conn.query("SELECT SUM(largest2_v3) AS largest2_v3 FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 conn.query("DROP TABLE IF EXISTS ans")
@@ -318,7 +318,7 @@ print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk =  [conn.query("SELECT SUM(largest2_v3) AS largest2_v3 FROM ans")]
+chk = [conn.query("SELECT SUM(largest2_v3) AS largest2_v3 FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
@@ -337,7 +337,7 @@ print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk =  [conn.query("SELECT SUM(r2) AS r2 FROM ans")]
+chk = [conn.query("SELECT SUM(r2) AS r2 FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 conn.query("DROP TABLE IF EXISTS ans")
@@ -351,7 +351,7 @@ print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk =  [conn.query("SELECT SUM(r2) AS r2 FROM ans")]
+chk = [conn.query("SELECT SUM(r2) AS r2 FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
@@ -370,7 +370,7 @@ print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk =  [conn.query("SELECT SUM(v3) AS v3, SUM(cnt) as cnt FROM ans")]
+chk = [conn.query("SELECT SUM(v3) AS v3, SUM(cnt) as cnt FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 conn.query("DROP TABLE IF EXISTS ans")
@@ -384,7 +384,7 @@ print(nr,nc, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
 t_start = timeit.default_timer()
-chk =  [conn.query("SELECT SUM(v3) AS v3, SUM(cnt) as cnt FROM ans")]
+chk = [conn.query("SELECT SUM(v3) AS v3, SUM(cnt) as cnt FROM ans")]
 chkt = timeit.default_timer() - t_start
 write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
