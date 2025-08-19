@@ -43,7 +43,7 @@ else:
 
 na_flag = int(data_name.split("_")[3])
 
-threads = 8
+threads = os.cpu_count()
 settings = f"SETTINGS max_insert_threads={threads}"
 
 # reading data
