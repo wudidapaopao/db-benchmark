@@ -46,7 +46,7 @@ solution.dict = {list(
   "duckdb" = list(name=c(short="duckdb", long="DuckDB"), color=c(strong="#ddcd07", light="#fff100")),
   "duckdb-latest" = list(name=c(short="duckdb-latest", long="duckdb-latest"), color=c(strong="#ddcd07", light="#fff100")),
   "datafusion" = list(name=c(short="datafusion", long="Datafusion"), color=c(strong="deepskyblue4", light="deepskyblue3")),
-  "chdb" = list(name=c(short="chdb", long="chDB"), color=c(strong="hotpink4", light="hotpink1")),
+  "chdb" = list(name=c(short="chdb", long="chDB"), color=c(strong="hotpink4", light="hotpink1"))
 )}
 #barplot(rep(c(0L,1L,1L), length(solution.dict)),
 #        col=rev(c(rbind(sapply(solution.dict, `[[`, "color"), "black"))),
@@ -467,13 +467,13 @@ join.syntax.dict = {list(
     "medium inner on factor" = "SELECT x.id1 as xid1, medium.id1 as mediumid1, x.id2, x.id3, x.id4 as xid4, medium.id4 as mediumid4, x.id5 as xid5, medium.id5 as mediumid5, x.id6, x.v1, medium.v2 FROM x LEFT JOIN medium ON x.id5 = medium.id5",
     "big inner on int" = "SELECT x.id1 as xid1, large.id1 as largeid1, x.id2 as xid2, large.id2 as largeid2, x.id3, x.id4 as xid4, large.id4 as largeid4, x.id5 as xid5, large.id5 as largeid5, x.id6 as xid6, large.id6 as largeid6, x.v1, large.v2 FROM x LEFT JOIN large ON x.id3 = large.id3"
   )},
-  "clickhouse" = {c(
+  "chdb" = {c(
     "small inner on int" = "SELECT x.*, small.id4 AS small_id4, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.small AS small USING (id1)",
     "medium inner on int" = "SELECT x.*, medium.id1 AS medium_id1, medium.id4 AS medium_id4, medium.id5 as medium_id5, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.medium AS medium USING (id2)",
     "medium outer on int" = "SELECT x.*, medium.id1 AS medium_id1, medium.id4 AS medium_id4, medium.id5 as medium_id5, v2 FROM db_benchmark.x AS x LEFT JOIN db_benchmark.medium AS medium USING (id2)",
     "medium inner on factor" = "SELECT x.*, medium.id1 AS medium_id1, medium.id2 AS medium_id2, medium.id4 as medium_id4, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.medium AS medium USING (id5)",
     "big inner on int" = "SELECT x.*, big.id1 AS big_id1, big.id2 AS big_id2, big.id4 as big_id4, big.id5 AS big_id5, big.id6 AS big_id6, v2 FROM db_benchmark.x AS x INNER JOIN db_benchmark.big AS big USING (id3)"
-  )},
+  )}
 )}
 join.query.exceptions = {list(
   "collapse" =    list(),
@@ -490,7 +490,8 @@ join.query.exceptions = {list(
   "R-arrow"      =  list(),
   "duckdb"     =  list(),
   "duckdb-latest"     =  list(),
-  "datafusion" =  list()
+  "datafusion" =  list(),
+  "chdb" =  list()
 )}
 join.data.exceptions = {list(                                                             # exceptions as of run 1575727624
   "collapse" = {list(
