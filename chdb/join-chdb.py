@@ -97,7 +97,7 @@ m = memory_usage()
 t_start = timeit.default_timer()
 chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
-write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
+write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk='NA', chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 conn.query("DROP TABLE IF EXISTS ans")
 gc.collect()
 t_start = timeit.default_timer()
@@ -111,7 +111,7 @@ m = memory_usage()
 t_start = timeit.default_timer()
 chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
-write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
+write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk='NA', chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
 if int(nr) > 3:
   print(conn.query(f"SELECT * FROM ans LIMIT {int(nr) - 3}, 3"), flush=True)
@@ -130,7 +130,7 @@ m = memory_usage()
 t_start = timeit.default_timer()
 chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
-write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
+write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk='NA', chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 conn.query("DROP TABLE IF EXISTS ans")
 gc.collect()
 t_start = timeit.default_timer()
@@ -144,7 +144,7 @@ m = memory_usage()
 t_start = timeit.default_timer()
 chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
-write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
+write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk='NA', chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
 if int(nr) > 3:
   print(conn.query(f"SELECT * FROM ans LIMIT {int(nr) - 3}, 3"), flush=True)
@@ -163,7 +163,7 @@ m = memory_usage()
 t_start = timeit.default_timer()
 chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
-write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
+write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk='NA', chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 conn.query("DROP TABLE IF EXISTS ans")
 gc.collect()
 t_start = timeit.default_timer()
@@ -177,7 +177,7 @@ m = memory_usage()
 t_start = timeit.default_timer()
 chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
-write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
+write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk='NA', chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
 if int(nr) > 3:
   print(conn.query(f"SELECT * FROM ans LIMIT {int(nr) - 3}, 3"), flush=True)
@@ -196,7 +196,7 @@ m = memory_usage()
 t_start = timeit.default_timer()
 chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
-write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
+write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk='NA', chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 conn.query("DROP TABLE IF EXISTS ans")
 gc.collect()
 t_start = timeit.default_timer()
@@ -210,7 +210,7 @@ m = memory_usage()
 t_start = timeit.default_timer()
 chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
-write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
+write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk='NA', chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
 if int(nr) > 3:
   print(conn.query(f"SELECT * FROM ans LIMIT {int(nr) - 3}, 3"), flush=True)
@@ -229,7 +229,7 @@ m = memory_usage()
 t_start = timeit.default_timer()
 chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
-write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
+write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=1, time_sec=t, mem_gb=m, cache=cache, chk='NA', chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 conn.query("DROP TABLE IF EXISTS ans")
 gc.collect()
 t_start = timeit.default_timer()
@@ -243,7 +243,7 @@ m = memory_usage()
 t_start = timeit.default_timer()
 chk = [conn.query("SELECT SUM(v1) AS v1, SUM(v2) as v2 FROM ans")]
 chkt = timeit.default_timer() - t_start
-write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk=None, chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
+write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_rows=nr, out_cols=nc, solution=solution, version=ver, git=git, fun=fun, run=2, time_sec=t, mem_gb=m, cache=cache, chk='NA', chk_time_sec=chkt, on_disk=on_disk, machine_type=machine_type)
 print(conn.query("SELECT * FROM ans LIMIT 3"), flush=True)
 if int(nr) > 3:
   print(conn.query(f"SELECT * FROM ans LIMIT {int(nr) - 3}, 3"), flush=True)
