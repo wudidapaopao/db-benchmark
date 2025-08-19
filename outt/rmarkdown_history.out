@@ -1,0 +1,196 @@
+
+
+processing file: history.Rmd
+1/188                            
+2/188 [render]                   
+3/188                            
+4/188 [opts]                     
+5/188                            
+6/188 [init]                     
+7/188                            
+8/188 [datatable.groupby.1e7]    
+9/188                            
+10/188 [datatable.groupby.1e8]    
+11/188                            
+12/188 [datatable.groupby.1e9]    
+13/188                            
+14/188 [datatable.join.1e7]       
+15/188                            
+16/188 [datatable.join.1e8]       
+17/188                            
+18/188 [datatable.join.1e9]       
+19/188                            
+20/188 [pydatatable.groupby.1e7]  
+21/188                            
+22/188 [pydatatable.groupby.1e8]  
+23/188                            
+24/188 [pydatatable.groupby.1e9]  
+25/188                            
+26/188 [pydatatable.join.1e7]     
+27/188                            
+28/188 [pydatatable.join.1e8]     
+29/188                            
+30/188 [pydatatable.join.1e9]     
+31/188                            
+32/188 [pandas.groupby.1e7]       
+33/188                            
+34/188 [pandas.groupby.1e8]       
+35/188                            
+36/188 [pandas.groupby.1e9]       
+37/188                            
+38/188 [pandas.join.1e7]          
+39/188                            
+40/188 [pandas.join.1e8]          
+41/188                            
+42/188 [pandas.join.1e9]          
+43/188                            
+44/188 [dplyr.groupby.1e7]        
+45/188                            
+46/188 [dplyr.groupby.1e8]        
+47/188                            
+48/188 [dplyr.groupby.1e9]        
+49/188                            
+50/188 [dplyr.join.1e7]           
+51/188                            
+52/188 [dplyr.join.1e8]           
+53/188                            
+54/188 [dplyr.join.1e9]           
+55/188                            
+56/188 [dask.groupby.1e7]         
+57/188                            
+58/188 [dask.groupby.1e8]         
+59/188                            
+60/188 [dask.groupby.1e9]         
+61/188                            
+62/188 [dask.join.1e7]            
+63/188                            
+64/188 [dask.join.1e8]            
+65/188                            
+66/188 [dask.join.1e9]            
+67/188                            
+68/188 [spark.groupby.1e7]        
+69/188                            
+70/188 [spark.groupby.1e8]        
+71/188                            
+72/188 [spark.groupby.1e9]        
+73/188                            
+74/188 [spark.join.1e7]           
+75/188                            
+76/188 [spark.join.1e8]           
+77/188                            
+78/188 [spark.join.1e9]           
+79/188                            
+80/188 [juliadf.groupby.1e7]      
+81/188                            
+82/188 [juliadf.groupby.1e8]      
+83/188                            
+84/188 [juliadf.groupby.1e9]      
+85/188                            
+86/188 [juliadf.join.1e7]         
+87/188                            
+88/188 [juliadf.join.1e8]         
+89/188                            
+90/188 [juliadf.join.1e9]         
+91/188                            
+92/188 [juliads.groupby.1e7]      
+93/188                            
+94/188 [juliads.groupby.1e8]      
+95/188                            
+96/188 [juliads.groupby.1e9]      
+97/188                            
+98/188 [juliads.join.1e7]         
+99/188                            
+100/188 [juliads.join.1e8]         
+101/188                            
+102/188 [juliads.join.1e9]         
+103/188                            
+104/188 [cudf.groupby.1e7]         
+105/188                            
+106/188 [cudf.groupby.1e8]         
+107/188                            
+108/188 [cudf.groupby.1e9]         
+109/188                            
+110/188 [cudf.join.1e7]            
+111/188                            
+112/188 [cudf.join.1e8]            
+113/188                            
+114/188 [cudf.join.1e9]            
+115/188                            
+116/188 [clickhouse.groupby.1e7]   
+117/188                            
+118/188 [clickhouse.groupby.1e8]   
+119/188                            
+120/188 [clickhouse.groupby.1e9]   
+121/188                            
+122/188 [clickhouse.join.1e7]      
+123/188                            
+124/188 [clickhouse.join.1e8]      
+125/188                            
+126/188 [clickhouse.join.1e9]      
+127/188                            
+128/188 [polars.groupby.1e7]       
+129/188                            
+130/188 [polars.groupby.1e8]       
+131/188                            
+132/188 [polars.groupby.1e9]       
+133/188                            
+134/188 [polars.join.1e7]          
+135/188                            
+136/188 [polars.join.1e8]          
+137/188                            
+138/188 [polars.join.1e9]          
+139/188                            
+140/188 [arrow.groupby.1e7]        
+141/188                            
+142/188 [arrow.groupby.1e8]        
+143/188                            
+144/188 [arrow.groupby.1e9]        
+145/188                            
+146/188 [arrow.join.1e7]           
+147/188                            
+148/188 [arrow.join.1e8]           
+149/188                            
+150/188 [arrow.join.1e9]           
+151/188                            
+152/188 [duckdb.groupby.1e7]       
+153/188                            
+154/188 [duckdb.groupby.1e8]       
+155/188                            
+156/188 [duckdb.groupby.1e9]       
+157/188                            
+158/188 [duckdb.join.1e7]          
+159/188                            
+160/188 [duckdb.join.1e8]          
+161/188                            
+162/188 [duckdb.join.1e9]          
+163/188                            
+164/188 [duckdb-latest.groupby.1e7]
+165/188                            
+166/188 [duckdb-latest.groupby.1e8]
+167/188                            
+168/188 [duckdb-latest.groupby.1e9]
+169/188                            
+170/188 [duckdb-latest.join.1e7]   
+171/188                            
+172/188 [duckdb-latest.join.1e8]   
+173/188                            
+174/188 [duckdb-latest.join.1e9]   
+175/188                            
+176/188 [status_set_success]       
+177/188                            
+178/188 [datafusion.groupby.1e7]   
+179/188                            
+180/188 [datafusion.groupby.1e8]   
+181/188                            
+182/188 [datafusion.groupby.1e9]   
+183/188                            
+184/188 [datafusion.join.1e7]      
+185/188                            
+186/188 [datafusion.join.1e8]      
+187/188                            
+188/188 [datafusion.join.1e9]      
+output file: history.knit.md
+
+/usr/bin/pandoc +RTS -K512m -RTS history.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output /var/lib/mount/db-benchmark-metal/public/history.html --lua-filter /usr/local/lib/R/site-library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /usr/local/lib/R/site-library/rmarkdown/rmarkdown/lua/latex-div.lua --variable bs3=TRUE --standalone --section-divs --template /usr/local/lib/R/site-library/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --variable theme=bootstrap --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /tmp/Rtmp3Mz6qc/rmarkdown-strf551a828be3.html --include-in-header ga.html 
+
+Output created: public/history.html

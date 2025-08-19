@@ -1,0 +1,17 @@
+
+
+processing file: tech.Rmd
+1/14                     
+2/14 [render]            
+3/14                     
+4/14 [opts]              
+5/14                     
+6/14 [init]              
+Error:
+! length(recent_nodename) == 1L is not TRUE
+Backtrace:
+    x
+ 1. \-base::stopifnot(length(recent_nodename) == 1L)
+
+Quitting from tech.Rmd:19-26 [init]
+Execution halted

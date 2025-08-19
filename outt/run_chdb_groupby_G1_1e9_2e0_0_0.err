@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/var/lib/mount/db-benchmark-metal/./chdb/groupby-chdb.py", line 381, in <module>
+    conn.query(QUERY)
+  File "/var/lib/mount/db-benchmark-metal/chdb/py-chdb/lib/python3.12/site-packages/chdb/session/state.py", line 107, in query
+    return self._conn.query(sql, fmt)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/lib/mount/db-benchmark-metal/chdb/py-chdb/lib/python3.12/site-packages/chdb/state/sqlitelike.py", line 278, in query
+    result = self._conn.query(query, format)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Code: 241. DB::Exception: (total) memory limit exceeded: would use 226.52 GiB (attempt to allocate chunk of 4.09 MiB bytes), current RSS: 226.51 GiB, maximum: 226.52 GiB. (MEMORY_LIMIT_EXCEEDED)

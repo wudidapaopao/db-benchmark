@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/var/lib/mount/db-benchmark-metal/./chdb/join-chdb.py", line 124, in <module>
+    conn.query(QUERY)
+  File "/var/lib/mount/db-benchmark-metal/chdb/py-chdb/lib/python3.12/site-packages/chdb/session/state.py", line 107, in query
+    return self._conn.query(sql, fmt)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/lib/mount/db-benchmark-metal/chdb/py-chdb/lib/python3.12/site-packages/chdb/state/sqlitelike.py", line 278, in query
+    result = self._conn.query(query, format)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Code: 241. DB::Exception: (total) memory limit exceeded: would use 226.52 GiB (attempt to allocate chunk of 4.10 MiB bytes), current RSS: 226.51 GiB, maximum: 226.52 GiB.: (while reading column id6): (while reading from part /var/lib/mount/db-benchmark-metal/chdb_join_J1_1e9_NA_0_0.chdb/store/032/03202503-5dcd-480c-b54a-12e560668dd8/all_847_892_1/ in table db_benchmark.x (03202503-5dcd-480c-b54a-12e560668dd8) located on disk default of type local, from mark 2282 with max_rows_to_read = 8192, offset = 0): While executing MergeTreeSelect(pool: ReadPool, algorithm: Thread). (MEMORY_LIMIT_EXCEEDED)
