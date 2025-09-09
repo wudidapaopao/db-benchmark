@@ -551,7 +551,6 @@ join.data.exceptions = {list(                                                   
     "Not tested" = c("J1_1e9_NA_0_0")
   )},
   "chdb" = {list(
-    "Not tested" = c("J1_1e9_NA_0_0")
   )}
 )}
 join.exceptions = task.exceptions(join.query.exceptions, join.data.exceptions)
